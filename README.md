@@ -411,3 +411,177 @@ Client                          API                       Google
 | Background Jobs  | Hangfire (SQL Server storage)                           |
 | Email            | FluentEmail (SMTP)                                      |
 | Caching          | IMemoryCache (OTP throttling)                           |
+| Logging          | Serilog (Console, File, Seq)                            |
+| Containers       | Docker, Docker Compose                                  |
+
+---
+
+## 🐳 Run with Docker Compose
+
+### Prerequisites
+
+- [Docker](https://docs.docker.com/get-docker/) installed and running
+
+### Quick Start
+
+**1. Create a `docker-compose.yml`** file in your project root:
+
+```yaml
+version: '3.8'
+
+services:
+  backend:
+    container_name: fluxstore-service
+    image: mostafa0841/fluxstore:v1.0
+    environment:
+      - ConnectionStrings__DefaultConnection=Server=sqlserver,1433;Database=FluxStoreDb;User Id=SA;Password=Admin#123;TrustServerCertificate=True
+      # Token Settings
+      - TokenSettings__SecretKey=Yj6pr{WJ+c}WL:Zmc%v364$$jkOi}O3HM_ExtraLongKey123
+      - TokenSettings__Issuer=http://localhost:5089
+      - TokenSettings__Audience=http://localhost:5089
+      - TokenSettings__AccessTokenExpiryMinutes=1440
+      - TokenSettings__RefreshTokenExpiryMinutes=43200
+      - ASPNETCORE_URLS=http://+:5089
+      - ASPNETCORE_ENVIRONMENT=Production
+      # Database Initialization
+      - InitializeDatabase__ResetDatabase=false
+      - InitializeDatabase__InitializeDatabase=true
+      - InitializeDatabase__SeedData=true
+      # Google OAuth
+      - Authentication__Google__ClientId=159007714113-l1nka853t90rqrej8eu4h1sc0lg2kjiv.apps.googleusercontent.com
+      # SMTP Settings
+      - SmtpSettings__SmtpHost=smtp4dev
+      - SmtpSettings__SmtpPort=25
+      - SmtpSettings__UseSSL=false
+      - SmtpSettings__FromEmail=FluxStore@dev.com
+      - SmtpSettings__Password=hfgclegezffgqvus
+      # CORS Settings
+      - CorsSettings__PolicyName=DevCorsPolicy
+      - CorsSettings__AllowedOrigins__0=http://localhost:5341
+      - CorsSettings__AllowedOrigins__1=http://localhost:3000
+      # File Manager
+      - FileManager__TempCsvPath=/Temp
+      # SignalR Hub Settings
+      - HubSettings__ImportProducts__Status=/hubs/import-status
+      - HubSettings__ImportProducts__OnPreviewReady=OnPreviewReady
+      - HubSettings__ImportProducts__OnImportCompleted=OnImportCompleted
+      - HubSettings__ImportProducts__OnJobFailed=OnJobFailed
+      - HubSettings__ImportProducts__OnProgress=OnProgress
+      # Serilog
+      - Serilog__Using__0=Serilog.Sinks.Console
+      - Serilog__Using__1=Serilog.Sinks.File
+      - Serilog__Using__2=Serilog.Sinks.Seq
+      - Serilog__MinimumLevel__Default=Information
+      - Serilog__MinimumLevel__Override__Microsoft=Warning
+      - Serilog__MinimumLevel__Override__Microsoft.Hosting.Lifetime=Information
+      - Serilog__MinimumLevel__Override__Microsoft.EntityFrameworkCore=Warning
+      - Serilog__MinimumLevel__Override__System=Warning
+      - Serilog__WriteTo__0__Name=Console
+      - Serilog__WriteTo__0__Args__formatter=Serilog.Formatting.Json.JsonFormatter, Serilog
+      - Serilog__WriteTo__1__Name=File
+      - Serilog__WriteTo__1__Args__path=/app/logs/FluxStore-.json
+      - Serilog__WriteTo__1__Args__rollingInterval=Day
+      - Serilog__WriteTo__1__Args__retainedFileCountLimit=7
+      - Serilog__WriteTo__1__Args__formatter=Serilog.Formatting.Json.JsonFormatter, Serilog
+      - Serilog__WriteTo__2__Name=Seq
+      - Serilog__WriteTo__2__Args__serverUrl=http://seqserver:5341
+      - Serilog__Enrich__0=FromLogContext
+      - Serilog__Enrich__1=WithMachineName
+      - Serilog__Enrich__2=WithThreadId
+      - Serilog__Enrich__3=WithEnvironmentName
+      - Serilog__Properties__Application=FluxStore
+    ports:
+      - "5089:5089"
+    depends_on:
+      - sqlserver
+      - seqserver
+    networks:
+      - backend-network
+    volumes:
+      - appdata:/app/EmailServices/EmailTemplates/
+
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: sqlserver
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_SA_PASSWORD: "Admin#123"
+    ports:
+      - "1433:1433"
+    volumes:
+      - sqlserverdata:/var/opt/mssql
+    networks:
+      - backend-network
+
+  seqserver:
+    image: datalust/seq
+    container_name: seqserver
+    ports:
+      - "5341:80"
+    environment:
+      - ACCEPT_EULA=Y
+      - SEQ_FIRSTRUN_ADMINPASSWORD=Admin#123
+    networks:
+      - backend-network
+
+  smtp4dev:
+    image: rnwood/smtp4dev
+    container_name: smtpserver
+    ports:
+      - "2525:25"
+      - "3000:80"
+    networks:
+      - backend-network
+
+volumes:
+  sqlserverdata:
+  appdata:
+
+networks:
+  backend-network:
+```
+
+**2. Start all services:**
+
+```bash
+docker compose up -d
+```
+
+**3. Verify everything is running:**
+
+```bash
+docker compose ps
+```
+
+### Services & Ports
+
+| Service        | Container          | Port(s)              | Description                         |
+|----------------|--------------------|----------------------|-------------------------------------|
+| **Backend**    | fluxstore-service  | `5089`               | FluxStore API                       |
+| **SQL Server** | sqlserver          | `1433`               | Database (SA password: `Admin#123`) |
+| **Seq**        | seqserver          | `5341`               | Structured log viewer               |
+| **smtp4dev**   | smtpserver         | `3000` (UI), `2525`  | Dev SMTP server & web inbox         |
+
+### Access Points
+
+| Resource             | URL                           |
+|----------------------|-------------------------------|
+| API (Swagger)        | http://localhost:5089/swagger  |
+| Seq Dashboard        | http://localhost:5341          |
+| smtp4dev Inbox       | http://localhost:3000          |
+
+### Useful Commands
+
+```bash
+# Stop all services
+docker compose down
+
+# Stop and remove volumes (reset database)
+docker compose down -v
+
+# View backend logs
+docker compose logs -f backend
+
+# Restart only the backend
+docker compose restart backend
+```
