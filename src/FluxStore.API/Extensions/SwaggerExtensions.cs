@@ -16,17 +16,11 @@ namespace FluxStore.Api.Extensions
             {
                 c.SwaggerDoc("v1", new OpenApiInfo
                 {
-                    Title = "Inventory Management System",
+                    Title = "FluxShop E-Commerce Platform.",
                     Version = "The First Version",
-                    Description = "This is documentation for Inventory Management System Api Version 1.0"
+                    Description = "This is documentation for FluxShop E-Commerce Platform Api Version 1.0"
                 });
 
-                c.SwaggerDoc("v2", new OpenApiInfo
-                {
-                    Title = "Inventory Management System",
-                    Version = "The Second Version",
-                    Description = "This is documentation for Inventory Management System Api Version 2.0"
-                });
 
                 c.EnableAnnotations();
                 c.ExampleFilters();
