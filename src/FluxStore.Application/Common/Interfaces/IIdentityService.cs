@@ -12,6 +12,10 @@ public interface IIdentityService
         string password,
         CancellationToken cancellationToken = default);
 
+    Task<Result<AuthenticationResult>> AuthenticateUsingEmailOnlyAsync(
+      string email,
+      CancellationToken cancellationToken = default);
+
     Task<Result<AuthenticationResult>> AuthenticateAsync(
         string refreshToken,
         CancellationToken cancellationToken = default);
@@ -116,4 +120,8 @@ public interface IIdentityService
      string resetToken,
      string newPassword,
      CancellationToken cancellationToken = default);
+
+    Task<Result<(string fullName, string emailAddress)>> AuthenticateWithGoolge(
+        string clientId,
+        CancellationToken cancellationToken = default);
 }

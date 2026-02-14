@@ -6,17 +6,19 @@ using FluxStore.Application.Users.Queries.ListUsers;
 using FluxStore.Domain.Core.Errors;
 using FluxStore.Domain.Core.Primitives.Result;
 using FluxStore.Domain.Enums;
+using FluxStore.Domain.Users;
 using FluxStore.Infrastructure.Extensions;
 using FluxStore.Infrastructure.Persistence;
 using FluxStore.Infrastructure.Persistence.Identity;
 using FluxStore.Infrastructure.Tokens;
 using FluxStore.Infrastructure.Tokens.Options;
+using Google.Apis.Auth;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using RefreshToken = FluxStore.Infrastructure.Tokens.RefreshToken;
-
 namespace FluxStore.Infrastructure.Authentication
 {
     public sealed class IdentityService : IIdentityService
@@ -29,8 +31,9 @@ namespace FluxStore.Infrastructure.Authentication
         private readonly TokenSettings _tokenOptions;
         private readonly IDateTime _dateTime;
         private readonly IMemoryCache _memoryCache;
+        private readonly IConfiguration _configuration;
 
-        public IdentityService(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, SignInManager<ApplicationUser> signInManager, ApplicationDbContext context, ITokenService tokenService, IOptions<TokenSettings> tokenSettings, IDateTime dateTime, IMemoryCache cache)
+        public IdentityService(IConfiguration configuration, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, SignInManager<ApplicationUser> signInManager, ApplicationDbContext context, ITokenService tokenService, IOptions<TokenSettings> tokenSettings, IDateTime dateTime, IMemoryCache cache)
         {
             _userManager = userManager;
             _roleManager = roleManager;
@@ -40,6 +43,7 @@ namespace FluxStore.Infrastructure.Authentication
             _tokenOptions = tokenSettings.Value;
             _dateTime = dateTime;
             _memoryCache = cache;
+            _configuration = configuration;
         }
 
 
@@ -212,6 +216,10 @@ namespace FluxStore.Infrastructure.Authentication
             if (!addToRoleResult.Succeeded)
 
                 return addToRoleResult.ToResult();
+
+            _context.BusinessUsers.Add(User.Create(applicationUser.Id, firstName, lastName, email, email).Value!);
+
+            _context.SaveChanges();
 
             return Result.Success();
         }
@@ -716,6 +724,79 @@ namespace FluxStore.Infrastructure.Authentication
             }
 
             return Result.Success();
+        }
+
+        public async Task<Result<(string fullName, string emailAddress)>> AuthenticateWithGoolge(string clientId, CancellationToken cancellationToken = default)
+        {
+            GoogleJsonWebSignature.ValidationSettings settings = new();
+
+            settings.Audience = new List<string>() { _configuration["Authentication:Google:ClientId"]! };
+
+
+            try
+            {
+                var payload = await GoogleJsonWebSignature.ValidateAsync(clientId, settings);
+
+                return Result<(string, string)>.Success((payload.Name, payload.Email));
+            }
+            catch (Exception)
+            {
+                return Result<(string, string)>.Failure(Errors.IdentityErrors.InvalidGoogleClientId);
+            }
+        }
+
+        public async Task<Result<AuthenticationResult>> AuthenticateUsingEmailOnlyAsync(string email, CancellationToken cancellationToken = default)
+        {
+            var user = await _userManager.Users
+               .Where(X => X.Email == email)
+               .Include(X => X.RefreshTokens)
+               .FirstOrDefaultAsync(cancellationToken);
+
+            if (user == null)
+                return Result<AuthenticationResult>.Failure(Errors.IdentityErrors.UserNotFoundByEmail(email));
+
+            if (await _userManager.IsLockedOutAsync(user))
+                return Result<AuthenticationResult>.Failure(Errors.IdentityErrors.UserLockout);
+
+
+            var userRoles = await _userManager.GetRolesAsync(user);
+
+            var accessToken = _tokenService.GenerateAccessToken(user, userRoles);
+
+
+            user.LastLoginDate = _dateTime.UTCNow;
+            await _userManager.UpdateAsync(user);
+
+            RefreshToken refreshToken;
+
+            if (!user.RefreshTokens.Any(X => X.IsActive))
+            {
+                var newRefreshToken = _tokenService.GenerateRefreshToken();
+                refreshToken = RefreshToken.Create(user.Id, newRefreshToken.Item1, newRefreshToken.Item2);
+                user.RefreshTokens.Add(refreshToken);
+                await _userManager.UpdateAsync(user);
+            }
+            else
+            {
+                refreshToken = user.RefreshTokens.First(X => X.IsActive);
+            }
+
+            var authResult = new AuthenticationResult
+            {
+                UserId = user.Id,
+                Email = user.Email!,
+                UserName = user.UserName!,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Roles = userRoles,
+                AccessToken = accessToken.Item1,
+                AccessTokenExpiresAt = accessToken.Item2,
+                RefreshToken = refreshToken.Token,
+                RefreshTokenExpiresAt = refreshToken.ExpiresAtUTC
+            };
+
+
+            return Result<AuthenticationResult>.Success(authResult);
         }
     }
 }
