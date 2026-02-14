@@ -566,7 +566,7 @@ docker compose ps
 
 | Resource             | URL                           |
 |----------------------|-------------------------------|
-| API (Swagger)        | http://localhost:5089/swagger  |
+| API                  | http://localhost:5089         |
 | Seq Dashboard        | http://localhost:5341          |
 | smtp4dev Inbox       | http://localhost:3000          |
 
