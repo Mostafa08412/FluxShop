@@ -33,6 +33,9 @@ namespace FluxStore.Domain.Core.Errors
             // ----- Credentials -----
             public static Error InvalidCredentials =>
                 new("Identity.InvalidCredentials", "The provided credentials are invalid.", ErrorType.IdentityError);
+            //invalid client id for google auth
+            public static Error InvalidGoogleClientId =>
+                new("Identity.InvalidGoogleClientId", "The provided Google client ID is invalid.", ErrorType.IdentityError);
 
             public static Error InvalidPassword =>
             new("Identity.InvalidPassword", "The provided password is invalid.", ErrorType.IdentityError);

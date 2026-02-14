@@ -5,6 +5,7 @@ using FluxStore.Api.Infrastructure;
 using FluxStore.Application.Auth.ChangePassword;
 using FluxStore.Application.Auth.Common;
 using FluxStore.Application.Auth.ForgetPassword;
+using FluxStore.Application.Auth.GoogleLogin;
 using FluxStore.Application.Auth.Logout;
 using FluxStore.Application.Auth.RefreshToken;
 using FluxStore.Application.Auth.ResetPassword;
@@ -191,6 +192,26 @@ namespace FluxStore.Api.Controllers.v1
             OperationId = "ResetPassword"
         )]
         public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordCommand request)
+        {
+            var result = await _sender.Send(request);
+
+            return HandleResult(result, ApplicationStatusCodes.Ok);
+        }
+
+        /// <summary>
+        /// Authenticates a user using a Google ID token.
+        /// </summary>
+        /// <param name="request">The Google login request containing the ID token.</param>
+        /// <returns>An authentication response containing the JWT token and user details.</returns>
+        [AllowAnonymous]
+        [HttpPost(ApiRoutes.Authentication.GoogleLogin)]
+        [ProducesResponseType((int)ApplicationStatusCodes.Ok, Type = typeof(ApiResponse<AuthenticationResponse>))]
+        [SwaggerOperation(
+            Summary = "Login with Google",
+            Description = "Authenticates a user using a Google ID token. Creates a new account if the user does not exist.",
+            OperationId = "GoogleLogin"
+        )]
+        public async Task<IActionResult> GoogleLogin([FromBody] GoogleLoginCommand request)
         {
             var result = await _sender.Send(request);
 

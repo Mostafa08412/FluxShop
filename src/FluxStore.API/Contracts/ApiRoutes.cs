@@ -16,6 +16,7 @@
             public const string ForgetPassword = $"forget-password";
             public const string VerifyResetPasswordOtp = $"verify-reset-password-otp";
             public const string ResetPassword = $"reset-password";
+            public const string GoogleLogin = $"google-login";
         }
 
         public static class Users
