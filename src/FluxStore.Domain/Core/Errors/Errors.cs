@@ -52,7 +52,7 @@ namespace FluxStore.Domain.Core.Errors
 
 
             public static Error EmailAlreadyExists =>
-                new("Identity.EmailAlreadyExists", "The email is already taken.", ErrorType.Conflict);
+                new("Identity.EmailAlreadyExists-EmailAddress", "The email is already taken.", ErrorType.Validation);
 
             // ----- Invalid Input -----
             public static Error InvalidEmail =>
@@ -63,7 +63,7 @@ namespace FluxStore.Domain.Core.Errors
 
             // ----- Password -----
             public static Error WeakPassword() =>
-                new("Identity.WeakPassword", "The provided password does not meet the security requirements.", ErrorType.Validation);
+                new("Identity.WeakPassword-Password", "The provided password does not meet the security requirements.", ErrorType.Validation);
 
             public static Error WeakPassword(string message) =>
                 new("Identity.WeakPassword", message, ErrorType.Validation);
@@ -121,6 +121,7 @@ namespace FluxStore.Domain.Core.Errors
              "The reset password token is either invalid or expired.",
              ErrorType.AccessDenied
              );
+
             public static Error WaitBeforeRequestingAnotherOtp() => new(
             "Identity.WaitBeforeRequestingAnotherOtp",
             "Please wait 30 seconds before requesting another OTP code.",

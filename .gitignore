@@ -372,3 +372,5 @@ frontend
 dockerfile
 docker-compose.yml
 .dockerignore
+/FluxStore.Auth.postman_collection.json
+/FluxStore.postman_collection.json

@@ -266,7 +266,7 @@ namespace FluxStore.Infrastructure.Authentication
                 return Result<AuthenticationResult>.Failure(Errors.IdentityErrors.InvalidCredentials);
 
 
-            var result = await _signInManager.CheckPasswordSignInAsync(user, password, true);
+            var result = await _signInManager.CheckPasswordSignInAsync(user, password, false);
 
 
             if (!result.Succeeded && !result.IsLockedOut)

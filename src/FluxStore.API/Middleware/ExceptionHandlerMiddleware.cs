@@ -29,7 +29,7 @@ namespace FluxStore.Api.Middleware
 
         public async Task InvokeAsync(HttpContext context)
         {
-            var helper = new ApiResponseHelper(context);
+            var helper = new ApiResponseHelper();
 
             try
             {
@@ -79,9 +79,9 @@ namespace FluxStore.Api.Middleware
 
         public async Task WriteResponseAsync(string message, string errorCode, ApplicationStatusCodes statusCode, HttpContext context)
         {
-            var Helper = new ApiResponseHelper(context);
+            var Helper = new ApiResponseHelper();
 
-            var response = Helper.BasicErrorApiResponse(message, errorCode);
+            var response = Helper.BasicErrorApiResponse(message, errorCode, context.Request.Path.Value ?? "Unkown", context.TraceIdentifier);
 
             context.Response.StatusCode = (int)statusCode;
             await context.Response.WriteAsJsonAsync(response);

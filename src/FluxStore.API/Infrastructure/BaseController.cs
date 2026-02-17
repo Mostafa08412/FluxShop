@@ -18,18 +18,18 @@ namespace FluxStore.Api.Infrastructure
 
         protected IActionResult HandleResult<T>(Result<T> result, ApplicationStatusCodes onSuccess)
         {
-            var helper = new ApiResponseHelper(HttpContext);
-            var response = helper.ResultToResponse(result);
+            var helper = new ApiResponseHelper();
+            var response = helper.ResultToResponse(result, HttpContext);
             var statusCode = helper.CalculateStatusCodeFromResult(result, onSuccess);
-            return StatusCode(statusCode, response);
+            return StatusCode((int)statusCode, response);
 
         }
         protected IActionResult HandleResult(Result result, ApplicationStatusCodes onSuccess)
         {
-            var helper = new ApiResponseHelper(HttpContext);
-            var response = helper.ResultToResponse(result);
+            var helper = new ApiResponseHelper();
+            var response = helper.ResultToResponse(result, HttpContext);
             var statusCode = helper.CalculateStatusCodeFromResult(result, onSuccess);
-            return StatusCode(statusCode, response);
+            return StatusCode((int)statusCode, response);
 
         }
 

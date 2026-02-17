@@ -2,125 +2,143 @@
 using FluxStore.Application.Common.Models;
 using FluxStore.Domain.Core.Primitives;
 using FluxStore.Domain.Core.Primitives.Result;
-using MediatR;
+using System.Collections.Immutable;
+
 
 namespace FluxStore.Api.Infrastructure
 {
     public class ApiResponseHelper
     {
-        private readonly HttpContext context;
-
-        public ApiResponseHelper(HttpContext context)
+        private readonly ImmutableDictionary<string, string> EmptyValidationErrors = ImmutableDictionary<string, string>.Empty;
+        private readonly ImmutableDictionary<string, string> EmptyMetadata = ImmutableDictionary<string, string>.Empty;
+        private Dictionary<string, string> MapValidationErrors(IEnumerable<Error> errors)
         {
-            this.context = context;
+            var validationErrors = new Dictionary<string, string>();
+            foreach (var error in errors.Where(e => e.ErrorType == ErrorType.Validation))
+            {
+                validationErrors.TryAdd(error.Code, error.Description);
+            }
+            return validationErrors;
         }
 
-        public int CalculateStatusCodeFromResult(Result result, ApplicationStatusCodes onSuccess)
+        private (string errorCode, string message) GetErrorCodeAndMessage(IEnumerable<Error> errors)
         {
-            if (result.IsSuccess) return (int)onSuccess;
+            var nonValidationError = errors.FirstOrDefault(x => x.ErrorType != ErrorType.Validation);
+
+            if (nonValidationError is not null)
+            {
+                return (nonValidationError.Code, nonValidationError.Description);
+            }
+            if (errors.Any(e => e.ErrorType == ErrorType.Validation))
+            {
+                return ("VALIDATION_ERROR", "One or more validation errors have occurred.");
+            }
+            return (string.Empty, string.Empty);
+        }
+
+
+        public ApplicationStatusCodes CalculateStatusCodeFromResult(Result result, ApplicationStatusCodes onSuccess)
+        {
+            if (result.IsSuccess) return onSuccess;
 
             return result.Error!.ErrorType switch
             {
-                ErrorType.Validation or ErrorType.Failure => (int)ApplicationStatusCodes.BadRequest,
-                ErrorType.IdentityError => (int)ApplicationStatusCodes.Unauthorized,
-                ErrorType.NotFound => (int)ApplicationStatusCodes.NotFound,
-                ErrorType.Conflict => (int)ApplicationStatusCodes.Conflict,
-                ErrorType.AccessDenied => (int)ApplicationStatusCodes.Forbidden,
-                ErrorType.ConditionNotMet => (int)ApplicationStatusCodes.UnprocessableEntity,
-                _ => (int)ApplicationStatusCodes.InternalServerError
+                ErrorType.Validation or ErrorType.Failure => ApplicationStatusCodes.BadRequest,
+                ErrorType.IdentityError => ApplicationStatusCodes.Unauthorized,
+                ErrorType.NotFound => ApplicationStatusCodes.NotFound,
+                ErrorType.Conflict => ApplicationStatusCodes.Conflict,
+                ErrorType.AccessDenied => ApplicationStatusCodes.Forbidden,
+                ErrorType.ConditionNotMet => ApplicationStatusCodes.UnprocessableEntity,
+                _ => ApplicationStatusCodes.InternalServerError
             };
         }
 
-        private static (bool isSuccess, string message, string errorCode, Dictionary<string, string> validationErrors)
-            GetResponseGeneralData(Result result)
+        public ApiResponse ResultToResponse(Result result, HttpContext context)
         {
+
             bool isSuccess = result.IsSuccess;
-            string message = result.Message ?? string.Empty;
-            string errorCode = string.Empty;
-            Dictionary<string, string> validationErrors = new();
 
-            // Extract first non-validation error code
-            var nonValidationError = result.Errors.FirstOrDefault(x => x.ErrorType != ErrorType.Validation);
-            if (nonValidationError is not null)
-            {
+            (string errorCode, string message) = GetErrorCodeAndMessage(result.Errors);
 
-                errorCode = nonValidationError.Code;
-                message = nonValidationError.Description;
-            }
-
-            // Map validation errors
-            var validationTypeErrors = result.Errors.Where(x => x.ErrorType == ErrorType.Validation);
-            if (validationTypeErrors.Any())
-            {
-                errorCode = "VALIDATION_ERROR";
-                message = "One or more validation errors have occurred.";
-            }
-            foreach (var error in validationTypeErrors)
-            {
-                // Use TryAdd to prevent crashes if the same error code appears twice
-                validationErrors.TryAdd(error.Code, error.Description);
-            }
-
-            return (isSuccess, message, errorCode, validationErrors);
-        }
-
-        public ApiResponse ResultToResponse(Result result)
-        {
-            var (isSuccess, message, errorCode, validationErrors) = GetResponseGeneralData(result);
+            var validationErrors = MapValidationErrors(result.Errors);
 
             var response = new ApiResponse(
                 isSuccess,
                 message,
                 errorCode,
                 validationErrors,
-                new Dictionary<string, string>(),
+                EmptyMetadata,
                 context.Request.Path.Value ?? "Unknown",
                 context.TraceIdentifier);
 
             return response;
         }
 
-        public ApiResponse<T> ResultToResponse<T>(Result<T> result)
+        public ApiResponse<T> ResultToResponse<T>(Result<T> result, HttpContext context)
         {
-            var (isSuccess, message, errorCode, validationErrors) = GetResponseGeneralData(result);
-            Dictionary<string, string> meta = new();
+
+            bool isSuccess = result.IsSuccess;
+
+            (string errorCode, string message) = GetErrorCodeAndMessage(result.Errors);
+
+            Dictionary<string, string> validationErrors = MapValidationErrors(result.Errors);
+
             object? data = result.Value;
 
-            // Check for Pagination
-            if (result.Value is IPaginationMetadata paginated)
+            if (data == null && isSuccess)
             {
+                throw new InvalidOperationException("Result value cannot be null when creating a successful ApiResponse with data.");
+            }
+
+            if (result.Value is IPaginatedList<T> paginated)
+            {
+                Dictionary<string, string> meta = new();
                 meta.Add("pageNumber", paginated.PageNumber.ToString());
                 meta.Add("pageSize", paginated.PageSize.ToString());
                 meta.Add("totalCount", paginated.TotalCount.ToString());
                 meta.Add("totalPages", paginated.TotalPages.ToString());
-                meta.Add("hasNext", paginated.HasNext.ToString());
-                meta.Add("hasPrevious", paginated.HasPrevious.ToString());
+                meta.Add("hasNext", paginated.HasNext.ToString().ToLowerInvariant());
+                meta.Add("hasPrevious", paginated.HasPrevious.ToString().ToLowerInvariant());
 
-                // Extract "Items" from the PaginatedList<T>
-                // We use dynamic to access 'Items' since we know it exists on PaginatedList<T>
-                data = ((dynamic)result.Value!) ?? Unit.Value;
+                data = paginated.Items;
+
+                if (data == null && isSuccess)
+                    throw new InvalidOperationException("Result value cannot be null when creating a successful ApiResponse with data.");
+
+
+                return new ApiResponse<T>(
+                     isSuccess,
+                     message,
+                     errorCode,
+                     validationErrors,
+                     meta,
+                     context.Request.Path.Value ?? "Unknown",
+                     context.TraceIdentifier,
+                     data: (T)data)
+                {
+                };
 
             }
 
-            var response = new ApiResponse<T>(
+            return new ApiResponse<T>(
                 isSuccess,
                 message,
                 errorCode,
                 validationErrors,
-                meta,
+                EmptyMetadata,
                 context.Request.Path.Value ?? "Unknown",
                 context.TraceIdentifier,
                 data: (T)data!)
             {
             };
 
-            return response;
+
         }
 
 
-        public ApiResponse BasicErrorApiResponse(string message, string errorCode)
+        public ApiResponse BasicErrorApiResponse(string message, string errorCode, string requestPath, string tracedIdentifier)
         {
-            return new ApiResponse(false, message, errorCode, new Dictionary<string, string>(), new Dictionary<string, string>(), context.Request.Path.Value ?? "Unkown", context.TraceIdentifier);
+            return new ApiResponse(false, message, errorCode, EmptyValidationErrors, EmptyMetadata, requestPath, tracedIdentifier);
         }
 
     }
