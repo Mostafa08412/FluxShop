@@ -8,7 +8,7 @@ namespace FluxStore.Domain.Core.Primitives
 
         [JsonIgnore]
         public ErrorType ErrorType { get; }
-        public string Description { get; } = string.Empty;
+        public string Description { get; set; } = string.Empty;
 
         public Error(string code, string description, ErrorType errorType)
         {

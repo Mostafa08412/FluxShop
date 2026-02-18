@@ -3,4 +3,4 @@ using MediatR;
 
 namespace FluxStore.Application.Users.Queries.GetUser;
 
-public record GetUserDetailsQuery(string UserId) : IRequest<Result<UserDetailsDto>>;
+public record GetUserDetailsQuery(Guid UserId) : IRequest<Result<UserDetailsDto>>;

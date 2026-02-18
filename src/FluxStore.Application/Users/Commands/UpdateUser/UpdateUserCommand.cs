@@ -4,7 +4,7 @@ using MediatR;
 namespace FluxStore.Application.Users.Commands.UpdateUser;
 
 public record UpdateUserCommand(
-    string UserId,
+    Guid UserId,
     string FirstName,
     string LastName,
     string Role) : IRequest<Result>;

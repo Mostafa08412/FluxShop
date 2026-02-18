@@ -1,7 +1,9 @@
 ﻿using FluxStore.Api.Contracts;
 using FluxStore.Application.Common.Models;
+using FluxStore.Application.Common.Resources;
 using FluxStore.Domain.Core.Primitives;
 using FluxStore.Domain.Core.Primitives.Result;
+using Microsoft.Extensions.Localization;
 using System.Collections.Immutable;
 
 
@@ -9,14 +11,30 @@ namespace FluxStore.Api.Infrastructure
 {
     public class ApiResponseHelper
     {
+        private readonly IStringLocalizer<SharedResource> _stringLocalizer;
         private readonly ImmutableDictionary<string, string> EmptyValidationErrors = ImmutableDictionary<string, string>.Empty;
         private readonly ImmutableDictionary<string, string> EmptyMetadata = ImmutableDictionary<string, string>.Empty;
+
+        public ApiResponseHelper(IStringLocalizer<SharedResource> stringLocalizer)
+        {
+            _stringLocalizer = stringLocalizer;
+        }
+
         private Dictionary<string, string> MapValidationErrors(IEnumerable<Error> errors)
         {
             var validationErrors = new Dictionary<string, string>();
+
+
+
             foreach (var error in errors.Where(e => e.ErrorType == ErrorType.Validation))
             {
-                validationErrors.TryAdd(error.Code, error.Description);
+                var fieldName = error.Code.Split("__").Skip(1).FirstOrDefault() ?? error.Code;
+
+                var localized = _stringLocalizer.GetString(error.Code);
+                var desc = localized.ResourceNotFound ? error.Description : localized.Value;
+                fieldName = char.ToLowerInvariant(fieldName[0]) + fieldName.Substring(1);
+
+                validationErrors.TryAdd(fieldName, desc);
             }
             return validationErrors;
         }
@@ -138,7 +156,10 @@ namespace FluxStore.Api.Infrastructure
 
         public ApiResponse BasicErrorApiResponse(string message, string errorCode, string requestPath, string tracedIdentifier)
         {
-            return new ApiResponse(false, message, errorCode, EmptyValidationErrors, EmptyMetadata, requestPath, tracedIdentifier);
+            var localized = _stringLocalizer.GetString(errorCode);
+            var msg = localized.ResourceNotFound ? message : localized.Value;
+
+            return new ApiResponse(false, msg, errorCode, EmptyValidationErrors, EmptyMetadata, requestPath, tracedIdentifier);
         }
 
     }

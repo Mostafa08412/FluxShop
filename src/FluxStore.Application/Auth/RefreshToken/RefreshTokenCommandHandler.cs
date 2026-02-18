@@ -1,7 +1,6 @@
 ﻿using FluxStore.Application.Auth.Common;
-using FluxStore.Domain.Core.Primitives.Result;
-using FluxStore.Application.Auth.Common;
 using FluxStore.Application.Contracts.Identity;
+using FluxStore.Domain.Core.Primitives.Result;
 using MediatR;
 
 namespace FluxStore.Application.Auth.RefreshToken
@@ -17,7 +16,7 @@ namespace FluxStore.Application.Auth.RefreshToken
 
         public async Task<Result<AuthenticationResponse>> Handle(RefreshTokenCommand request, CancellationToken cancellationToken)
         {
-            var result = await _identityService.AuthenticateAsync(
+            var result = await _identityService.AuthenticateByRefreshTokenAsync(
            request.refreshToken,
            cancellationToken);
 

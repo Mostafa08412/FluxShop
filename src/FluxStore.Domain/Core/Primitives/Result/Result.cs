@@ -1,9 +1,11 @@
-﻿namespace FluxStore.Domain.Core.Primitives.Result
+﻿using FluxStore.Domain.Abstractions;
+
+namespace FluxStore.Domain.Core.Primitives.Result
 {
 
 
 
-    public class Result
+    public class Result : IResult
     {
         protected Result(bool isSuccess, IEnumerable<Error> errors)
         {
@@ -24,7 +26,7 @@
         public string Message { get; init; } = string.Empty;
 
         public Error? Error => Errors.FirstOrDefault();
-        public IReadOnlyCollection<Error> Errors { get; }
+        public IEnumerable<Error> Errors { get; }
 
         public static Result Success()
             => new Result(true, Array.Empty<Error>());

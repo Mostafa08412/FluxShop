@@ -4,17 +4,15 @@ using FluxStore.Domain.Core.Primitives.Result;
 
 namespace FluxStore.Domain.Users
 {
-    public sealed class User : IUser
+    public sealed class User : Aggregate, IUser
     {
-        public string Id { get; private set; } // related to the application user.
         public string FirstName { get; private set; }
         public string LastName { get; private set; }
         public string Username { get; private set; }
         public string Email { get; private set; }
 
-        private User(string id, string firstName, string lastName, string username, string email)
+        private User(Guid id, string firstName, string lastName, string username, string email) : base(id)
         {
-            Id = id;
             FirstName = firstName;
             LastName = lastName;
             Username = username;
@@ -26,43 +24,108 @@ namespace FluxStore.Domain.Users
         {
         }
 
-        public static Result<User> Create(string id, string firstName, string lastName, string username, string email)
+        public static Result<User> Create(Guid id, string firstName, string lastName, string username, string email)
         {
+            var errors = new List<Error>();
 
-            var Result = new List<Error>();
-
-
-            if (string.IsNullOrWhiteSpace(id))
+            if (id == Guid.Empty)
             {
-                Result.Add(Errors.UserErrors.IdIsRequired);
+                errors.Add(Errors.UserErrors.IdIsRequired);
             }
 
             if (string.IsNullOrWhiteSpace(firstName))
             {
-                Result.Add(Errors.UserErrors.FirstNameIsRequired);
+                errors.Add(Errors.UserErrors.FirstNameIsRequired);
             }
 
             if (string.IsNullOrWhiteSpace(lastName))
             {
-                Result.Add(Errors.UserErrors.LastNameIsRequired);
+                errors.Add(Errors.UserErrors.LastNameIsRequired);
             }
 
             if (string.IsNullOrWhiteSpace(username))
             {
-                Result.Add(Errors.UserErrors.UsernameIsRequired);
+                errors.Add(Errors.UserErrors.UsernameIsRequired);
             }
 
             if (string.IsNullOrWhiteSpace(email))
             {
-                Result.Add(Errors.UserErrors.EmailIsRequired);
+                errors.Add(Errors.UserErrors.EmailAddressIsRequired);
             }
 
-            if (Result.Any())
+            if (errors.Any())
             {
-                return Result<User>.Failure(Result);
+                return Result<User>.Failure(errors);
             }
 
             return Result<User>.Success(new User(id, firstName, lastName, username, email));
+        }
+
+        public Result UpdateFirstName(string firstName)
+        {
+            if (string.IsNullOrWhiteSpace(firstName))
+            {
+                return Result.Failure(Errors.UserErrors.FirstNameIsRequired);
+            }
+
+            if (firstName.Length > 100)
+            {
+                return Result.Failure(Errors.UserErrors.FirstNameTooLong);
+            }
+
+            FirstName = firstName;
+
+            return Result.Success();
+        }
+
+        public Result UpdateLastName(string lastName)
+        {
+            if (string.IsNullOrWhiteSpace(lastName))
+            {
+                return Result.Failure(Errors.UserErrors.LastNameIsRequired);
+            }
+
+            if (lastName.Length > 100)
+            {
+                return Result.Failure(Errors.UserErrors.LastNameTooLong);
+            }
+
+            LastName = lastName;
+
+            return Result.Success();
+        }
+
+        public Result UpdateProfile(string firstName, string lastName)
+        {
+            var errors = new List<Error>();
+
+            if (string.IsNullOrWhiteSpace(firstName))
+            {
+                errors.Add(Errors.UserErrors.FirstNameIsRequired);
+            }
+            else if (firstName.Length > 100)
+            {
+                errors.Add(Errors.UserErrors.FirstNameTooLong);
+            }
+
+            if (string.IsNullOrWhiteSpace(lastName))
+            {
+                errors.Add(Errors.UserErrors.LastNameIsRequired);
+            }
+            else if (lastName.Length > 100)
+            {
+                errors.Add(Errors.UserErrors.LastNameTooLong);
+            }
+
+            if (errors.Any())
+            {
+                return Result.Failure(errors);
+            }
+
+            FirstName = firstName;
+            LastName = lastName;
+
+            return Result.Success();
         }
 
     }

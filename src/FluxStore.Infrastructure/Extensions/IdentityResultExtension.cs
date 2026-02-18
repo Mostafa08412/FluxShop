@@ -1,7 +1,8 @@
 ﻿using FluxStore.Domain.Core.Primitives;
 using FluxStore.Domain.Core.Primitives.Result;
 using Microsoft.AspNetCore.Identity;
-using static FluxStore.Domain.Core.Errors.Errors;
+using static FluxStore.Application.Common.Errors.ApplicationErrors;
+
 
 namespace FluxStore.Infrastructure.Extensions
 {
@@ -14,7 +15,7 @@ namespace FluxStore.Infrastructure.Extensions
 
                 // ===== Duplicate / Exists =====
                 "DuplicateEmail" =>
-                    IdentityErrors.EmailAlreadyExists,
+                    IdentityErrors.EmailAlreadyExists(),
 
                 "DuplicateUserName" =>
                     IdentityErrors.UsernameAlreadyExists(),

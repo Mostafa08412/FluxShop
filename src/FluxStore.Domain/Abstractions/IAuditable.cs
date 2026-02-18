@@ -4,9 +4,9 @@
     {
 
         public DateTime CreatedOnUTC { get; }
-        public string CreatedBy { get; }
+        public Guid CreatedBy { get; }
         public DateTime UpdatedOnUTC { get; }
-        public string UpdatedBy { get; }
+        public Guid UpdatedBy { get; }
 
     }
 }

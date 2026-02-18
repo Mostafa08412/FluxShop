@@ -3,4 +3,4 @@ using MediatR;
 
 namespace FluxStore.Application.Users.Commands.DeactivateUser;
 
-public record DeactivateUserCommand(string UserId) : IRequest<Result>;
+public record DeactivateUserCommand(Guid UserId) : IRequest<Result>;

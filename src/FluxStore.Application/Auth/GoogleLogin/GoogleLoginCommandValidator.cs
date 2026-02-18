@@ -1,4 +1,5 @@
 using FluentValidation;
+using FluxStore.Application.Common.Errors;
 
 namespace FluxStore.Application.Auth.GoogleLogin
 {
@@ -6,7 +7,9 @@ namespace FluxStore.Application.Auth.GoogleLogin
     {
         public GoogleLoginCommandValidator()
         {
-            RuleFor(x => x.IdToken).NotEmpty().NotNull();
+            RuleFor(x => x.IdToken)
+                .NotEmpty().WithErrorCode(ApplicationErrors.IdentityErrors.GoogleIdTokenIsRequired.Code)
+                .NotNull().WithErrorCode(ApplicationErrors.IdentityErrors.GoogleIdTokenIsRequired.Code);
         }
     }
 }

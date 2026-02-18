@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using FluxStore.Application.Common.Errors;
 
 namespace FluxStore.Application.Auth.RefreshToken
 {
@@ -6,8 +7,11 @@ namespace FluxStore.Application.Auth.RefreshToken
     {
         public RefreshTokenCommandValidator()
         {
-            RuleFor(X => X.refreshToken).NotEmpty().NotNull();
+            RuleFor(X => X.refreshToken)
+                .NotEmpty().WithErrorCode(ApplicationErrors.IdentityErrors.RefreshTokenIsRequired.Code)
+                .NotNull().WithErrorCode(ApplicationErrors.IdentityErrors.RefreshTokenIsRequired.Code);
         }
     }
 
 }
+

@@ -1,0 +1,309 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="User_IdIsRequired__UserId" xml:space="preserve">
+    <value>User Id is required</value>
+  </data>
+  <data name="User_FirstNameIsRequired__FirstName" xml:space="preserve">
+    <value>First name is required</value>
+  </data>
+  <data name="User_LastNameIsRequired__LastName" xml:space="preserve">
+    <value>Last name is required</value>
+  </data>
+  <data name="User_UsernameIsRequired__Username" xml:space="preserve">
+    <value>Username is required</value>
+  </data>
+  <data name="User_EmailAddressIsRequired__EmailAddress" xml:space="preserve">
+    <value>Email is required</value>
+  </data>
+  <data name="User_InvalidEmailAddress__EmailAddress" xml:space="preserve">
+    <value>Invalid email format</value>
+  </data>
+  <data name="User_EmailAddressTooLong__EmailAddress" xml:space="preserve">
+    <value>Email must not exceed 256 characters</value>
+  </data>
+  <data name="User_FirstNameTooLong__FirstName" xml:space="preserve">
+    <value>First name must not exceed 100 characters</value>
+  </data>
+  <data name="User_LastNameTooLong__FirstName" xml:space="preserve">
+    <value>Last name must not exceed 100 characters</value>
+  </data>
+  <data name="User_InvalidRole__Role" xml:space="preserve">
+    <value>Role must be Admin, Manager, or User</value>
+  </data>
+  <data name="User_RoleIsRequired__Role" xml:space="preserve">
+    <value>Role is required</value>
+  </data>
+  <data name="Identity_UserNotFound" xml:space="preserve">
+    <value>The requested user profile does not exist.</value>
+  </data>
+  <data name="Identity_InvalidCredentials" xml:space="preserve">
+    <value>Invalid email or password. Please check your credentials and try again.</value>
+  </data>
+  <data name="Identity_InvalidPassword" xml:space="preserve">
+    <value>The password provided is incorrect. Please try again.</value>
+  </data>
+  <data name="Identity_InvalidGoogleToken" xml:space="preserve">
+    <value>The Google authentication token is invalid or has expired.</value>
+  </data>
+  <data name="Identity_EmailIsRequired__EmailAddress" xml:space="preserve">
+    <value>Email address is required.</value>
+  </data>
+  <data name="Identity_PasswordIsRequired__Password" xml:space="preserve">
+    <value>Password is required.</value>
+  </data>
+  <data name="Identity_CurrentPasswordIsRequired__CurrentPassword" xml:space="preserve">
+    <value>Current password is required.</value>
+  </data>
+  <data name="Identity_NewPasswordIsRequired__NewPassword" xml:space="preserve">
+    <value>New password is required.</value>
+  </data>
+  <data name="Identity_ConfirmNewPasswordIsRequired__ConfirmNewPassword" xml:space="preserve">
+    <value>Confirm new password is required.</value>
+  </data>
+  <data name="Identity_ConfirmPasswordMismatch__ConfirmNewPassword" xml:space="preserve">
+    <value>New password and confirm password do not match.</value>
+  </data>
+  <data name="Identity_FirstNameIsRequired__FirstName" xml:space="preserve">
+    <value>First name is required.</value>
+  </data>
+  <data name="Identity_LastNameIsRequired__LastName" xml:space="preserve">
+    <value>Last name is required.</value>
+  </data>
+  <data name="Identity_FirstNameTooLong__FirstName" xml:space="preserve">
+    <value>First name must not exceed 100 characters.</value>
+  </data>
+  <data name="Identity_LastNameTooLong__LastName" xml:space="preserve">
+    <value>Last name must not exceed 100 characters.</value>
+  </data>
+  <data name="Identity_NameIsRequired__Name" xml:space="preserve">
+    <value>Name is required.</value>
+  </data>
+  <data name="Identity_InvalidNameFormat__Name" xml:space="preserve">
+    <value>Name must consist of first name and last name separated by a space.</value>
+  </data>
+  <data name="Identity_GoogleIdTokenIsRequired__IdToken" xml:space="preserve">
+    <value>Google ID token is required.</value>
+  </data>
+  <data name="Identity_RefreshTokenIsRequired__RefreshToken" xml:space="preserve">
+    <value>Refresh token is required.</value>
+  </data>
+  <data name="Identity_OtpIsRequired__Otp" xml:space="preserve">
+    <value>OTP code is required.</value>
+  </data>
+  <data name="Identity_ResetPasswordTokenIsRequired__ResetPasswordToken" xml:space="preserve">
+    <value>Reset password token is required.</value>
+  </data>
+  <data name="Identity_EmailAlreadyExists" xml:space="preserve">
+    <value>This email address is already registered. Please use a different email or sign in.</value>
+  </data>
+  <data name="Identity_UserAlreadyExists" xml:space="preserve">
+    <value>A user with these credentials already exists in the system.</value>
+  </data>
+  <data name="Identity_UsernameAlreadyExists" xml:space="preserve">
+    <value>This username is unavailable. Please choose another.</value>
+  </data>
+  <data name="Identity_InvalidEmail__EmailAddress" xml:space="preserve">
+    <value>The email format is invalid. Please enter a valid email address.</value>
+  </data>
+  <data name="Identity_InvalidUsername__Username" xml:space="preserve">
+    <value>The username contains invalid characters or does not meet the required length.</value>
+  </data>
+  <data name="Identity_WeakPassword__Password" xml:space="preserve">
+    <value>Password does not meet the minimum security requirements (complexity/length).</value>
+  </data>
+  <data name="Identity_PasswordReuseNotAllowed__Password" xml:space="preserve">
+    <value>For security reasons, you cannot reuse a previously used password.</value>
+  </data>
+  <data name="Identity_Forbidden" xml:space="preserve">
+    <value>Access Denied. You do not have the required permissions for this resource.</value>
+  </data>
+  <data name="Identity_UserLockedOut" xml:space="preserve">
+    <value>This account has been temporarily locked due to multiple failed login attempts.</value>
+  </data>
+  <data name="Identity_MissingToken" xml:space="preserve">
+    <value>Authentication token is missing. Please provide a valid Authorization header.</value>
+  </data>
+  <data name="Identity_InvalidToken" xml:space="preserve">
+    <value>The provided authentication token is malformed or invalid.</value>
+  </data>
+  <data name="Identity_ExpiredToken" xml:space="preserve">
+    <value>Your session has expired. Please log in again to continue.</value>
+  </data>
+  <data name="Identity_RecoveryCodeRedemptionFailed" xml:space="preserve">
+    <value>The recovery code provided is invalid or has already been used.</value>
+  </data>
+  <data name="Identity_OtpCooldown__Otp" xml:space="preserve">
+    <value>Please wait 30 seconds before requesting another OTP.</value>
+  </data>
+  <data name="Identity_InvalidOtp__Otp" xml:space="preserve">
+    <value>The OTP code entered is invalid or has expired.</value>
+  </data>
+  <data name="Identity_InvalidResetToken__ResetPasswordToken" xml:space="preserve">
+    <value>The password reset token is invalid or has expired.</value>
+  </data>
+  <data name="Identity_UserNotFound__Email" xml:space="preserve">
+    <value>We couldn't find an account with that email address. Please check the spelling or try a different email.</value>
+  </data>
+  <data name="Identity_UserNotFound__Id" xml:space="preserve">
+    <value>The specified user ID does not match any existing user record.</value>
+  </data>
+  <data name="Identity_UserNotFound__Username" xml:space="preserve">
+    <value>The specified username is not registered in our system.</value>
+  </data>
+  <data name="Identity_RoleNotFound" xml:space="preserve">
+    <value>The specified security role does not exist.</value>
+  </data>
+  <data name="Identity_UserAlreadyInRole" xml:space="preserve">
+    <value>The user is already assigned to this role.</value>
+  </data>
+  <data name="Identity_UserNotInRole" xml:space="preserve">
+    <value>The user does not possess this role assignment.</value>
+  </data>
+  <data name="Identity_UpdateFailed" xml:space="preserve">
+    <value>An error occurred while updating the user profile.</value>
+  </data>
+  <data name="Identity_RoleUpdateFailed" xml:space="preserve">
+    <value>Failed to modify user role assignments.</value>
+  </data>
+  <data name="Identity_DeactivationFailed" xml:space="preserve">
+    <value>Account deactivation process failed.</value>
+  </data>
+  <data name="Identity_ActivationFailed" xml:space="preserve">
+    <value>Account activation process failed.</value>
+  </data>
+  <data name="Identity_Unknown" xml:space="preserve">
+    <value>An unexpected identity error occurred.</value>
+  </data>
+  <data name="Email.SendFailed" xml:space="preserve">
+    <value>Email delivery failed.</value>
+  </data>
+  <data name="DATABASE.CONCURRENCY" xml:space="preserve">
+    <value>The record has been modified by another user. Please refresh and try again.</value>
+  </data>
+  <data name="DATABASE.UPDATE_ERROR" xml:space="preserve">
+    <value>A database integrity error occurred.</value>
+  </data>
+  <data name="SERVER.MISSING_CONFIG" xml:space="preserve">
+    <value>A required system configuration is missing.</value>
+  </data>
+  <data name="SERVER.UNEXPECTED_ERROR" xml:space="preserve">
+    <value>An internal server error occurred.</value>
+  </data>
+</root>
