@@ -3,6 +3,7 @@
     public interface ICurrentUser
     {
 
-        public string UserId { get; }
+        public Guid? UserId { get; }
+        public string UserEmail { get; }
     }
 }

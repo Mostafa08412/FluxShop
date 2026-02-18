@@ -4,7 +4,8 @@ using FluxStore.Domain.Core.Primitives.Result;
 using MediatR;
 namespace FluxStore.Application.Common.Behaviors
 {
-    public class ValidationBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TRequest : notnull
+    public class ValidationBehavior<TRequest, TResponse> :
+        IPipelineBehavior<TRequest, TResponse> where TRequest : notnull
     {
 
         private readonly IEnumerable<IValidator<TRequest>> _validators;
@@ -30,8 +31,10 @@ namespace FluxStore.Application.Common.Behaviors
                     if (validationResult.Errors.Any())
                     {
 
-                        var Errors = validationResult.Errors.Select(
-                            X => new Error(X.PropertyName.ToLower(), X.ErrorMessage, ErrorType.Validation)
+                        var Errors = validationResult
+                            .Errors
+                            .Select(
+                            X => new Error(string.IsNullOrWhiteSpace(X.ErrorCode) ? X.PropertyName : X.ErrorCode, X.ErrorMessage, ErrorType.Validation)
                             );
 
 

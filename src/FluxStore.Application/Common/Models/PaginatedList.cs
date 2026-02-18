@@ -2,7 +2,7 @@ using System.Text.Json.Serialization;
 
 namespace FluxStore.Application.Common.Models;
 
-public class PaginatedList<T> : IPaginationMetadata
+public class PaginatedList<T> : IPaginatedList<T> where T : class
 {
     public List<T> Items { get; init; } = [];
     [JsonIgnore]
@@ -35,9 +35,9 @@ public class PaginatedList<T> : IPaginationMetadata
     }
 }
 
-public interface IPaginationMetadata
+public interface IPaginatedList<T>
 {
-
+    List<T> Items { get; }
     int PageNumber { get; }
     int PageSize { get; }
     int TotalCount { get; }

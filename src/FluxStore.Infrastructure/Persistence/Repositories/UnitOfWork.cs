@@ -1,6 +1,7 @@
 ﻿using FluxStore.Application.Common.Interfaces;
 using FluxStore.Domain.Abstractions;
 using FluxStore.Domain.Core.Primitives;
+using FluxStore.Domain.Users;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
@@ -10,7 +11,7 @@ namespace FluxStore.Infrastructure.Persistence.Repositories
     public class UnitOfWork : IUnitOfWork
     {
 
-
+        public IUserRepository Users { get; set; }
         protected IDbContextTransaction _currentTransaction { get; private set; }
 
         protected ApplicationDbContext dbContext;
@@ -19,13 +20,14 @@ namespace FluxStore.Infrastructure.Persistence.Repositories
         private readonly IDateTime _dateTime;
         private readonly IMediator _mediator;
 
-        public UnitOfWork(ApplicationDbContext dbContext, ICurrentUser currentUser, IDateTime dateTime, IMediator mediator)
+        public UnitOfWork(IUserRepository userRepository, ApplicationDbContext dbContext, ICurrentUser currentUser, IDateTime dateTime, IMediator mediator)
         {
 
             this.dbContext = dbContext;
             _currentUser = currentUser;
             _dateTime = dateTime;
             _mediator = mediator;
+            Users = userRepository;
         }
 
         public async Task<int> Complete(CancellationToken cancellationToken)
@@ -55,7 +57,7 @@ namespace FluxStore.Infrastructure.Persistence.Repositories
         private void AuditAddedAndModifiedEntries()
         {
             //Search for all added entities 
-            var seedCreatedOrUpdatedBy = _currentUser.UserId ?? Guid.CreateVersion7().ToString();
+            var seedCreatedOrUpdatedBy = _currentUser.UserId ?? Guid.CreateVersion7();
 
             foreach (var entry in dbContext.ChangeTracker.Entries<IAuditable>())
             {

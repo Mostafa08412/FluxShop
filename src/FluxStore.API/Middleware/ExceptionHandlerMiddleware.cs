@@ -1,5 +1,7 @@
 ﻿using FluxStore.Api.Infrastructure;
+using FluxStore.Application.Common.Resources;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Localization;
 
 namespace FluxStore.Api.Middleware
 {
@@ -17,19 +19,20 @@ namespace FluxStore.Api.Middleware
 
         private readonly RequestDelegate _next;
         private readonly ILogger<ExceptionHandlerMiddleware> _logger;
+        private readonly IStringLocalizer<SharedResource> _localizer;
 
 
-
-        public ExceptionHandlerMiddleware(RequestDelegate next, ILogger<ExceptionHandlerMiddleware> logger)
+        public ExceptionHandlerMiddleware(IStringLocalizer<SharedResource> localizer, RequestDelegate next, ILogger<ExceptionHandlerMiddleware> logger)
         {
             _next = next;
             _logger = logger;
+            _localizer = localizer;
         }
 
 
         public async Task InvokeAsync(HttpContext context)
         {
-            var helper = new ApiResponseHelper(context);
+            var helper = new ApiResponseHelper(_localizer);
 
             try
             {
@@ -79,9 +82,9 @@ namespace FluxStore.Api.Middleware
 
         public async Task WriteResponseAsync(string message, string errorCode, ApplicationStatusCodes statusCode, HttpContext context)
         {
-            var Helper = new ApiResponseHelper(context);
+            var Helper = new ApiResponseHelper(_localizer);
 
-            var response = Helper.BasicErrorApiResponse(message, errorCode);
+            var response = Helper.BasicErrorApiResponse(message, errorCode, context.Request.Path.Value ?? "Unkown", context.TraceIdentifier);
 
             context.Response.StatusCode = (int)statusCode;
             await context.Response.WriteAsJsonAsync(response);

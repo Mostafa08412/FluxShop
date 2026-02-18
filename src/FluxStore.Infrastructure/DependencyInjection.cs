@@ -1,6 +1,7 @@
-﻿using FluxStore.Application.Common.Interfaces;
+﻿using FluxStore.Application.Common.Errors;
+using FluxStore.Application.Common.Interfaces;
 using FluxStore.Domain.Abstractions;
-using FluxStore.Domain.Core.Errors;
+using FluxStore.Domain.Users;
 using FluxStore.Infrastructure.Authentication;
 using FluxStore.Infrastructure.Common;
 using FluxStore.Infrastructure.Common.Exceptions;
@@ -30,6 +31,7 @@ namespace FluxStore.Infrastructure
 {
     public static class DependencyInjection
     {
+
         public static IServiceCollection AddHangFireBackgroundJobWorker(this IServiceCollection services, IConfiguration configuration)
         {
             var connectionString = configuration.GetConnectionString("DefaultConnection");
@@ -113,9 +115,9 @@ namespace FluxStore.Infrastructure
                     {
                         OnMessageReceived = context =>
                         {
-                            var accessToken = context.HttpContext.Request.Query["access_Token"];
                             if (context.HttpContext.Request.Path.Value?.Contains("hubs") == true)
                             {
+                                var accessToken = context.HttpContext.Request.Query["access_Token"];
                                 if (!string.IsNullOrWhiteSpace(accessToken))
                                 {
                                     context.HttpContext.Request.Headers.TryAdd("Authorization", $"Bearer {accessToken}");
@@ -134,7 +136,7 @@ namespace FluxStore.Infrastructure
 
                             else if (context.AuthenticateFailure is SecurityTokenInvalidSignatureException)
                             {
-                                context.Response.Headers.TryAdd("Auth-Fail-Type", Errors.IdentityErrors.InvalidToken.Code);
+                                context.Response.Headers.TryAdd("Auth-Fail-Type", ApplicationErrors.IdentityErrors.InvalidToken.Code);
                                 context.HandleResponse();
                                 return Task.CompletedTask;
                             }
@@ -142,14 +144,14 @@ namespace FluxStore.Infrastructure
 
                             else if (context.AuthenticateFailure is SecurityTokenExpiredException)
                             {
-                                context.Response.Headers.TryAdd("Auth-Fail-Type", Errors.IdentityErrors.ExpiredToken.Code);
+                                context.Response.Headers.TryAdd("Auth-Fail-Type", ApplicationErrors.IdentityErrors.ExpiredToken.Code);
                                 context.HandleResponse();
                                 return Task.CompletedTask;
                             }
 
                             else if (!context.Request.Headers.ContainsKey("Authorization"))
                             {
-                                context.Response.Headers.TryAdd("Auth-Fail-Type", Errors.IdentityErrors.MissingToken.Code);
+                                context.Response.Headers.TryAdd("Auth-Fail-Type", ApplicationErrors.IdentityErrors.MissingToken.Code);
                                 context.HandleResponse();
                                 return Task.CompletedTask;
                             }
@@ -163,7 +165,7 @@ namespace FluxStore.Infrastructure
                         OnForbidden = context =>
                         {
 
-                            context.Response.Headers.TryAdd("Auth-Fail-Type", Errors.IdentityErrors.ForbiddenAccess.Code);
+                            context.Response.Headers.TryAdd("Auth-Fail-Type", ApplicationErrors.IdentityErrors.ForbiddenAccess.Code);
 
 
 
@@ -252,7 +254,7 @@ namespace FluxStore.Infrastructure
         }
         public static IServiceCollection RegisterIdentity(this IServiceCollection services)
         {
-            services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+            services.AddIdentity<ApplicationUser, IdentityRole<Guid>>(options =>
             {
                 options.Password.RequireDigit = true;
                 options.Password.RequireLowercase = true;
@@ -279,6 +281,7 @@ namespace FluxStore.Infrastructure
             // Register Repositories here....
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<IUserRepository, UserRepository>();
 
 
             return services;
@@ -296,7 +299,24 @@ namespace FluxStore.Infrastructure
 
             return services;
         }
+        public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
+        {
 
+
+            services.RegisterDbContext(configuration)
+                    .RegisterFluentEmail(configuration)
+                    .RegisterAutoMapper()
+                    .RegisterRepositoriesAndUnitOfWork()
+                    .RegisterServices()
+                    .RegisterIdentity()
+                    .AddJwtAuthentication(configuration)
+                    .AddHangFireBackgroundJobWorker(configuration)
+                    .RegisterSignalR()
+                    .RegisterMemoryCache()
+                    .AddLocalization();
+
+            return services;
+        }
         public class ResetPasswordOTPTokenProvider<T> : TotpSecurityStampBasedTokenProvider<T> where T : class
         {
             public override async Task<bool> CanGenerateTwoFactorTokenAsync(UserManager<T> manager, T user)
@@ -318,25 +338,6 @@ namespace FluxStore.Infrastructure
             {
                 return base.ValidateAsync("ResetPasswordOTP:" + purpose, token, manager, user);
             }
-        }
-
-
-        public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
-        {
-
-
-            services.RegisterDbContext(configuration)
-                    .RegisterFluentEmail(configuration)
-                    .RegisterAutoMapper()
-                    .RegisterRepositoriesAndUnitOfWork()
-                    .RegisterServices()
-                    .RegisterIdentity()
-                    .AddJwtAuthentication(configuration)
-                    .AddHangFireBackgroundJobWorker(configuration)
-                    .RegisterSignalR()
-                    .RegisterMemoryCache();
-
-            return services;
         }
     }
 

@@ -6,6 +6,16 @@ namespace FluxStore.Api.Extensions
 {
     public static class MiddlewarePipeline
     {
+        public static void UseLocalization(this WebApplication app)
+        {
+            var supportedCultures = new[] { "en-US", "ar-EG" };
+            var localizationOptions = new RequestLocalizationOptions()
+                .SetDefaultCulture(supportedCultures[0])
+                .AddSupportedCultures(supportedCultures)
+                .AddSupportedUICultures(supportedCultures);
+            app.UseRequestLocalization(localizationOptions);
+        }
+
 
         public static void ConfigureMiddlewarePipeline(this WebApplication app, IConfiguration configuration)
         {
@@ -37,7 +47,7 @@ namespace FluxStore.Api.Extensions
             if (seedData)
                 app.SeedData().Wait();
 
-
+            app.UseLocalization();
             app.UseHangfireDashboard();
             app.UseCors(configuration.GetSection("CorsSettings:PolicyName").Get<string>());
             app.UseRouting();

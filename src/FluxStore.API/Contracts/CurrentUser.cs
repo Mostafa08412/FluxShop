@@ -6,28 +6,53 @@ namespace FluxStore.Api.Contracts
     public sealed class CurrentUser : ICurrentUser
     {
 
-        private readonly HttpContext httpContext;
+        private readonly HttpContext? _httpContext;
 
         public CurrentUser(IHttpContextAccessor? httpContextAccessor)
         {
 
-            this.httpContext = httpContextAccessor!.HttpContext!;
+            _httpContext = httpContextAccessor?.HttpContext;
         }
 
-        public string UserId
+        public Guid? UserId
         {
             get
             {
 
-                ClaimsPrincipal? user = httpContext?.User;
+                if (_httpContext == null)
+                    return null;
+
+                ClaimsPrincipal? user = _httpContext.User;
 
                 bool IsAuthenticated = user?.Identity?.IsAuthenticated ?? false;
 
                 if (!IsAuthenticated)
-                    return "Unkown";
+                    return null;
 
-                else
-                    return httpContext!.User.Claims.FirstOrDefault(X => X.Type == ClaimTypes.NameIdentifier)!.Value;
+                var claim = user!.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+                return Guid.TryParse(claim, out var userId) ? userId : null;
+
+            }
+
+        }
+
+        public string UserEmail
+        {
+            get
+            {
+
+                if (_httpContext == null)
+                    return "System";
+
+                ClaimsPrincipal? user = _httpContext.User;
+
+                bool IsAuthenticated = user?.Identity?.IsAuthenticated ?? false;
+
+                if (!IsAuthenticated)
+                    return "Anonymous";
+
+                return user!.FindFirst(ClaimTypes.Email)?.Value ?? "Unkown";
 
             }
 

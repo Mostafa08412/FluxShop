@@ -49,11 +49,11 @@ namespace FluxStore.Infrastructure.Persistence
         private readonly IUnitOfWork _unitOfWork;
         private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly RoleManager<IdentityRole<Guid>> _roleManager;
         private readonly ILogger<ApplicationDbContextInitializer> _logger;
         private readonly IDateTime _dateTime;
 
-        public ApplicationDbContextInitializer(IUnitOfWork unitOfWork, ApplicationDbContext context, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, ILogger<ApplicationDbContextInitializer> logger, IDateTime dateTime)
+        public ApplicationDbContextInitializer(IUnitOfWork unitOfWork, ApplicationDbContext context, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole<Guid>> roleManager, ILogger<ApplicationDbContextInitializer> logger, IDateTime dateTime)
         {
             _context = context;
             _userManager = userManager;
@@ -172,7 +172,7 @@ namespace FluxStore.Infrastructure.Persistence
         private async Task EnsureRoleAsync(string role)
         {
             if (!await _roleManager.RoleExistsAsync(role))
-                await _roleManager.CreateAsync(new IdentityRole(role));
+                await _roleManager.CreateAsync(new IdentityRole<Guid>(role));
         }
     }
 }

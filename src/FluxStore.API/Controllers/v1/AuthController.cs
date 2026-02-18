@@ -10,10 +10,12 @@ using FluxStore.Application.Auth.Logout;
 using FluxStore.Application.Auth.RefreshToken;
 using FluxStore.Application.Auth.ResetPassword;
 using FluxStore.Application.Auth.VerifyResetPasswordOtp;
+using FluxStore.Application.Common.Resources;
 using FluxStore.Domain.Core.Primitives.Result;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Localization;
 using Swashbuckle.AspNetCore.Annotations;
 using Swashbuckle.AspNetCore.Filters;
 using LoginRequest = FluxStore.Application.Auth.Login.LoginRequest;
@@ -32,8 +34,8 @@ namespace FluxStore.Api.Controllers.v1
     [SwaggerResponseExample((int)ApplicationStatusCodes.BadRequest, typeof(ApiResponseExample))]
     public class AuthController : BaseController
     {
-        public AuthController(ISender sender)
-            : base(sender)
+        public AuthController(ISender sender, IStringLocalizer<SharedResource> localizer)
+            : base(sender, localizer)
         {
         }
 
@@ -110,9 +112,9 @@ namespace FluxStore.Api.Controllers.v1
             Description = "Invalidates the user's refresh token, effectively logging them out.",
             OperationId = "Logout"
         )]
-        public async Task<IActionResult> Logout([FromBody] LogoutCommand request)
+        public async Task<IActionResult> Logout()
         {
-            var result = await _sender.Send(request);
+            var result = await _sender.Send(new LogoutCommand());
 
             return HandleResult(result, ApplicationStatusCodes.Ok);
         }

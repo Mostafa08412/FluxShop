@@ -1,4 +1,3 @@
-using FluxStore.Application.Users;
 using FluxStore.Domain.Core.Primitives.Result;
 using MediatR;
 
@@ -19,7 +18,7 @@ public class GetUserDetailsQueryHandler : IRequestHandler<GetUserDetailsQuery, R
 
         if (result.IsFailure)
         {
-            return Result<UserDetailsDto>.Failure(ApplicationErrors.UserErrors.NotFound(request.UserId));
+            return Result<UserDetailsDto>.Failure(ApplicationErrors.UserErrors.NotFound(request.UserId.ToString()));
         }
 
         return result;

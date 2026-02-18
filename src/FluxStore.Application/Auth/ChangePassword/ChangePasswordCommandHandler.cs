@@ -18,7 +18,7 @@ namespace FluxStore.Application.Auth.ChangePassword
 
         public async Task<Result> Handle(ChangePasswordCommand request, CancellationToken cancellationToken)
         {
-            return await _identityService.ChangePasswordAsync(_currentUser.UserId, request.CurrentPassword, request.NewPassword, request.ConfirmNewPassword);
+            return await _identityService.ChangePasswordAsync(_currentUser.UserId!.Value, request.CurrentPassword, request.NewPassword, request.ConfirmNewPassword, cancellationToken);
         }
     }
 }

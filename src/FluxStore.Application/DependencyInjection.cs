@@ -8,8 +8,15 @@ namespace FluxStore.Application
 {
     public static class DependencyInjection
     {
+        public static IServiceCollection AddLocalization(this IServiceCollection services)
+        {
+
+
+            return services;
+        }
         public static IServiceCollection AddApplicationServices(this IServiceCollection services)
         {
+            services.AddLocalization();
 
             services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
             services.AddMediatR(cfg =>
@@ -17,6 +24,7 @@ namespace FluxStore.Application
                 cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
 
             });
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(LocalizationBehavior<,>));
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(UowTransactionBehavior<,>));
             return services;
