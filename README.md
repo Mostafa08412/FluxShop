@@ -298,10 +298,7 @@ Revokes the user's active refresh token.
 
 **Headers:** `Authorization: Bearer <access-token>`
 
-**Request Body:**
-```json
-{}
-```
+
 
 **Success Response** `200`:
 ```json
@@ -427,78 +424,82 @@ Client                          API                       Google
 **1. Create a `docker-compose.yml`** file in your project root:
 
 ```yaml
-version: '3.8'
+version: '3.8' 
 
 services:
   backend:
     container_name: fluxstore-service
-    image: mostafa0841/fluxstore:v1.0
+    image: mostafa0841/fluxstore:latest
     environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ASPNETCORE_URLS=http://+:5089
+      
+      # Connection Strings
       - ConnectionStrings__DefaultConnection=Server=sqlserver,1433;Database=FluxStoreDb;User Id=SA;Password=Admin#123;TrustServerCertificate=True
-      # Token Settings
-      - TokenSettings__SecretKey=Yj6pr{WJ+c}WL:Zmc%v364$$jkOi}O3HM_ExtraLongKey123
+      
+      # Token Settings 
+      - TokenSettings__SecretKey=Yj6pr{WJ+c}WL:Zmc%v364$$jkOi}O3HM
       - TokenSettings__Issuer=http://localhost:5089
       - TokenSettings__Audience=http://localhost:5089
-      - TokenSettings__AccessTokenExpiryMinutes=1440
-      - TokenSettings__RefreshTokenExpiryMinutes=43200
-      - ASPNETCORE_URLS=http://+:5089
-      - ASPNETCORE_ENVIRONMENT=Production
-      # Database Initialization
-      - InitializeDatabase__ResetDatabase=false
-      - InitializeDatabase__InitializeDatabase=true
-      - InitializeDatabase__SeedData=true
-      # Google OAuth
-      - Authentication__Google__ClientId=159007714113-l1nka853t90rqrej8eu4h1sc0lg2kjiv.apps.googleusercontent.com
-      # SMTP Settings
-      - SmtpSettings__SmtpHost=smtp4dev
+      - TokenSettings__AccessTokenExpiryMinutes=43200
+      - TokenSettings__RefreshTokenExpiryMinutes=432000
+      
+      # SMTP Settings 
+      - SmtpSettings__SmtpHost=smtp4dev 
       - SmtpSettings__SmtpPort=25
       - SmtpSettings__UseSSL=false
-      - SmtpSettings__FromEmail=FluxStore@dev.com
+      - SmtpSettings__FromEmail=hello@fluxstore.com
       - SmtpSettings__Password=hfgclegezffgqvus
-      # CORS Settings
+      
+      # CORS Settings 
       - CorsSettings__PolicyName=DevCorsPolicy
-      - CorsSettings__AllowedOrigins__0=http://localhost:5341
-      - CorsSettings__AllowedOrigins__1=http://localhost:3000
+      - CorsSettings__AllowedOrigins__0=http://localhost:8080
+      - CorsSettings__AllowedOrigins__1=http://localhost:8081
+      - CorsSettings__AllowedOrigins__2=http://localhost:3000
+      
       # File Manager
       - FileManager__TempCsvPath=/Temp
-      # SignalR Hub Settings
+      
+      # Hub Settings
       - HubSettings__ImportProducts__Status=/hubs/import-status
       - HubSettings__ImportProducts__OnPreviewReady=OnPreviewReady
       - HubSettings__ImportProducts__OnImportCompleted=OnImportCompleted
       - HubSettings__ImportProducts__OnJobFailed=OnJobFailed
       - HubSettings__ImportProducts__OnProgress=OnProgress
-      # Serilog
+      
+      # Database Initialization
+      - InitializeDatabase__ResetDatabase=true
+      - InitializeDatabase__InitializeDatabase=true
+      - InitializeDatabase__SeedData=true
+      
+      # Authentication
+      - Authentication__Google__ClientId=159007714113-l1nka853t90rqrej8eu4h1sc0lg2kjiv.apps.googleusercontent.com
+
+      # Serilog Logging Configuration
       - Serilog__Using__0=Serilog.Sinks.Console
       - Serilog__Using__1=Serilog.Sinks.File
       - Serilog__Using__2=Serilog.Sinks.Seq
       - Serilog__MinimumLevel__Default=Information
       - Serilog__MinimumLevel__Override__Microsoft=Warning
-      - Serilog__MinimumLevel__Override__Microsoft.Hosting.Lifetime=Information
-      - Serilog__MinimumLevel__Override__Microsoft.EntityFrameworkCore=Warning
-      - Serilog__MinimumLevel__Override__System=Warning
       - Serilog__WriteTo__0__Name=Console
-      - Serilog__WriteTo__0__Args__formatter=Serilog.Formatting.Json.JsonFormatter, Serilog
       - Serilog__WriteTo__1__Name=File
       - Serilog__WriteTo__1__Args__path=/app/logs/FluxStore-.json
-      - Serilog__WriteTo__1__Args__rollingInterval=Day
-      - Serilog__WriteTo__1__Args__retainedFileCountLimit=7
-      - Serilog__WriteTo__1__Args__formatter=Serilog.Formatting.Json.JsonFormatter, Serilog
       - Serilog__WriteTo__2__Name=Seq
       - Serilog__WriteTo__2__Args__serverUrl=http://seqserver:5341
       - Serilog__Enrich__0=FromLogContext
-      - Serilog__Enrich__1=WithMachineName
-      - Serilog__Enrich__2=WithThreadId
-      - Serilog__Enrich__3=WithEnvironmentName
       - Serilog__Properties__Application=FluxStore
+
     ports:
       - "5089:5089"
-    depends_on:
-      - sqlserver
-      - seqserver
     networks:
       - backend-network
     volumes:
       - appdata:/app/EmailServices/EmailTemplates/
+      - appdata:/app/Common/Resources/
+    depends_on:
+      - sqlserver
+      - seqserver
+      - smtp4dev
 
   sqlserver:
     image: mcr.microsoft.com/mssql/server:2022-latest
@@ -516,11 +517,11 @@ services:
   seqserver:
     image: datalust/seq
     container_name: seqserver
-    ports:
-      - "5341:80"
     environment:
       - ACCEPT_EULA=Y
-      - SEQ_FIRSTRUN_ADMINPASSWORD=Admin#123
+      - SEQ_FIRSTRUN_ADMINPASSWORD=ABC#123
+    ports:
+      - "5341:80"
     networks:
       - backend-network
 
