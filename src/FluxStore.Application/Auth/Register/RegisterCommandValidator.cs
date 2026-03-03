@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using FluxStore.Application.Common.Errors;
+using FluxStore.Domain.Core.Errors;
 
 namespace FluxStore.Application.Auth.Register
 {
@@ -8,15 +9,19 @@ namespace FluxStore.Application.Auth.Register
         public RegisterCommandValidator()
         {
             RuleFor(x => x.EmailAddress)
-                .NotEmpty().WithErrorCode(ApplicationErrors.IdentityErrors.EmailIsRequired.Code)
-                .NotNull().WithErrorCode(ApplicationErrors.IdentityErrors.EmailIsRequired.Code)
-                .EmailAddress().WithErrorCode(ApplicationErrors.IdentityErrors.InvalidEmail.Code);
+                .NotEmpty().WithErrorCode(Errors.UserErrors.EmailIsRequired.Code)
+                .NotNull().WithErrorCode(Errors.UserErrors.EmailIsRequired.Code)
+                .EmailAddress().WithErrorCode(Errors.UserErrors.InvalidEmail.Code);
             RuleFor(x => x.Name)
-                .NotNull().WithErrorCode(ApplicationErrors.IdentityErrors.NameIsRequired.Code)
-                .NotEmpty().WithErrorCode(ApplicationErrors.IdentityErrors.NameIsRequired.Code)
-                .Must(X => X.Trim().Split(' ').Length == 2)
-                    .WithErrorCode(ApplicationErrors.IdentityErrors.InvalidNameFormat.Code)
-                    .When(X => !string.IsNullOrWhiteSpace(X.Name));
+                 .NotEmpty()
+                     .WithErrorCode(Errors.UserErrors.NameIsRequired.Code)
+
+                 .Must(name =>
+                 {
+                     if (string.IsNullOrWhiteSpace(name)) return false;
+                     return name.Trim().Split(' ').Length == 2;
+                 })
+                 .WithErrorCode(Errors.UserErrors.InvalidNameFormat.Code);
             RuleFor(x => x.Password)
                 .NotNull().WithErrorCode(ApplicationErrors.IdentityErrors.PasswordIsRequired.Code)
                 .NotEmpty().WithErrorCode(ApplicationErrors.IdentityErrors.PasswordIsRequired.Code);

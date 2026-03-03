@@ -35,7 +35,7 @@ namespace FluxStore.Domain.Users
 
             if (string.IsNullOrWhiteSpace(firstName))
             {
-                errors.Add(Errors.UserErrors.FirstNameIsRequired);
+                errors.Add(Errors.UserErrors.NameIsRequired);
             }
 
             if (string.IsNullOrWhiteSpace(lastName))
@@ -65,7 +65,7 @@ namespace FluxStore.Domain.Users
         {
             if (string.IsNullOrWhiteSpace(firstName))
             {
-                return Result.Failure(Errors.UserErrors.FirstNameIsRequired);
+                return Result.Failure(Errors.UserErrors.NameIsRequired);
             }
 
             if (firstName.Length > 100)
@@ -101,7 +101,7 @@ namespace FluxStore.Domain.Users
 
             if (string.IsNullOrWhiteSpace(firstName))
             {
-                errors.Add(Errors.UserErrors.FirstNameIsRequired);
+                errors.Add(Errors.UserErrors.NameIsRequired);
             }
             else if (firstName.Length > 100)
             {

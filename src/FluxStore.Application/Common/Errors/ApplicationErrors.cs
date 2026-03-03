@@ -37,8 +37,6 @@ public static class ApplicationErrors
             new("Identity_InvalidGoogleToken", "The Google authentication token is invalid or has expired.", ErrorType.IdentityError);
 
         // ----- Validation: Required Fields -----
-        public static Error EmailIsRequired =>
-            new("Identity_EmailIsRequired__EmailAddress", "Email address is required.", ErrorType.Validation);
 
         public static Error PasswordIsRequired =>
             new("Identity_PasswordIsRequired__Password", "Password is required.", ErrorType.Validation);
@@ -55,23 +53,6 @@ public static class ApplicationErrors
         public static Error ConfirmPasswordMismatch =>
             new("Identity_ConfirmPasswordMismatch__ConfirmNewPassword", "New password and confirm password do not match.", ErrorType.Validation);
 
-        public static Error FirstNameIsRequired =>
-            new("Identity_FirstNameIsRequired__FirstName", "First name is required.", ErrorType.Validation);
-
-        public static Error LastNameIsRequired =>
-            new("Identity_LastNameIsRequired__LastName", "Last name is required.", ErrorType.Validation);
-
-        public static Error FirstNameTooLong =>
-            new("Identity_FirstNameTooLong__FirstName", "First name must not exceed 100 characters.", ErrorType.Validation);
-
-        public static Error LastNameTooLong =>
-            new("Identity_LastNameTooLong__LastName", "Last name must not exceed 100 characters.", ErrorType.Validation);
-
-        public static Error NameIsRequired =>
-            new("Identity_NameIsRequired__Name", "Name is required.", ErrorType.Validation);
-
-        public static Error InvalidNameFormat =>
-            new("Identity_InvalidNameFormat__Name", "Name must consist of first name and last name separated by a space.", ErrorType.Validation);
 
         public static Error GoogleIdTokenIsRequired =>
             new("Identity_GoogleIdTokenIsRequired__IdToken", "Google ID token is required.", ErrorType.Validation);
@@ -102,11 +83,6 @@ public static class ApplicationErrors
             new("Identity_UsernameAlreadyExists", "This username is unavailable. Please choose another.", ErrorType.Conflict);
 
         // ----- Validation & Security Policy -----
-        public static Error InvalidEmail =>
-            new("Identity_InvalidEmail__EmailAddress", "The email format is invalid. Please enter a valid email address.", ErrorType.Validation);
-
-        public static Error InvalidUsername =>
-            new("Identity_InvalidUsername__Username", "The username contains invalid characters or does not meet the required length.", ErrorType.Validation);
 
         public static Error WeakPassword() =>
             new("Identity_WeakPassword__Password", "Password does not meet the minimum security requirements (complexity/length).", ErrorType.Validation);

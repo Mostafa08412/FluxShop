@@ -1,4 +1,5 @@
-﻿using FluxStore.Domain.Core.Primitives;
+﻿using FluxStore.Domain.Core.Errors;
+using FluxStore.Domain.Core.Primitives;
 using FluxStore.Domain.Core.Primitives.Result;
 using Microsoft.AspNetCore.Identity;
 using static FluxStore.Application.Common.Errors.ApplicationErrors;
@@ -22,10 +23,10 @@ namespace FluxStore.Infrastructure.Extensions
 
                 // ===== Invalid input =====
                 "InvalidEmail" =>
-                    IdentityErrors.InvalidEmail,
+                    Errors.UserErrors.InvalidEmail,
 
                 "InvalidUserName" =>
-                    IdentityErrors.InvalidUsername,
+                    Errors.UserErrors.InvalidUsername,
                 "PasswordMismatch" =>
                 IdentityErrors.InvalidPassword,
 

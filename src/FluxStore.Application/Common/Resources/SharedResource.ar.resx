@@ -180,13 +180,13 @@
   <data name="Identity_ConfirmPasswordMismatch__ConfirmNewPassword" xml:space="preserve">
     <value>كلمة المرور الجديدة وتأكيدها غير متطابقين</value>
   </data>
-  <data name="Identity_FirstNameIsRequired__FirstName" xml:space="preserve">
+  <data name="Identity_FirstNameIsRequired__Name" xml:space="preserve">
     <value>الاسم الأول مطلوب</value>
   </data>
   <data name="Identity_LastNameIsRequired__LastName" xml:space="preserve">
     <value>اسم العائلة مطلوب</value>
   </data>
-  <data name="Identity_FirstNameTooLong__FirstName" xml:space="preserve">
+  <data name="Identity_FirstNameTooLong__Name" xml:space="preserve">
     <value>يجب ألا يتجاوز الاسم الأول 100 حرف</value>
   </data>
   <data name="Identity_LastNameTooLong__LastName" xml:space="preserve">
