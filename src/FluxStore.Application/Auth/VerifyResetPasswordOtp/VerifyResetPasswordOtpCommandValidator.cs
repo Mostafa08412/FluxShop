@@ -1,5 +1,6 @@
 using FluentValidation;
 using FluxStore.Application.Common.Errors;
+using FluxStore.Domain.Core.Errors;
 
 namespace FluxStore.Application.Auth.VerifyResetPasswordOtp
 {
@@ -8,9 +9,9 @@ namespace FluxStore.Application.Auth.VerifyResetPasswordOtp
         public VerifyResetPasswordOtpCommandValidator()
         {
             RuleFor(x => x.EmailAddress)
-                .NotEmpty().WithErrorCode(ApplicationErrors.IdentityErrors.EmailIsRequired.Code)
-                .NotNull().WithErrorCode(ApplicationErrors.IdentityErrors.EmailIsRequired.Code)
-                .EmailAddress().WithErrorCode(ApplicationErrors.IdentityErrors.InvalidEmail.Code);
+                .NotEmpty().WithErrorCode(Errors.UserErrors.EmailIsRequired.Code)
+                .NotNull().WithErrorCode(Errors.UserErrors.EmailIsRequired.Code)
+                .EmailAddress().WithErrorCode(Errors.UserErrors.InvalidEmail.Code);
             RuleFor(x => x.Otp)
                 .NotEmpty().WithErrorCode(ApplicationErrors.IdentityErrors.OtpIsRequired.Code)
                 .NotNull().WithErrorCode(ApplicationErrors.IdentityErrors.OtpIsRequired.Code);

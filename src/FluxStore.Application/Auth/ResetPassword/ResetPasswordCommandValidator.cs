@@ -1,5 +1,6 @@
 using FluentValidation;
 using FluxStore.Application.Common.Errors;
+using FluxStore.Domain.Core.Errors;
 
 namespace FluxStore.Application.Auth.ResetPassword
 {
@@ -8,9 +9,9 @@ namespace FluxStore.Application.Auth.ResetPassword
         public ResetPasswordCommandValidator()
         {
             RuleFor(x => x.EmailAddress)
-                .NotEmpty().WithErrorCode(ApplicationErrors.IdentityErrors.EmailIsRequired.Code)
-                .NotNull().WithErrorCode(ApplicationErrors.IdentityErrors.EmailIsRequired.Code)
-                .EmailAddress().WithErrorCode(ApplicationErrors.IdentityErrors.InvalidEmail.Code);
+                .NotEmpty().WithErrorCode(Errors.UserErrors.EmailIsRequired.Code)
+                .NotNull().WithErrorCode(Errors.UserErrors.EmailIsRequired.Code)
+                .EmailAddress().WithErrorCode(Errors.UserErrors.InvalidEmail.Code);
             RuleFor(x => x.ResetPasswordToken)
                 .NotEmpty().WithErrorCode(ApplicationErrors.IdentityErrors.ResetPasswordTokenIsRequired.Code)
                 .NotNull().WithErrorCode(ApplicationErrors.IdentityErrors.ResetPasswordTokenIsRequired.Code);

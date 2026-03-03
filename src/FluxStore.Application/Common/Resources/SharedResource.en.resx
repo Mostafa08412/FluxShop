@@ -180,13 +180,13 @@
   <data name="Identity_ConfirmPasswordMismatch__ConfirmNewPassword" xml:space="preserve">
     <value>New password and confirm password do not match.</value>
   </data>
-  <data name="Identity_FirstNameIsRequired__FirstName" xml:space="preserve">
+  <data name="Identity_FirstNameIsRequired__Name" xml:space="preserve">
     <value>First name is required.</value>
   </data>
   <data name="Identity_LastNameIsRequired__LastName" xml:space="preserve">
     <value>Last name is required.</value>
   </data>
-  <data name="Identity_FirstNameTooLong__FirstName" xml:space="preserve">
+  <data name="Identity_FirstNameTooLong__Name" xml:space="preserve">
     <value>First name must not exceed 100 characters.</value>
   </data>
   <data name="Identity_LastNameTooLong__LastName" xml:space="preserve">

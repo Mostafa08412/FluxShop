@@ -803,6 +803,10 @@ namespace FluxStore.Infrastructure.Authentication
             {
                 return Result.Failure(ApplicationErrors.IdentityErrors.InvalidResetToken);
             }
+            if (!resetResult.Succeeded)
+            {
+                return resetResult.ToResult();
+            }
 
             return Result.Success();
         }
