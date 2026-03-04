@@ -1,45 +1,76 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
-	<PropertyGroup>
-		<PublishTrimmed>false</PublishTrimmed>
-		<TargetFramework>net10.0</TargetFramework>
-		<Nullable>enable</Nullable>
-		<ImplicitUsings>enable</ImplicitUsings>
-		<PreserveCompilationContext>true</PreserveCompilationContext>
-		<UserSecretsId>02c4ab25-febc-4cdd-b654-71cbeb5b02f5</UserSecretsId>
-	</PropertyGroup>
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-		<NoWarn>8618</NoWarn>
-	</PropertyGroup>
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-		<NoWarn>8618</NoWarn>
-	</PropertyGroup>
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+	  <ImplicitUsings>enable</ImplicitUsings>
+	  <UserSecretsId>b0c23edd-e970-43df-aaab-15fe7ad5afd6</UserSecretsId>
+	  <PreserveCompilationContext>true</PreserveCompilationContext>
+	
+  </PropertyGroup>
+
 	<ItemGroup>
-		<ProjectReference Include="..\FluxStore.Application\FluxStore.Application.csproj" />
-		<ProjectReference Include="..\FluxStore.Infrastructure\FluxStore.Infrastructure.csproj" />
+		<Content Update="Shared\EmailRazorTemplates\ForgetPasswordEmailTemplate.cshtml">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
 	</ItemGroup>
+
+
 	<ItemGroup>
-		<Folder Include="wwwroot\" />
-	</ItemGroup>
-	<ItemGroup>
-		<PackageReference Include="Asp.Versioning.Mvc" />
-		<PackageReference Include="Asp.Versioning.Mvc.ApiExplorer" />
-		<PackageReference Include="FluentEmail.Razor" />
-		<PackageReference Include="Serilog.Enrichers.Span" />
-		<PackageReference Include="Serilog.Sinks.Seq" />
-		<PackageReference Include="Swashbuckle.AspNetCore" />
-		<PackageReference Include="Swashbuckle.AspNetCore.Annotations" />
-		<PackageReference Include="Swashbuckle.AspNetCore.Filters" />
-		<PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" />
-		<PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" />
-		<!-- Serilog -->
-		<PackageReference Include="Serilog.AspNetCore" />
-		<PackageReference Include="Serilog.Sinks.File" />
-		<PackageReference Include="Serilog.Sinks.Console" />
-		<PackageReference Include="Serilog.Enrichers.Environment" />
-		<PackageReference Include="Serilog.Enrichers.Thread" />
-		<PackageReference Include="Serilog.Settings.Configuration" />
-		<!-- Health Checks -->
-		<PackageReference Include="AspNetCore.HealthChecks.SqlServer" />
-		<PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks.EntityFrameworkCore" />
-	</ItemGroup>
+		<PackageReference Include="Ardalis.Result" Version="10.1.0" />
+		<PackageReference Include="Asp.Versioning.Mvc" Version="8.1.1" />
+		<PackageReference Include="Asp.Versioning.Mvc.ApiExplorer" Version="8.1.1" />
+		<PackageReference Include="AutoMapper" Version="13.0.1" />
+		<PackageReference Include="Bogus" Version="35.6.5" />
+		<PackageReference Include="CsvHelper" Version="33.1.0" />
+		<PackageReference Include="FastEndpoints" Version="7.2.0" />
+		<PackageReference Include="FastEndpoints.Security" Version="7.2.0" />
+		<PackageReference Include="FluentAssertions" Version="8.8.0" />
+		<PackageReference Include="FluentEmail.Core" Version="3.0.2" />
+		<PackageReference Include="FluentEmail.MailKit" Version="3.0.2" />
+		<PackageReference Include="FluentEmail.Razor" Version="3.0.2" />
+		<PackageReference Include="FluentEmail.Smtp" Version="3.0.2" />
+		<PackageReference Include="FluentValidation" Version="12.1.1" />
+		<PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="12.1.1" />
+		<PackageReference Include="Google.Apis.Auth" Version="1.73.0" />
+		<PackageReference Include="Hangfire" Version="1.8.22" />
+		<PackageReference Include="Hangfire.Core" Version="1.8.22" />
+		<PackageReference Include="LinqKit.Microsoft.EntityFrameworkCore" Version="10.0.10" />
+		<PackageReference Include="MediatR" Version="12.4.1" />
+		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="10.0.3" />
+		<PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.4" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="10.0.3" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="10.0.3">
+		  <PrivateAssets>all</PrivateAssets>
+		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Microsoft.Extensions.Caching.Hybrid" Version="10.3.0" />
+		<PackageReference Include="Serilog.Enrichers.Span" Version="3.1.0" />
+		<PackageReference Include="Serilog.Sinks.Seq" Version="9.0.0" />
+		<PackageReference Include="Swashbuckle.AspNetCore" Version="9.0.6" />
+		<PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="10.0.1" />
+		<!-- Serilog for structured logging -->
+		<PackageReference Include="Serilog.AspNetCore" Version="8.0.3" />
+		<PackageReference Include="Serilog.Sinks.Console" Version="6.0.0" />
+		<PackageReference Include="Serilog.Enrichers.Environment" Version="3.0.1" />
+		<PackageReference Include="Serilog.Enrichers.Thread" Version="4.0.0" />
+		<PackageReference Include="Serilog.Settings.Configuration" Version="8.0.4" />
+
+
+
+		
+		</ItemGroup>
+
+
+
+
+		
+		
+		
+		
+
+
+
+
+
 </Project>

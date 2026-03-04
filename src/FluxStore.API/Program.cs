@@ -1,39 +1,41 @@
 using FluxStore.Api.Extensions;
 using Serilog;
-
-namespace FluxStore.Api.FluxStore.API
+namespace FluxStore.Api
 {
     public class Program
     {
-        public static void Main(string[] args)
+
+        public static async Task Main(string[] args)
         {
-            LogBootstrapper.CreateBootstrapLogger();
+
+            Log.Logger = new LoggerConfiguration().WriteTo.Console().CreateBootstrapLogger();
+
+            var builder = WebApplication.CreateBuilder(args);
+
+            builder.ConfigureSerilog();
 
             try
             {
-                Log.Information("Starting FluxStore API...");
+                Log.Logger.Information("Starting the FluxStore API application...");
+                Log.Logger.Information("<-------------------------------------------------------->");
 
-                var builder = WebApplication.CreateBuilder(args);
-
-                builder.ConfigureSerilog();
-
-                builder.Services.RegisterAllServices(builder.Configuration);
+                builder.Services.RegisterServices(builder.Configuration);
 
                 var app = builder.Build();
 
-                app.ConfigureMiddlewarePipeline(builder.Configuration);
-
-                Log.Information("FluxStore API started successfully");
+                await app.ConfiugreMiddlewares();
 
                 app.Run();
+
             }
             catch (Exception ex)
             {
-                Log.Fatal(ex, "Application terminated unexpectedly");
+                Log.Fatal(ex, "Application terminated unexpectedly.");
             }
             finally
             {
                 Log.CloseAndFlush();
+
             }
         }
     }

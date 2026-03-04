@@ -1,0 +1,3491 @@
+{
+  "info": {
+    "_postman_id": "9112db5e-1f50-46d9-944e-88ac39760904",
+    "name": "FluxStore Auth API - Complete",
+    "description": "Comprehensive Postman collection for FluxStore Authentication API (v1). Every endpoint includes all possible response examples derived from validators, command handlers, and the IdentityService.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "46484198",
+    "_collection_link": "https://go.postman.co/collection/46484198-9112db5e-1f50-46d9-944e-88ac39760904?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Register",
+      "item": [
+        {
+          "name": "Register - Success",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "pm.test('Response has isSuccess true', function () {",
+                  "    var json = pm.response.json();",
+                  "    pm.expect(json.isSuccess).to.eql(true);",
+                  "});",
+                  "var json = pm.response.json();",
+                  "if (json.isSuccess && json.data) {",
+                  "    pm.collectionVariables.set('accessToken', json.data.accessToken);",
+                  "    pm.collectionVariables.set('refreshToken', json.data.refreshToken);",
+                  "}"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept-Language",
+                "value": "ar-EG",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"John Doe\",\n  \"emailAddress\": \"john.doe@example.com\",\n  \"password\": \"StrongP@ssw0rd!\",\n  \"confirmPassword\" : \"StrongP@ssw0rd!\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v{{apiVersion}}/auth/register",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v{{apiVersion}}",
+                "auth",
+                "register"
+              ]
+            },
+            "description": "Registers a new user account and returns JWT + refresh tokens."
+          },
+          "response": [
+            {
+              "name": "200 - Registration Successful",
+              "originalRequest": {
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"data\": {\n        \"userId\": \"6933d253-8584-40cc-0777-08de76dc9e7a\",\n        \"email\": \"john.doe@example.com\",\n        \"userName\": \"john.doe@example.com\",\n        \"firstName\": \"John\",\n        \"lastName\": \"Doe\",\n        \"roles\": [\n            \"User\"\n        ],\n        \"accessToken\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjY5MzNkMjUzLTg1ODQtNDBjYy0wNzc3LTA4ZGU3NmRjOWU3YSIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL2VtYWlsYWRkcmVzcyI6ImpvaG4uZG9lQGV4YW1wbGUuY29tIiwiRmlyc3ROYW1lIjoiSm9obiIsIkxhc3ROYW1lIjoiRG9lIiwic3ViIjoiNjkzM2QyNTMtODU4NC00MGNjLTA3NzctMDhkZTc2ZGM5ZTdhIiwianRpIjoiZTQ4N2NlODEtN2U2MS00MmExLWIxYzktZWEzZTNiY2VhYmYzIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiVXNlciIsImV4cCI6MTc3MjMwMTUwNiwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo1MTE3IiwiYXVkIjoiaHR0cDovL2xvY2FsaG9zdDo1MTE3In0.Fx9FOjYjGI-bsocOPHanw_1sASsXH5KNvXGpYUZ_KYY\",\n        \"refreshToken\": \"F3on13NHpd0lWql9HJtSiz9IjkBvYk4HBskVS2n2Hsni7tBgzW6U+Vzs6a4DmKknaX9tKb6Y4mRjOhNk7B/ikg==\"\n    },\n    \"isSuccess\": true,\n    \"message\": \"\",\n    \"errorCode\": \"\",\n    \"statusCode\": 200,\n    \"validationErrors\": {},\n    \"meta\": {},\n    \"instance\": \"/api/v1/auth/register\",\n    \"traceId\": \"0HNJMRIEUNQ7N:00000001\"\n}"
+            },
+            {
+              "name": "400 - Validation Error (all fields empty)",
+              "originalRequest": {
+                "header": []
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"data\": null,\n    \"isSuccess\": false,\n    \"message\": \"One or more validation errors occurred.\",\n    \"errorCode\": \"VALIDATION_ERROR\",\n    \"statusCode\": 400,\n    \"validationErrors\": {\n        \"name\": \"Name is required.\",\n        \"emailAddress\": \"Email is required\",\n        \"password\": \"Password is required.\",\n        \"confirmPassword\": \"Confirm new password is required.\"\n    },\n    \"meta\": {},\n    \"instance\": \"/api/v1/auth/register\",\n    \"traceId\": \"0HNJMRIEUNQ7P:00000002\"\n}"
+            },
+            {
+              "name": "400 - Validation Error (invalid email format)",
+              "originalRequest": {
+                "header": []
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"data\": null,\n    \"isSuccess\": false,\n    \"message\": \"One or more validation errors occurred.\",\n    \"errorCode\": \"VALIDATION_ERROR\",\n    \"statusCode\": 400,\n    \"validationErrors\": {\n        \"emailAddress\": \"The email format is invalid. Please enter a valid email address.\"\n    },\n    \"meta\": {},\n    \"instance\": \"/api/v1/auth/register\",\n    \"traceId\": \"0HNJMRIEUNQ7P:00000003\"\n}"
+            },
+            {
+              "name": "400 - Validation Error (invalid name format)",
+              "originalRequest": {
+                "header": []
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"data\": null,\n    \"isSuccess\": false,\n    \"message\": \"One or more validation errors occurred.\",\n    \"errorCode\": \"VALIDATION_ERROR\",\n    \"statusCode\": 400,\n    \"validationErrors\": {\n        \"name\": \"Name must consist of first name and last name separated by a space.\"\n    },\n    \"meta\": {},\n    \"instance\": \"/api/v1/auth/register\",\n    \"traceId\": \"0HNJMRIEUNQ7R:00000001\"\n}"
+            },
+            {
+              "name": "400 - Validation Error (Weak Password)",
+              "originalRequest": {
+                "header": []
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"data\": null,\n    \"isSuccess\": false,\n    \"message\": \"One or more validation errors occurred.\",\n    \"errorCode\": \"VALIDATION_ERROR\",\n    \"statusCode\": 400,\n    \"validationErrors\": {\n        \"Password\": \"The password must contain at least one non-alphanumeric character.\"\n    },\n    \"meta\": {},\n    \"instance\": \"/api/v1/auth/register\",\n    \"traceId\": \"0HNJMRIEUNQ7R:00000007\"\n}"
+            },
+            {
+              "name": "409 - Email Already Exists",
+              "originalRequest": {
+                "header": []
+              },
+              "status": "Conflict",
+              "code": 409,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"data\": null,\n    \"isSuccess\": false,\n    \"message\": \"This email address is already registered. Please use a different email or sign in.\",\n    \"errorCode\": \"Identity_EmailAlreadyExists\",\n    \"statusCode\": 409,\n    \"validationErrors\": {},\n    \"meta\": {},\n    \"instance\": \"/api/v1/auth/register\",\n    \"traceId\": \"0HNJMRIEUNQ7T:00000007\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Register - Empty Fields",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept-Language",
+                "value": "ar-EG",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"\",\n  \"emailAddress\": \"\",\n  \"password\": \"\",\n  \"confirmPassword\" :\"\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v{{apiVersion}}/auth/register",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v{{apiVersion}}",
+                "auth",
+                "register"
+              ]
+            },
+            "description": "Triggers validation errors: empty name, empty email, empty password."
+          },
+          "response": []
+        },
+        {
+          "name": "Register - Invalid Email Format",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept-Language",
+                "value": "ar-EG",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"John Doe\",\n  \"emailAddress\": \"not-an-email\",\n  \"password\": \"StrongP@ssw0rd!\",\n  \"confirmPassword\" : \"StrongP@ssw0rd!\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v{{apiVersion}}/auth/register",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v{{apiVersion}}",
+                "auth",
+                "register"
+              ]
+            },
+            "description": "Triggers validation error: invalid email format (Identity_InvalidEmail__EmailAddress)."
+          },
+          "response": []
+        },
+        {
+          "name": "Register - Invalid Name (single word)",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept-Language",
+                "value": "ar-EG",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"JohnDoe\",\n  \"emailAddress\": \"john.doe@example.com\",\n  \"password\": \"StrongP@ssw0rd!\",\n  \"confirmPassword\" : \"StrongP@ssw0rd!\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v{{apiVersion}}/auth/register",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v{{apiVersion}}",
+                "auth",
+                "register"
+              ]
+            },
+            "description": "Triggers validation error: name must be exactly two words (Identity_InvalidNameFormat__Name)."
+          },
+          "response": []
+        },
+        {
+          "name": "Register - Invalid Name (three words)",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept-Language",
+                "value": "ar-EG",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"John Middle Doe\",\n  \"emailAddress\": \"john.doe@example.com\",\n  \"password\": \"StrongP@ssw0rd!\",\n  \"confirmPassword\" : \"StrongP@ssw0rd!\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v{{apiVersion}}/auth/register",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v{{apiVersion}}",
+                "auth",
+                "register"
+              ]
+            },
+            "description": "Triggers validation error: name must be exactly two words (Identity_InvalidNameFormat__Name)."
+          },
+          "response": []
+        },
+        {
+          "name": "Register - Weak Password",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept-Language",
+                "value": "ar-EG",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": " {\n   \"name\": \"John Doe\",\n  \"emailAddress\": \"john.doe1@example.com\",\n  \"password\": \"1231111111111\",\n  \"confirmPassword\" : \"1231111111111\"\n  }"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v{{apiVersion}}/auth/register",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v{{apiVersion}}",
+                "auth",
+                "register"
+              ]
+            },
+            "description": "Triggers Identity weak-password error (PasswordTooShort / PasswordRequiresDigit etc → Identity_WeakPassword__Password)."
+          },
+          "response": []
+        },
+        {
+          "name": "Register - Duplicate Email",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept-Language",
+                "value": "ar-EG",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"John Doe\",\n  \"emailAddress\": \"john.doe@example.com\",\n  \"password\": \"Admin@123\",\n  \"confirmPassword\" : \"Admin@123\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v{{apiVersion}}/auth/register",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v{{apiVersion}}",
+                "auth",
+                "register"
+              ]
+            },
+            "description": "Attempts registration with an email that is already taken (Identity_EmailAlreadyExists → 409)."
+          },
+          "response": []
+        }
+      ],
+      "description": "User registration endpoints. Calls CreateUserAndAuthenticateAsync then creates a domain User."
+    },
+    {
+      "name": "Login",
+      "item": [
+        {
+          "name": "Login - Success",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "var json = pm.response.json();",
+                  "if (json.isSuccess && json.data) {",
+                  "    pm.collectionVariables.set('accessToken', json.data.accessToken);",
+                  "    pm.collectionVariables.set('refreshToken', json.data.refreshToken);",
+                  "}"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept-Language",
+                "value": "ar-EG",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"emailAddress\": \"john.doe@example.com\",\n  \"password\": \"StrongP@ssw0rd!\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v{{apiVersion}}/auth/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v{{apiVersion}}",
+                "auth",
+                "login"
+              ]
+            },
+            "description": "Authenticates a user and returns JWT + refresh tokens. Auto-saves tokens to collection variables."
+          },
+          "response": [
+            {
+              "name": "200 - Login Successful",
+              "originalRequest": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept-Language",
+                    "value": "ar-EG",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"emailAddress\": \"john.doe@example.com\",\n  \"password\": \"StrongP@ssw0rd!\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/v{{apiVersion}}/auth/login",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v{{apiVersion}}",
+                    "auth",
+                    "login"
+                  ]
+                },
+                "description": "Authenticates a user and returns JWT + refresh tokens. Auto-saves tokens to collection variables."
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"isSuccess\": true,\n  \"message\": \"\",\n  \"errorCode\": \"\",\n  \"validationErrors\": {},\n  \"meta\": {},\n  \"instance\": \"/api/v1/auth/login\",\n  \"traceId\": \"0HN8A1B2C3D4E:00000001\",\n  \"data\": {\n    \"user\": {\n      \"id\": \"a1b2c3d4-e5f6-7890-abcd-ef1234567890\",\n      \"firstName\": \"John\",\n      \"lastName\": \"Doe\",\n      \"fullName\": \"John Doe\",\n      \"email\": \"john.doe@example.com\",\n      \"userName\": \"john.doe@example.com\",\n      \"roles\": [\"User\"]\n    },\n    \"accessToken\": {\n      \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...\"\n    },\n    \"refreshToken\": {\n      \"token\": \"dGhpcyBpcyBhIHJlZnJlc2ggdG9rZW4...\"\n    }\n  }\n}"
+            },
+            {
+              "name": "400 - Validation Error (empty fields)",
+              "originalRequest": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept-Language",
+                    "value": "ar-EG",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"emailAddress\": \"john.doe@example.com\",\n  \"password\": \"StrongP@ssw0rd!\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/v{{apiVersion}}/auth/login",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v{{apiVersion}}",
+                    "auth",
+                    "login"
+                  ]
+                },
+                "description": "Authenticates a user and returns JWT + refresh tokens. Auto-saves tokens to collection variables."
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"isSuccess\": false,\n  \"message\": \"One or more validation errors have occurred.\",\n  \"errorCode\": \"VALIDATION_ERROR\",\n  \"validationErrors\": {\n    \"emailAddress\": \"Email address is required.\",\n    \"password\": \"Password is required.\"\n  },\n  \"meta\": {},\n  \"instance\": \"/api/v1/auth/login\",\n  \"traceId\": \"0HN8A1B2C3D4E:00000002\"\n}"
+            },
+            {
+              "name": "401 - Invalid Credentials (wrong email or password)",
+              "originalRequest": {
+                "header": []
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"isSuccess\": false,\n  \"message\": \"Invalid email or password. Please check your credentials and try again.\",\n  \"errorCode\": \"Identity_InvalidCredentials\",\n  \"validationErrors\": {},\n  \"meta\": {},\n  \"instance\": \"/api/v1/auth/login\",\n  \"traceId\": \"0HN8A1B2C3D4E:00000003\"\n}"
+            },
+            {
+              "name": "403 - Account Locked Out",
+              "originalRequest": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept-Language",
+                    "value": "ar-EG",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"emailAddress\": \"john.doe@example.com\",\n  \"password\": \"StrongP@ssw0rd!\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/v{{apiVersion}}/auth/login",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v{{apiVersion}}",
+                    "auth",
+                    "login"
+                  ]
+                },
+                "description": "Authenticates a user and returns JWT + refresh tokens. Auto-saves tokens to collection variables."
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"isSuccess\": false,\n  \"message\": \"This account has been temporarily locked due to multiple failed login attempts.\",\n  \"errorCode\": \"Identity_UserLockedOut\",\n  \"validationErrors\": {},\n  \"meta\": {},\n  \"instance\": \"/api/v1/auth/login\",\n  \"traceId\": \"0HN8A1B2C3D4E:00000004\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Login - Empty Fields",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"emailAddress\": \"\",\n  \"password\": \"\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v{{apiVersion}}/auth/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v{{apiVersion}}",
+                "auth",
+                "login"
+              ]
+            },
+            "description": "Triggers validation errors for empty emailAddress and password."
+          },
+          "response": []
+        },
+        {
+          "name": "Login - Invalid Credentials",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept-Language",
+                "value": "ar-EG",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"emailAddress\": \"john.doe@example.com\",\n  \"password\": \"WrongPassword123\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v{{apiVersion}}/auth/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v{{apiVersion}}",
+                "auth",
+                "login"
+              ]
+            },
+            "description": "Attempts login with an incorrect password (Identity_InvalidCredentials → 401)."
+          },
+          "response": []
+        },
+        {
+          "name": "Login - Non-existent Email",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept-Language",
+                "value": "ar-EG",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"emailAddress\": \"unknown@example.com\",\n  \"password\": \"StrongP@ssw0rd!\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v{{apiVersion}}/auth/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v{{apiVersion}}",
+                "auth",
+                "login"
+              ]
+            },
+            "description": "Attempts login with an email that has no account. AuthenticateAsync returns Identity_InvalidCredentials (not UserNotFound) for security."
+          },
+          "response": []
+        }
+      ],
+      "description": "User login endpoints. Calls AuthenticateAsync which checks credentials and lockout status."
+    },
+    {
+      "name": "Refresh Token",
+      "item": [
+        {
+          "name": "Refresh Token - Success",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "var json = pm.response.json();",
+                  "if (json.isSuccess && json.data) {",
+                  "    pm.collectionVariables.set('accessToken', json.data.accessToken.token);",
+                  "    pm.collectionVariables.set('refreshToken', json.data.refreshToken.token);",
+                  "}"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept-Language",
+                "value": "ar-EG",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"refreshToken\": \"{{refreshToken}}\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v{{apiVersion}}/auth/refresh-token",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v{{apiVersion}}",
+                "auth",
+                "refresh-token"
+              ]
+            },
+            "description": "Refreshes the JWT token using a valid refresh token. Auto-saves new tokens."
+          },
+          "response": [
+            {
+              "name": "200 - Token Refreshed",
+              "originalRequest": {
+                "header": []
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"data\": {\n        \"userId\": \"e54ca29b-06f2-4be5-a5a2-08de76dea993\",\n        \"email\": \"john.doe@example.com\",\n        \"userName\": \"john.doe@example.com\",\n        \"firstName\": \"John\",\n        \"lastName\": \"Doe\",\n        \"roles\": [\n            \"User\"\n        ],\n        \"accessToken\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6ImU1NGNhMjliLTA2ZjItNGJlNS1hNWEyLTA4ZGU3NmRlYTk5MyIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL2VtYWlsYWRkcmVzcyI6ImpvaG4uZG9lQGV4YW1wbGUuY29tIiwiRmlyc3ROYW1lIjoiSm9obiIsIkxhc3ROYW1lIjoiRG9lIiwic3ViIjoiZTU0Y2EyOWItMDZmMi00YmU1LWE1YTItMDhkZTc2ZGVhOTkzIiwianRpIjoiOTEwZjU4ZjEtYzcwMi00OWQ4LWI3ZDktYzE2YzIwMzVhOTBkIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiVXNlciIsImV4cCI6MTc3MjMwMjM5NiwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo1MTE3IiwiYXVkIjoiaHR0cDovL2xvY2FsaG9zdDo1MTE3In0.5ASMS_5sKgzFFs9T4dPZ55LHOWcfsLhTGgUB2Wk6Kuw\",\n        \"refreshToken\": \"ZVB9AGAqizi5BqFK0QP2vqRurg8jNjGSy8L+4sfhmFmPLAHEasfd7MWj1p3ptEzWg9TY4OKxcvxQ9kCAkK0OxQ==\"\n    },\n    \"isSuccess\": true,\n    \"message\": \"\",\n    \"errorCode\": \"\",\n    \"statusCode\": 200,\n    \"validationErrors\": {},\n    \"meta\": {},\n    \"instance\": \"/api/v1/auth/refresh-token\",\n    \"traceId\": \"0HNJMRQKFBHQV:00000002\"\n}"
+            },
+            {
+              "name": "400 - Validation Error (empty token)",
+              "originalRequest": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept-Language",
+                    "value": "ar-EG",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"refreshToken\": \"{{refreshToken}}\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/v{{apiVersion}}/auth/refresh-token",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v{{apiVersion}}",
+                    "auth",
+                    "refresh-token"
+                  ]
+                },
+                "description": "Refreshes the JWT token using a valid refresh token. Auto-saves new tokens."
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"isSuccess\": false,\n  \"message\": \"One or more validation errors have occurred.\",\n  \"errorCode\": \"VALIDATION_ERROR\",\n  \"validationErrors\": {\n    \"refreshToken\": \"Refresh token is required.\"\n  },\n  \"meta\": {},\n  \"instance\": \"/api/v1/auth/refresh-token\",\n  \"traceId\": \"0HN8A1B2C3D4E:00000002\"\n}"
+            },
+            {
+              "name": "401 - Invalid Token",
+              "originalRequest": {
+                "header": []
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"data\": null,\n    \"isSuccess\": false,\n    \"message\": \"رمز المصادقة المقدم غير صالح أو مشوه.\",\n    \"errorCode\": \"Identity_InvalidToken\",\n    \"statusCode\": 401,\n    \"validationErrors\": {},\n    \"meta\": {},\n    \"instance\": \"/api/v1/auth/refresh-token\",\n    \"traceId\": \"0HNJMRU3F43TN:00000011\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Refresh Token - Empty Token",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept-Language",
+                "value": "ar-EG",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"refreshToken\": \"\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v{{apiVersion}}/auth/refresh-token",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v{{apiVersion}}",
+                "auth",
+                "refresh-token"
+              ]
+            },
+            "description": "Triggers validation error: empty refresh token (Identity_RefreshTokenIsRequired__RefreshToken)."
+          },
+          "response": []
+        },
+        {
+          "name": "Refresh Token - Invalid Token",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept-Language",
+                "value": "ar-EG",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"refreshToken\": \"invalid-or-expired-token\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v{{apiVersion}}/auth/refresh-token",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v{{apiVersion}}",
+                "auth",
+                "refresh-token"
+              ]
+            },
+            "description": "Attempts refresh with an invalid or revoked token (Identity_InvalidToken → 401)."
+          },
+          "response": []
+        }
+      ],
+      "description": "Token refresh endpoints. Calls AuthenticateByRefreshTokenAsync."
+    },
+    {
+      "name": "Change Password",
+      "item": [
+        {
+          "name": "Change Password - Success",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"currentPassword\": \"StrongP@ssw0rd!\",\n  \"newPassword\": \"NewStr0ngP@ss!\",\n  \"confirmNewPassword\": \"NewStr0ngP@ss!\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v{{apiVersion}}/auth/change-password",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v{{apiVersion}}",
+                "auth",
+                "change-password"
+              ]
+            },
+            "description": "Changes password for the authenticated user. Requires a valid Bearer token."
+          },
+          "response": [
+            {
+              "name": "200 - Password Changed",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"currentPassword\": \"StrongP@ssw0rd!\",\n  \"newPassword\": \"NewStr0ngP@ss!\",\n  \"confirmNewPassword\": \"NewStr0ngP@ss!\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/v{{apiVersion}}/auth/change-password",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v{{apiVersion}}",
+                    "auth",
+                    "change-password"
+                  ]
+                },
+                "description": "Changes password for the authenticated user. Requires a valid Bearer token."
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"isSuccess\": true,\n  \"message\": \"\",\n  \"errorCode\": \"\",\n  \"validationErrors\": {},\n  \"meta\": {},\n  \"instance\": \"/api/v1/auth/change-password\",\n  \"traceId\": \"0HN8A1B2C3D4E:00000001\"\n}"
+            },
+            {
+              "name": "400 - Validation Error (all fields empty)",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"currentPassword\": \"StrongP@ssw0rd!\",\n  \"newPassword\": \"NewStr0ngP@ss!\",\n  \"confirmNewPassword\": \"NewStr0ngP@ss!\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/v{{apiVersion}}/auth/change-password",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v{{apiVersion}}",
+                    "auth",
+                    "change-password"
+                  ]
+                },
+                "description": "Changes password for the authenticated user. Requires a valid Bearer token."
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"isSuccess\": false,\n  \"message\": \"One or more validation errors have occurred.\",\n  \"errorCode\": \"VALIDATION_ERROR\",\n  \"validationErrors\": {\n    \"currentPassword\": \"Current password is required.\",\n    \"newPassword\": \"New password is required.\",\n    \"confirmNewPassword\": \"Confirm new password is required.\"\n  },\n  \"meta\": {},\n  \"instance\": \"/api/v1/auth/change-password\",\n  \"traceId\": \"0HN8A1B2C3D4E:00000002\"\n}"
+            },
+            {
+              "name": "400 - Validation Error (confirm password mismatch)",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"currentPassword\": \"StrongP@ssw0rd!\",\n  \"newPassword\": \"NewStr0ngP@ss!\",\n  \"confirmNewPassword\": \"NewStr0ngP@ss!\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/v{{apiVersion}}/auth/change-password",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v{{apiVersion}}",
+                    "auth",
+                    "change-password"
+                  ]
+                },
+                "description": "Changes password for the authenticated user. Requires a valid Bearer token."
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"isSuccess\": false,\n  \"message\": \"One or more validation errors have occurred.\",\n  \"errorCode\": \"VALIDATION_ERROR\",\n  \"validationErrors\": {\n    \"confirmNewPassword\": \"New password and confirm password do not match.\"\n  },\n  \"meta\": {},\n  \"instance\": \"/api/v1/auth/change-password\",\n  \"traceId\": \"0HN8A1B2C3D4E:00000003\"\n}"
+            },
+            {
+              "name": "400 - Weak New Password (from Identity)",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"currentPassword\": \"StrongP@ssw0rd!\",\n  \"newPassword\": \"NewStr0ngP@ss!\",\n  \"confirmNewPassword\": \"NewStr0ngP@ss!\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/v{{apiVersion}}/auth/change-password",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v{{apiVersion}}",
+                    "auth",
+                    "change-password"
+                  ]
+                },
+                "description": "Changes password for the authenticated user. Requires a valid Bearer token."
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"isSuccess\": false,\n  \"message\": \"One or more validation errors have occurred.\",\n  \"errorCode\": \"VALIDATION_ERROR\",\n  \"validationErrors\": {\n    \"password\": \"Password does not meet the minimum security requirements (complexity/length).\"\n  },\n  \"meta\": {},\n  \"instance\": \"/api/v1/auth/change-password\",\n  \"traceId\": \"0HN8A1B2C3D4E:00000004\"\n}"
+            },
+            {
+              "name": "400 - Password Reuse Not Allowed (from Identity)",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"currentPassword\": \"StrongP@ssw0rd!\",\n  \"newPassword\": \"NewStr0ngP@ss!\",\n  \"confirmNewPassword\": \"NewStr0ngP@ss!\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/v{{apiVersion}}/auth/change-password",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v{{apiVersion}}",
+                    "auth",
+                    "change-password"
+                  ]
+                },
+                "description": "Changes password for the authenticated user. Requires a valid Bearer token."
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"isSuccess\": false,\n  \"message\": \"One or more validation errors have occurred.\",\n  \"errorCode\": \"VALIDATION_ERROR\",\n  \"validationErrors\": {\n    \"password\": \"For security reasons, you cannot reuse a previously used password.\"\n  },\n  \"meta\": {},\n  \"instance\": \"/api/v1/auth/change-password\",\n  \"traceId\": \"0HN8A1B2C3D4E:00000005\"\n}"
+            },
+            {
+              "name": "401 - Wrong Current Password (PasswordMismatch from Identity)",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"currentPassword\": \"StrongP@ssw0rd!\",\n  \"newPassword\": \"NewStr0ngP@ss!\",\n  \"confirmNewPassword\": \"NewStr0ngP@ss!\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/v{{apiVersion}}/auth/change-password",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v{{apiVersion}}",
+                    "auth",
+                    "change-password"
+                  ]
+                },
+                "description": "Changes password for the authenticated user. Requires a valid Bearer token."
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"isSuccess\": false,\n  \"message\": \"The password provided is incorrect. Please try again.\",\n  \"errorCode\": \"Identity_InvalidPassword\",\n  \"validationErrors\": {},\n  \"meta\": {},\n  \"instance\": \"/api/v1/auth/change-password\",\n  \"traceId\": \"0HN8A1B2C3D4E:00000006\"\n}"
+            },
+            {
+              "name": "401 - Not Authenticated (missing or invalid bearer token)",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"currentPassword\": \"StrongP@ssw0rd!\",\n  \"newPassword\": \"NewStr0ngP@ss!\",\n  \"confirmNewPassword\": \"NewStr0ngP@ss!\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/v{{apiVersion}}/auth/change-password",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v{{apiVersion}}",
+                    "auth",
+                    "change-password"
+                  ]
+                },
+                "description": "Changes password for the authenticated user. Requires a valid Bearer token."
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"isSuccess\": false,\n  \"message\": \"Authentication token is missing. Please provide a valid Authorization header.\",\n  \"errorCode\": \"Identity_MissingToken\",\n  \"validationErrors\": {},\n  \"meta\": {},\n  \"instance\": \"/api/v1/auth/change-password\",\n  \"traceId\": \"0HN8A1B2C3D4E:00000007\"\n}"
+            },
+            {
+              "name": "404 - User Not Found",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"currentPassword\": \"StrongP@ssw0rd!\",\n  \"newPassword\": \"NewStr0ngP@ss!\",\n  \"confirmNewPassword\": \"NewStr0ngP@ss!\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/v{{apiVersion}}/auth/change-password",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v{{apiVersion}}",
+                    "auth",
+                    "change-password"
+                  ]
+                },
+                "description": "Changes password for the authenticated user. Requires a valid Bearer token."
+              },
+              "status": "Not Found",
+              "code": 404,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"isSuccess\": false,\n  \"message\": \"The requested user profile does not exist.\",\n  \"errorCode\": \"Identity_UserNotFound\",\n  \"validationErrors\": {},\n  \"meta\": {},\n  \"instance\": \"/api/v1/auth/change-password\",\n  \"traceId\": \"0HN8A1B2C3D4E:00000008\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Change Password - Empty Fields",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"currentPassword\": \"\",\n  \"newPassword\": \"\",\n  \"confirmNewPassword\": \"\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v{{apiVersion}}/auth/change-password",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v{{apiVersion}}",
+                "auth",
+                "change-password"
+              ]
+            },
+            "description": "Triggers validation errors for all three empty password fields."
+          },
+          "response": []
+        },
+        {
+          "name": "Change Password - Confirm Mismatch",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"currentPassword\": \"StrongP@ssw0rd!\",\n  \"newPassword\": \"NewStr0ngP@ss!\",\n  \"confirmNewPassword\": \"DifferentP@ss!\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v{{apiVersion}}/auth/change-password",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v{{apiVersion}}",
+                "auth",
+                "change-password"
+              ]
+            },
+            "description": "Triggers validation error: confirm password does not match new password (Identity_ConfirmPasswordMismatch__ConfirmNewPassword)."
+          },
+          "response": []
+        },
+        {
+          "name": "Change Password - Wrong Current Password",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"currentPassword\": \"WrongOldPassword!\",\n  \"newPassword\": \"NewStr0ngP@ss!\",\n  \"confirmNewPassword\": \"NewStr0ngP@ss!\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v{{apiVersion}}/auth/change-password",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v{{apiVersion}}",
+                "auth",
+                "change-password"
+              ]
+            },
+            "description": "Attempts change with incorrect current password. ASP.NET Identity PasswordMismatch maps to Identity_InvalidPassword → 401."
+          },
+          "response": []
+        },
+        {
+          "name": "Change Password - Weak New Password",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"currentPassword\": \"StrongP@ssw0rd!\",\n  \"newPassword\": \"123\",\n  \"confirmNewPassword\": \"123\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v{{apiVersion}}/auth/change-password",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v{{apiVersion}}",
+                "auth",
+                "change-password"
+              ]
+            },
+            "description": "Triggers Identity weak-password error (Identity_WeakPassword__Password → 400)."
+          },
+          "response": []
+        },
+        {
+          "name": "Change Password - No Auth Token",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept-Language",
+                "value": "ar-EG",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"currentPassword\": \"StrongP@ssw0rd!\",\n  \"newPassword\": \"NewStr0ngP@ss!\",\n  \"confirmNewPassword\": \"NewStr0ngP@ss!\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v{{apiVersion}}/auth/change-password",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v{{apiVersion}}",
+                "auth",
+                "change-password"
+              ]
+            },
+            "description": "Attempts change password without a Bearer token. The [Authorize] attribute rejects the request → 401."
+          },
+          "response": []
+        }
+      ],
+      "description": "Change password endpoints. Requires authentication. Calls ChangePasswordAsync which delegates to ASP.NET Identity ChangePasswordAsync."
+    },
+    {
+      "name": "Logout",
+      "item": [
+        {
+          "name": "Logout - Success",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "if (pm.response.json().isSuccess) {",
+                  "    pm.collectionVariables.set('accessToken', '');",
+                  "    pm.collectionVariables.set('refreshToken', '');",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v{{apiVersion}}/auth/logout",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v{{apiVersion}}",
+                "auth",
+                "logout"
+              ]
+            },
+            "description": "Logs out the user by revoking the active refresh token. Clears saved tokens on success."
+          },
+          "response": [
+            {
+              "name": "200 - Logged Out",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/v{{apiVersion}}/auth/logout",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v{{apiVersion}}",
+                    "auth",
+                    "logout"
+                  ]
+                },
+                "description": "Logs out the user by revoking the active refresh token. Clears saved tokens on success."
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"isSuccess\": true,\n  \"message\": \"\",\n  \"errorCode\": \"\",\n  \"validationErrors\": {},\n  \"meta\": {},\n  \"instance\": \"/api/v1/auth/logout\",\n  \"traceId\": \"0HN8A1B2C3D4E:00000001\"\n}"
+            },
+            {
+              "name": "401 - Not Authenticated (missing token)",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/v{{apiVersion}}/auth/logout",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v{{apiVersion}}",
+                    "auth",
+                    "logout"
+                  ]
+                },
+                "description": "Logs out the user by revoking the active refresh token. Clears saved tokens on success."
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"isSuccess\": false,\n  \"message\": \"Authentication token is missing. Please provide a valid Authorization header.\",\n  \"errorCode\": \"Identity_MissingToken\",\n  \"validationErrors\": {},\n  \"meta\": {},\n  \"instance\": \"/api/v1/auth/logout\",\n  \"traceId\": \"0HN8A1B2C3D4E:00000002\"\n}"
+            },
+            {
+              "name": "401 - Expired Access Token",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/v{{apiVersion}}/auth/logout",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v{{apiVersion}}",
+                    "auth",
+                    "logout"
+                  ]
+                },
+                "description": "Logs out the user by revoking the active refresh token. Clears saved tokens on success."
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"isSuccess\": false,\n  \"message\": \"Your session has expired. Please log in again to continue.\",\n  \"errorCode\": \"Identity_ExpiredToken\",\n  \"validationErrors\": {},\n  \"meta\": {},\n  \"instance\": \"/api/v1/auth/logout\",\n  \"traceId\": \"0HN8A1B2C3D4E:00000003\"\n}"
+            },
+            {
+              "name": "404 - User Not Found (userId from token not in DB)",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/v{{apiVersion}}/auth/logout",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v{{apiVersion}}",
+                    "auth",
+                    "logout"
+                  ]
+                },
+                "description": "Logs out the user by revoking the active refresh token. Clears saved tokens on success."
+              },
+              "status": "Not Found",
+              "code": 404,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"isSuccess\": false,\n  \"message\": \"The identifier '00000000-0000-0000-0000-000000000000' does not match any existing user record.\",\n  \"errorCode\": \"Identity_UserNotFound__Id\",\n  \"validationErrors\": {},\n  \"meta\": {},\n  \"instance\": \"/api/v1/auth/logout\",\n  \"traceId\": \"0HN8A1B2C3D4E:00000004\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Logout - No Auth Token",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v{{apiVersion}}/auth/logout",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v{{apiVersion}}",
+                "auth",
+                "logout"
+              ]
+            },
+            "description": "Attempts logout without authentication. The [Authorize] attribute rejects the request → 401."
+          },
+          "response": []
+        },
+        {
+          "name": "Logout - Expired Token",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.expired.token",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v{{apiVersion}}/auth/logout",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v{{apiVersion}}",
+                "auth",
+                "logout"
+              ]
+            },
+            "description": "Attempts logout with an expired access token → 401."
+          },
+          "response": []
+        }
+      ],
+      "description": "Logout endpoints. Requires authentication. Calls RevokeActiveRefreshTokenAsync."
+    },
+    {
+      "name": "Forget Password",
+      "item": [
+        {
+          "name": "Forget Password - Success",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"emailAddress\": \"john.doe@example.com\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v{{apiVersion}}/auth/forget-password",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v{{apiVersion}}",
+                "auth",
+                "forget-password"
+              ]
+            },
+            "description": "Sends a password reset OTP to the user's email."
+          },
+          "response": [
+            {
+              "name": "200 - OTP Sent",
+              "originalRequest": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"emailAddress\": \"john.doe@example.com\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/v{{apiVersion}}/auth/forget-password",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v{{apiVersion}}",
+                    "auth",
+                    "forget-password"
+                  ]
+                },
+                "description": "Sends a password reset OTP to the user's email."
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"isSuccess\": true,\n  \"message\": \"\",\n  \"errorCode\": \"\",\n  \"validationErrors\": {},\n  \"meta\": {},\n  \"instance\": \"/api/v1/auth/forget-password\",\n  \"traceId\": \"0HN8A1B2C3D4E:00000001\"\n}"
+            },
+            {
+              "name": "400 - Validation Error (empty email)",
+              "originalRequest": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"emailAddress\": \"john.doe@example.com\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/v{{apiVersion}}/auth/forget-password",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v{{apiVersion}}",
+                    "auth",
+                    "forget-password"
+                  ]
+                },
+                "description": "Sends a password reset OTP to the user's email."
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"isSuccess\": false,\n  \"message\": \"One or more validation errors have occurred.\",\n  \"errorCode\": \"VALIDATION_ERROR\",\n  \"validationErrors\": {\n    \"emailAddress\": \"Email address is required.\"\n  },\n  \"meta\": {},\n  \"instance\": \"/api/v1/auth/forget-password\",\n  \"traceId\": \"0HN8A1B2C3D4E:00000002\"\n}"
+            },
+            {
+              "name": "400 - Validation Error (invalid email format)",
+              "originalRequest": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"emailAddress\": \"john.doe@example.com\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/v{{apiVersion}}/auth/forget-password",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v{{apiVersion}}",
+                    "auth",
+                    "forget-password"
+                  ]
+                },
+                "description": "Sends a password reset OTP to the user's email."
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"isSuccess\": false,\n  \"message\": \"One or more validation errors have occurred.\",\n  \"errorCode\": \"VALIDATION_ERROR\",\n  \"validationErrors\": {\n    \"emailAddress\": \"The email format is invalid. Please enter a valid email address.\"\n  },\n  \"meta\": {},\n  \"instance\": \"/api/v1/auth/forget-password\",\n  \"traceId\": \"0HN8A1B2C3D4E:00000003\"\n}"
+            },
+            {
+              "name": "400 - OTP Cooldown (request within 30s)",
+              "originalRequest": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"emailAddress\": \"john.doe@example.com\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/v{{apiVersion}}/auth/forget-password",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v{{apiVersion}}",
+                    "auth",
+                    "forget-password"
+                  ]
+                },
+                "description": "Sends a password reset OTP to the user's email."
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"isSuccess\": false,\n  \"message\": \"One or more validation errors have occurred.\",\n  \"errorCode\": \"VALIDATION_ERROR\",\n  \"validationErrors\": {\n    \"otp\": \"Please wait 30 seconds before requesting another OTP.\"\n  },\n  \"meta\": {},\n  \"instance\": \"/api/v1/auth/forget-password\",\n  \"traceId\": \"0HN8A1B2C3D4E:00000004\"\n}"
+            },
+            {
+              "name": "403 - Account Locked",
+              "originalRequest": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"emailAddress\": \"john.doe@example.com\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/v{{apiVersion}}/auth/forget-password",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v{{apiVersion}}",
+                    "auth",
+                    "forget-password"
+                  ]
+                },
+                "description": "Sends a password reset OTP to the user's email."
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"isSuccess\": false,\n  \"message\": \"This account has been temporarily locked due to multiple failed login attempts.\",\n  \"errorCode\": \"Identity_UserLockedOut\",\n  \"validationErrors\": {},\n  \"meta\": {},\n  \"instance\": \"/api/v1/auth/forget-password\",\n  \"traceId\": \"0HN8A1B2C3D4E:00000005\"\n}"
+            },
+            {
+              "name": "404 - User Not Found",
+              "originalRequest": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"emailAddress\": \"john.doe@example.com\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/v{{apiVersion}}/auth/forget-password",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v{{apiVersion}}",
+                    "auth",
+                    "forget-password"
+                  ]
+                },
+                "description": "Sends a password reset OTP to the user's email."
+              },
+              "status": "Not Found",
+              "code": 404,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"isSuccess\": false,\n  \"message\": \"The requested user profile does not exist.\",\n  \"errorCode\": \"Identity_UserNotFound\",\n  \"validationErrors\": {},\n  \"meta\": {},\n  \"instance\": \"/api/v1/auth/forget-password\",\n  \"traceId\": \"0HN8A1B2C3D4E:00000006\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Forget Password - Empty Email",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"emailAddress\": \"\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v{{apiVersion}}/auth/forget-password",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v{{apiVersion}}",
+                "auth",
+                "forget-password"
+              ]
+            },
+            "description": "Triggers validation error: empty email."
+          },
+          "response": []
+        },
+        {
+          "name": "Forget Password - Invalid Email Format",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"emailAddress\": \"not-an-email\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v{{apiVersion}}/auth/forget-password",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v{{apiVersion}}",
+                "auth",
+                "forget-password"
+              ]
+            },
+            "description": "Triggers validation error: invalid email format (Identity_InvalidEmail__EmailAddress)."
+          },
+          "response": []
+        },
+        {
+          "name": "Forget Password - Non-existent Email",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"emailAddress\": \"nonexistent@example.com\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v{{apiVersion}}/auth/forget-password",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v{{apiVersion}}",
+                "auth",
+                "forget-password"
+              ]
+            },
+            "description": "Attempts with an unregistered email. GenerateResetPasswordOTP returns Identity_UserNotFound → 404."
+          },
+          "response": []
+        },
+        {
+          "name": "Forget Password - OTP Cooldown",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"emailAddress\": \"john.doe@example.com\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v{{apiVersion}}/auth/forget-password",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v{{apiVersion}}",
+                "auth",
+                "forget-password"
+              ]
+            },
+            "description": "Send this request twice within 30 seconds. The second call triggers Identity_OtpCooldown__Otp → 400."
+          },
+          "response": []
+        },
+        {
+          "name": "Forget Password - Locked Account",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"emailAddress\": \"locked.user@example.com\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v{{apiVersion}}/auth/forget-password",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v{{apiVersion}}",
+                "auth",
+                "forget-password"
+              ]
+            },
+            "description": "Attempts forget password for a locked-out account (Identity_UserLockedOut → 403)."
+          },
+          "response": []
+        }
+      ],
+      "description": "Forget password flow. Calls GenerateResetPasswordOTP which checks user existence, lockout, and OTP cooldown, then sends an email."
+    },
+    {
+      "name": "Verify Reset Password OTP",
+      "item": [
+        {
+          "name": "Verify OTP - Success",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"emailAddress\": \"john.doe@example.com\",\n  \"otp\": \"008803\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v{{apiVersion}}/auth/verify-reset-password-otp",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v{{apiVersion}}",
+                "auth",
+                "verify-reset-password-otp"
+              ]
+            },
+            "description": "Verifies the OTP and returns a reset password token."
+          },
+          "response": [
+            {
+              "name": "200 - OTP Verified",
+              "originalRequest": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"emailAddress\": \"john.doe@example.com\",\n  \"otp\": \"008803\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/v{{apiVersion}}/auth/verify-reset-password-otp",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v{{apiVersion}}",
+                    "auth",
+                    "verify-reset-password-otp"
+                  ]
+                },
+                "description": "Verifies the OTP and returns a reset password token."
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"isSuccess\": true,\n  \"message\": \"\",\n  \"errorCode\": \"\",\n  \"validationErrors\": {},\n  \"meta\": {},\n  \"instance\": \"/api/v1/auth/verify-reset-password-otp\",\n  \"traceId\": \"0HN8A1B2C3D4E:00000001\",\n  \"data\": {\n    \"resetPasswordToken\": \"CfDJ8NrFh3x5z9K2mW7vQ1pL...\"\n  }\n}"
+            },
+            {
+              "name": "400 - Validation Error (empty fields)",
+              "originalRequest": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"emailAddress\": \"john.doe@example.com\",\n  \"otp\": \"008803\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/v{{apiVersion}}/auth/verify-reset-password-otp",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v{{apiVersion}}",
+                    "auth",
+                    "verify-reset-password-otp"
+                  ]
+                },
+                "description": "Verifies the OTP and returns a reset password token."
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"isSuccess\": false,\n  \"message\": \"One or more validation errors have occurred.\",\n  \"errorCode\": \"VALIDATION_ERROR\",\n  \"validationErrors\": {\n    \"emailAddress\": \"Email address is required.\",\n    \"otp\": \"OTP code is required.\"\n  },\n  \"meta\": {},\n  \"instance\": \"/api/v1/auth/verify-reset-password-otp\",\n  \"traceId\": \"0HN8A1B2C3D4E:00000002\"\n}"
+            },
+            {
+              "name": "400 - Validation Error (invalid email format)",
+              "originalRequest": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"emailAddress\": \"john.doe@example.com\",\n  \"otp\": \"008803\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/v{{apiVersion}}/auth/verify-reset-password-otp",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v{{apiVersion}}",
+                    "auth",
+                    "verify-reset-password-otp"
+                  ]
+                },
+                "description": "Verifies the OTP and returns a reset password token."
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"isSuccess\": false,\n  \"message\": \"One or more validation errors have occurred.\",\n  \"errorCode\": \"VALIDATION_ERROR\",\n  \"validationErrors\": {\n    \"emailAddress\": \"The email format is invalid. Please enter a valid email address.\"\n  },\n  \"meta\": {},\n  \"instance\": \"/api/v1/auth/verify-reset-password-otp\",\n  \"traceId\": \"0HN8A1B2C3D4E:00000003\"\n}"
+            },
+            {
+              "name": "400 - Invalid OTP",
+              "originalRequest": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"emailAddress\": \"john.doe@example.com\",\n  \"otp\": \"008803\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/v{{apiVersion}}/auth/verify-reset-password-otp",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v{{apiVersion}}",
+                    "auth",
+                    "verify-reset-password-otp"
+                  ]
+                },
+                "description": "Verifies the OTP and returns a reset password token."
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"isSuccess\": false,\n  \"message\": \"One or more validation errors have occurred.\",\n  \"errorCode\": \"VALIDATION_ERROR\",\n  \"validationErrors\": {\n    \"otp\": \"The OTP code entered is invalid or has expired.\"\n  },\n  \"meta\": {},\n  \"instance\": \"/api/v1/auth/verify-reset-password-otp\",\n  \"traceId\": \"0HN8A1B2C3D4E:00000004\"\n}"
+            },
+            {
+              "name": "403 - Account Locked",
+              "originalRequest": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"emailAddress\": \"john.doe@example.com\",\n  \"otp\": \"008803\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/v{{apiVersion}}/auth/verify-reset-password-otp",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v{{apiVersion}}",
+                    "auth",
+                    "verify-reset-password-otp"
+                  ]
+                },
+                "description": "Verifies the OTP and returns a reset password token."
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"isSuccess\": false,\n  \"message\": \"This account has been temporarily locked due to multiple failed login attempts.\",\n  \"errorCode\": \"Identity_UserLockedOut\",\n  \"validationErrors\": {},\n  \"meta\": {},\n  \"instance\": \"/api/v1/auth/verify-reset-password-otp\",\n  \"traceId\": \"0HN8A1B2C3D4E:00000005\"\n}"
+            },
+            {
+              "name": "404 - User Not Found",
+              "originalRequest": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"emailAddress\": \"john.doe@example.com\",\n  \"otp\": \"008803\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/v{{apiVersion}}/auth/verify-reset-password-otp",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v{{apiVersion}}",
+                    "auth",
+                    "verify-reset-password-otp"
+                  ]
+                },
+                "description": "Verifies the OTP and returns a reset password token."
+              },
+              "status": "Not Found",
+              "code": 404,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"isSuccess\": false,\n  \"message\": \"No account found associated with the email address.\",\n  \"errorCode\": \"Identity_UserNotFound__Email\",\n  \"validationErrors\": {},\n  \"meta\": {},\n  \"instance\": \"/api/v1/auth/verify-reset-password-otp\",\n  \"traceId\": \"0HN8A1B2C3D4E:00000006\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Verify OTP - Empty Fields",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"emailAddress\": \"\",\n  \"otp\": \"\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v{{apiVersion}}/auth/verify-reset-password-otp",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v{{apiVersion}}",
+                "auth",
+                "verify-reset-password-otp"
+              ]
+            },
+            "description": "Triggers validation errors: empty email and OTP."
+          },
+          "response": []
+        },
+        {
+          "name": "Verify OTP - Invalid Email Format",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"emailAddress\": \"not-an-email\",\n  \"otp\": \"123456\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v{{apiVersion}}/auth/verify-reset-password-otp",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v{{apiVersion}}",
+                "auth",
+                "verify-reset-password-otp"
+              ]
+            },
+            "description": "Triggers validation error: invalid email format."
+          },
+          "response": []
+        },
+        {
+          "name": "Verify OTP - Invalid Code",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"emailAddress\": \"john.doe@example.com\",\n  \"otp\": \"000000\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v{{apiVersion}}/auth/verify-reset-password-otp",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v{{apiVersion}}",
+                "auth",
+                "verify-reset-password-otp"
+              ]
+            },
+            "description": "Attempts OTP verification with a wrong code. VerifyResetPasswordOTP calls AccessFailedAsync and returns Identity_InvalidOtp__Otp → 400."
+          },
+          "response": []
+        },
+        {
+          "name": "Verify OTP - Non-existent Email",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"emailAddress\": \"nonexistent@example.com\",\n  \"otp\": \"123456\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v{{apiVersion}}/auth/verify-reset-password-otp",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v{{apiVersion}}",
+                "auth",
+                "verify-reset-password-otp"
+              ]
+            },
+            "description": "Attempts with unregistered email (Identity_UserNotFound__Email → 404)."
+          },
+          "response": []
+        },
+        {
+          "name": "Verify OTP - Locked Account",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"emailAddress\": \"locked.user@example.com\",\n  \"otp\": \"123456\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v{{apiVersion}}/auth/verify-reset-password-otp",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v{{apiVersion}}",
+                "auth",
+                "verify-reset-password-otp"
+              ]
+            },
+            "description": "Attempts OTP verification for a locked account (Identity_UserLockedOut → 403)."
+          },
+          "response": []
+        }
+      ],
+      "description": "OTP verification step. Calls VerifyResetPasswordOTP which checks user, lockout, and OTP validity."
+    },
+    {
+      "name": "Reset Password",
+      "item": [
+        {
+          "name": "Reset Password - Success",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"emailAddress\": \"john.doe2@example.com\",\n  \"resetPasswordToken\": \"CfDJ8KrIJX4+RJRArddXhkU8y1104+LYUmqnv+mQFy7rops0PgkCXtALR2p9oqGOwb42n0bu/nS9rEII6UU1/tP44Axpu3Rd+vUbJUN5A/QborNeZatbnI2MKL/U3T5Ew7gy02tlRByvVWHXJw4JqoihTac6SAcMZVwQtH7jaxIRwo06FsbvmfPX9j3pnqdfmcm9jpuE+5i0EobyGp1f/1WyqD2rLnHuFAnUq632rUabdMRJ\",\n  \"newPassword\": \"MyNewStr0ngP@ss!\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v{{apiVersion}}/auth/reset-password",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v{{apiVersion}}",
+                "auth",
+                "reset-password"
+              ]
+            },
+            "description": "Resets the user's password using the token obtained from OTP verification."
+          },
+          "response": [
+            {
+              "name": "200 - Password Reset Successful",
+              "originalRequest": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"emailAddress\": \"john.doe2@example.com\",\n  \"resetPasswordToken\": \"CfDJ8KrIJX4+RJRArddXhkU8y1104+LYUmqnv+mQFy7rops0PgkCXtALR2p9oqGOwb42n0bu/nS9rEII6UU1/tP44Axpu3Rd+vUbJUN5A/QborNeZatbnI2MKL/U3T5Ew7gy02tlRByvVWHXJw4JqoihTac6SAcMZVwQtH7jaxIRwo06FsbvmfPX9j3pnqdfmcm9jpuE+5i0EobyGp1f/1WyqD2rLnHuFAnUq632rUabdMRJ\",\n  \"newPassword\": \"MyNewStr0ngP@ss!\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/v{{apiVersion}}/auth/reset-password",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v{{apiVersion}}",
+                    "auth",
+                    "reset-password"
+                  ]
+                },
+                "description": "Resets the user's password using the token obtained from OTP verification."
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"isSuccess\": true,\n  \"message\": \"\",\n  \"errorCode\": \"\",\n  \"validationErrors\": {},\n  \"meta\": {},\n  \"instance\": \"/api/v1/auth/reset-password\",\n  \"traceId\": \"0HN8A1B2C3D4E:00000001\"\n}"
+            },
+            {
+              "name": "400 - Validation Error (all fields empty)",
+              "originalRequest": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"emailAddress\": \"john.doe2@example.com\",\n  \"resetPasswordToken\": \"CfDJ8KrIJX4+RJRArddXhkU8y1104+LYUmqnv+mQFy7rops0PgkCXtALR2p9oqGOwb42n0bu/nS9rEII6UU1/tP44Axpu3Rd+vUbJUN5A/QborNeZatbnI2MKL/U3T5Ew7gy02tlRByvVWHXJw4JqoihTac6SAcMZVwQtH7jaxIRwo06FsbvmfPX9j3pnqdfmcm9jpuE+5i0EobyGp1f/1WyqD2rLnHuFAnUq632rUabdMRJ\",\n  \"newPassword\": \"MyNewStr0ngP@ss!\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/v{{apiVersion}}/auth/reset-password",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v{{apiVersion}}",
+                    "auth",
+                    "reset-password"
+                  ]
+                },
+                "description": "Resets the user's password using the token obtained from OTP verification."
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"isSuccess\": false,\n  \"message\": \"One or more validation errors have occurred.\",\n  \"errorCode\": \"VALIDATION_ERROR\",\n  \"validationErrors\": {\n    \"emailAddress\": \"Email address is required.\",\n    \"resetPasswordToken\": \"Reset password token is required.\",\n    \"newPassword\": \"New password is required.\"\n  },\n  \"meta\": {},\n  \"instance\": \"/api/v1/auth/reset-password\",\n  \"traceId\": \"0HN8A1B2C3D4E:00000002\"\n}"
+            },
+            {
+              "name": "400 - Validation Error (invalid email format)",
+              "originalRequest": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"emailAddress\": \"john.doe2@example.com\",\n  \"resetPasswordToken\": \"CfDJ8KrIJX4+RJRArddXhkU8y1104+LYUmqnv+mQFy7rops0PgkCXtALR2p9oqGOwb42n0bu/nS9rEII6UU1/tP44Axpu3Rd+vUbJUN5A/QborNeZatbnI2MKL/U3T5Ew7gy02tlRByvVWHXJw4JqoihTac6SAcMZVwQtH7jaxIRwo06FsbvmfPX9j3pnqdfmcm9jpuE+5i0EobyGp1f/1WyqD2rLnHuFAnUq632rUabdMRJ\",\n  \"newPassword\": \"MyNewStr0ngP@ss!\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/v{{apiVersion}}/auth/reset-password",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v{{apiVersion}}",
+                    "auth",
+                    "reset-password"
+                  ]
+                },
+                "description": "Resets the user's password using the token obtained from OTP verification."
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"isSuccess\": false,\n  \"message\": \"One or more validation errors have occurred.\",\n  \"errorCode\": \"VALIDATION_ERROR\",\n  \"validationErrors\": {\n    \"emailAddress\": \"The email format is invalid. Please enter a valid email address.\"\n  },\n  \"meta\": {},\n  \"instance\": \"/api/v1/auth/reset-password\",\n  \"traceId\": \"0HN8A1B2C3D4E:00000003\"\n}"
+            },
+            {
+              "name": "400 - Invalid/Expired Reset Token",
+              "originalRequest": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"emailAddress\": \"john.doe2@example.com\",\n  \"resetPasswordToken\": \"CfDJ8KrIJX4+RJRArddXhkU8y1104+LYUmqnv+mQFy7rops0PgkCXtALR2p9oqGOwb42n0bu/nS9rEII6UU1/tP44Axpu3Rd+vUbJUN5A/QborNeZatbnI2MKL/U3T5Ew7gy02tlRByvVWHXJw4JqoihTac6SAcMZVwQtH7jaxIRwo06FsbvmfPX9j3pnqdfmcm9jpuE+5i0EobyGp1f/1WyqD2rLnHuFAnUq632rUabdMRJ\",\n  \"newPassword\": \"MyNewStr0ngP@ss!\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/v{{apiVersion}}/auth/reset-password",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v{{apiVersion}}",
+                    "auth",
+                    "reset-password"
+                  ]
+                },
+                "description": "Resets the user's password using the token obtained from OTP verification."
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"isSuccess\": false,\n  \"message\": \"One or more validation errors have occurred.\",\n  \"errorCode\": \"VALIDATION_ERROR\",\n  \"validationErrors\": {\n    \"resetPasswordToken\": \"The password reset token is invalid or has expired.\"\n  },\n  \"meta\": {},\n  \"instance\": \"/api/v1/auth/reset-password\",\n  \"traceId\": \"0HN8A1B2C3D4E:00000004\"\n}"
+            },
+            {
+              "name": "404 - User Not Found",
+              "originalRequest": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"emailAddress\": \"john.doe2@example.com\",\n  \"resetPasswordToken\": \"CfDJ8KrIJX4+RJRArddXhkU8y1104+LYUmqnv+mQFy7rops0PgkCXtALR2p9oqGOwb42n0bu/nS9rEII6UU1/tP44Axpu3Rd+vUbJUN5A/QborNeZatbnI2MKL/U3T5Ew7gy02tlRByvVWHXJw4JqoihTac6SAcMZVwQtH7jaxIRwo06FsbvmfPX9j3pnqdfmcm9jpuE+5i0EobyGp1f/1WyqD2rLnHuFAnUq632rUabdMRJ\",\n  \"newPassword\": \"MyNewStr0ngP@ss!\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/v{{apiVersion}}/auth/reset-password",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v{{apiVersion}}",
+                    "auth",
+                    "reset-password"
+                  ]
+                },
+                "description": "Resets the user's password using the token obtained from OTP verification."
+              },
+              "status": "Not Found",
+              "code": 404,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"isSuccess\": false,\n  \"message\": \"No account found associated with the email address.\",\n  \"errorCode\": \"Identity_UserNotFound__Email\",\n  \"validationErrors\": {},\n  \"meta\": {},\n  \"instance\": \"/api/v1/auth/reset-password\",\n  \"traceId\": \"0HN8A1B2C3D4E:00000005\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Reset Password - Empty Fields",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"emailAddress\": \"\",\n  \"resetPasswordToken\": \"\",\n  \"newPassword\": \"\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v{{apiVersion}}/auth/reset-password",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v{{apiVersion}}",
+                "auth",
+                "reset-password"
+              ]
+            },
+            "description": "Triggers validation errors for all three empty fields."
+          },
+          "response": []
+        },
+        {
+          "name": "Reset Password - Invalid Email Format",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"emailAddress\": \"not-an-email\",\n  \"resetPasswordToken\": \"CfDJ8NrFh3x5z9K2mW7vQ1pL...\",\n  \"newPassword\": \"MyNewStr0ngP@ss!\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v{{apiVersion}}/auth/reset-password",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v{{apiVersion}}",
+                "auth",
+                "reset-password"
+              ]
+            },
+            "description": "Triggers validation error: invalid email format."
+          },
+          "response": []
+        },
+        {
+          "name": "Reset Password - Invalid Token",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"emailAddress\": \"john.doe@example.com\",\n  \"resetPasswordToken\": \"expired-or-invalid-token\",\n  \"newPassword\": \"MyNewStr0ngP@ss!\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v{{apiVersion}}/auth/reset-password",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v{{apiVersion}}",
+                "auth",
+                "reset-password"
+              ]
+            },
+            "description": "Attempts reset with an invalid or expired reset token (Identity_InvalidResetToken__ResetPasswordToken → 400)."
+          },
+          "response": []
+        },
+        {
+          "name": "Reset Password - Non-existent Email",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"emailAddress\": \"nonexistent@example.com\",\n  \"resetPasswordToken\": \"CfDJ8NrFh3x5z9K2mW7vQ1pL...\",\n  \"newPassword\": \"MyNewStr0ngP@ss!\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v{{apiVersion}}/auth/reset-password",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v{{apiVersion}}",
+                "auth",
+                "reset-password"
+              ]
+            },
+            "description": "Attempts reset for an unregistered email (Identity_UserNotFound__Email → 404)."
+          },
+          "response": []
+        }
+      ],
+      "description": "Final step of password reset flow. Calls ResetPasswordAsync which validates user and token."
+    },
+    {
+      "name": "Google Login",
+      "item": [
+        {
+          "name": "Google Login - Success (existing user)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "var json = pm.response.json();",
+                  "if (json.isSuccess && json.data) {",
+                  "    pm.collectionVariables.set('accessToken', json.data.accessToken.token);",
+                  "    pm.collectionVariables.set('refreshToken', json.data.refreshToken.token);",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"idToken\": \"eyJhbGciOiJSUzI1NiIsImtpZCI6Ij...<valid Google ID Token for existing user>...\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v{{apiVersion}}/auth/google-login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v{{apiVersion}}",
+                "auth",
+                "google-login"
+              ]
+            },
+            "description": "Authenticates an existing user using a valid Google ID token. Auto-saves tokens."
+          },
+          "response": [
+            {
+              "name": "200 - Google Login Successful (existing user)",
+              "originalRequest": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"idToken\": \"eyJhbGciOiJSUzI1NiIsImtpZCI6Ij...<valid Google ID Token for existing user>...\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/v{{apiVersion}}/auth/google-login",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v{{apiVersion}}",
+                    "auth",
+                    "google-login"
+                  ]
+                },
+                "description": "Authenticates an existing user using a valid Google ID token. Auto-saves tokens."
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"isSuccess\": true,\n  \"message\": \"\",\n  \"errorCode\": \"\",\n  \"validationErrors\": {},\n  \"meta\": {},\n  \"instance\": \"/api/v1/auth/google-login\",\n  \"traceId\": \"0HN8A1B2C3D4E:00000001\",\n  \"data\": {\n    \"user\": {\n      \"id\": \"b2c3d4e5-f6a7-8901-bcde-f12345678901\",\n      \"firstName\": \"Jane\",\n      \"lastName\": \"Smith\",\n      \"fullName\": \"Jane Smith\",\n      \"email\": \"jane.smith@gmail.com\",\n      \"userName\": \"jane.smith@gmail.com\",\n      \"roles\": [\"User\"]\n    },\n    \"accessToken\": {\n      \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...\"\n    },\n    \"refreshToken\": {\n      \"token\": \"Z29vZ2xlIHJlZnJlc2ggdG9rZW4...\"\n    }\n  }\n}"
+            },
+            {
+              "name": "200 - Google Login Successful (new user auto-created)",
+              "originalRequest": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"idToken\": \"eyJhbGciOiJSUzI1NiIsImtpZCI6Ij...<valid Google ID Token for existing user>...\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/v{{apiVersion}}/auth/google-login",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v{{apiVersion}}",
+                    "auth",
+                    "google-login"
+                  ]
+                },
+                "description": "Authenticates an existing user using a valid Google ID token. Auto-saves tokens."
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"isSuccess\": true,\n  \"message\": \"\",\n  \"errorCode\": \"\",\n  \"validationErrors\": {},\n  \"meta\": {},\n  \"instance\": \"/api/v1/auth/google-login\",\n  \"traceId\": \"0HN8A1B2C3D4E:00000002\",\n  \"data\": {\n    \"user\": {\n      \"id\": \"c3d4e5f6-a7b8-9012-cdef-123456789012\",\n      \"firstName\": \"New\",\n      \"lastName\": \"User\",\n      \"fullName\": \"New User\",\n      \"email\": \"new.user@gmail.com\",\n      \"userName\": \"new.user@gmail.com\",\n      \"roles\": [\"User\"]\n    },\n    \"accessToken\": {\n      \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...\"\n    },\n    \"refreshToken\": {\n      \"token\": \"bmV3IHVzZXIgcmVmcmVzaCB0b2tlbg...\"\n    }\n  }\n}"
+            },
+            {
+              "name": "400 - Validation Error (empty token)",
+              "originalRequest": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"idToken\": \"eyJhbGciOiJSUzI1NiIsImtpZCI6Ij...<valid Google ID Token for existing user>...\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/v{{apiVersion}}/auth/google-login",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v{{apiVersion}}",
+                    "auth",
+                    "google-login"
+                  ]
+                },
+                "description": "Authenticates an existing user using a valid Google ID token. Auto-saves tokens."
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"isSuccess\": false,\n  \"message\": \"One or more validation errors have occurred.\",\n  \"errorCode\": \"VALIDATION_ERROR\",\n  \"validationErrors\": {\n    \"idToken\": \"Google ID token is required.\"\n  },\n  \"meta\": {},\n  \"instance\": \"/api/v1/auth/google-login\",\n  \"traceId\": \"0HN8A1B2C3D4E:00000003\"\n}"
+            },
+            {
+              "name": "401 - Invalid Google ID Token",
+              "originalRequest": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"idToken\": \"eyJhbGciOiJSUzI1NiIsImtpZCI6Ij...<valid Google ID Token for existing user>...\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/v{{apiVersion}}/auth/google-login",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v{{apiVersion}}",
+                    "auth",
+                    "google-login"
+                  ]
+                },
+                "description": "Authenticates an existing user using a valid Google ID token. Auto-saves tokens."
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"isSuccess\": false,\n  \"message\": \"The Google authentication token is invalid or has expired.\",\n  \"errorCode\": \"Identity_InvalidGoogleToken\",\n  \"validationErrors\": {},\n  \"meta\": {},\n  \"instance\": \"/api/v1/auth/google-login\",\n  \"traceId\": \"0HN8A1B2C3D4E:00000004\"\n}"
+            },
+            {
+              "name": "403 - Account Locked",
+              "originalRequest": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"idToken\": \"eyJhbGciOiJSUzI1NiIsImtpZCI6Ij...<valid Google ID Token for existing user>...\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/v{{apiVersion}}/auth/google-login",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v{{apiVersion}}",
+                    "auth",
+                    "google-login"
+                  ]
+                },
+                "description": "Authenticates an existing user using a valid Google ID token. Auto-saves tokens."
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"isSuccess\": false,\n  \"message\": \"This account has been temporarily locked due to multiple failed login attempts.\",\n  \"errorCode\": \"Identity_UserLockedOut\",\n  \"validationErrors\": {},\n  \"meta\": {},\n  \"instance\": \"/api/v1/auth/google-login\",\n  \"traceId\": \"0HN8A1B2C3D4E:00000005\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Google Login - Empty Token",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"idToken\": \"\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v{{apiVersion}}/auth/google-login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v{{apiVersion}}",
+                "auth",
+                "google-login"
+              ]
+            },
+            "description": "Triggers validation error: empty Google ID token (Identity_GoogleIdTokenIsRequired__IdToken)."
+          },
+          "response": []
+        },
+        {
+          "name": "Google Login - Invalid Token",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"idToken\": \"invalid-google-id-token\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v{{apiVersion}}/auth/google-login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v{{apiVersion}}",
+                "auth",
+                "google-login"
+              ]
+            },
+            "description": "Attempts login with an invalid Google ID token. GoogleJsonWebSignature.ValidateAsync throws → Identity_InvalidGoogleToken → 401."
+          },
+          "response": []
+        }
+      ],
+      "description": "Google OAuth login endpoints. Calls AuthenticateByGoogleTokenAsync; auto-creates a new user via CreateUserByGoogleTokenAsync if the Google email is not yet registered."
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{accessToken}}",
+        "type": "string"
+      }
+    ]
+  },
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "accessToken",
+      "value": ""
+    },
+    {
+      "key": "refreshToken",
+      "value": ""
+    },
+    {
+      "key": "baseUrl",
+      "value": ""
+    },
+    {
+      "key": "apiVersion",
+      "value": ""
+    }
+  ]
+}
