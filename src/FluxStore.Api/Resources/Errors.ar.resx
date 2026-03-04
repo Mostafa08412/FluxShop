@@ -1,0 +1,327 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Identity_FirstNameIsRequired__Name" xml:space="preserve">
+    <value>الاسم الأول مطلوب.</value>
+  </data>
+  <data name="Identity_LastNameIsRequired__Name" xml:space="preserve">
+    <value>اسم العائلة مطلوب.</value>
+  </data>
+  <data name="Identity_FirstNameTooLong__Name" xml:space="preserve">
+    <value>يجب ألا يتجاوز الاسم الأول 100 حرف.</value>
+  </data>
+  <data name="Identity_LastNameTooLong__Name" xml:space="preserve">
+    <value>يجب ألا يتجاوز اسم العائلة 100 حرف.</value>
+  </data>
+  <data name="Identity_NameIsRequired__Name" xml:space="preserve">
+    <value>الاسم مطلوب.</value>
+  </data>
+  <data name="Identity_InvalidNameFormat__Name" xml:space="preserve">
+    <value>يجب أن يتكون الاسم من الاسم الأول واسم العائلة مفصولين بمسافة.</value>
+  </data>
+  <data name="Identity_InvalidEmail__EmailAddress" xml:space="preserve">
+    <value>صيغة البريد الإلكتروني غير صالحة. يرجى إدخال بريد إلكتروني صحيح.</value>
+  </data>
+  <data name="Identity_InvalidUsername__Username" xml:space="preserve">
+    <value>اسم المستخدم المقدم غير صالح.</value>
+  </data>
+  <data name="Identity_EmailIsRequired__EmailAddress" xml:space="preserve">
+    <value>البريد الإلكتروني مطلوب.</value>
+  </data>
+  <data name="User_IdIsRequired__UserId" xml:space="preserve">
+    <value>معرف المستخدم مطلوب.</value>
+  </data>
+  <data name="User_UsernameIsRequired__Username" xml:space="preserve">
+    <value>اسم المستخدم مطلوب.</value>
+  </data>
+  <data name="User_EmailAddressIsRequired__EmailAddress" xml:space="preserve">
+    <value>البريد الإلكتروني مطلوب.</value>
+  </data>
+  <data name="User_InvalidEmailAddress__EmailAddress" xml:space="preserve">
+    <value>صيغة البريد الإلكتروني غير صحيحة.</value>
+  </data>
+  <data name="User_EmailAddressTooLong__EmailAddress" xml:space="preserve">
+    <value>يجب ألا يتجاوز البريد الإلكتروني 256 حرفًا.</value>
+  </data>
+  <data name="User_InvalidRole__Role" xml:space="preserve">
+    <value>يجب أن يكون الدور: Admin، Manager، أو User.</value>
+  </data>
+  <data name="User_RoleIsRequired__Role" xml:space="preserve">
+    <value>الدور مطلوب.</value>
+  </data>
+  <data name="Identity_UserNotFound__Email" xml:space="preserve">
+    <value>لم يتم العثور على حساب مرتبط بهذا البريد الإلكتروني.</value>
+  </data>
+  <data name="Identity_InvalidCredentials" xml:space="preserve">
+    <value>فشلت عملية المصادقة. يرجى التحقق من اسم المستخدم وكلمة المرور.</value>
+  </data>
+  <data name="Identity_InvalidPassword" xml:space="preserve">
+    <value>كلمة المرور المقدمة غير صحيحة. يرجى المحاولة مرة أخرى.</value>
+  </data>
+  <data name="Identity_InvalidGoogleToken" xml:space="preserve">
+    <value>رمز مصادقة Google غير صالح أو انتهت صلاحيته.</value>
+  </data>
+  <data name="Identity_PasswordIsRequired__Password" xml:space="preserve">
+    <value>كلمة المرور مطلوبة.</value>
+  </data>
+  <data name="Identity_CurrentPasswordIsRequired__CurrentPassword" xml:space="preserve">
+    <value>كلمة المرور الحالية مطلوبة.</value>
+  </data>
+  <data name="Identity_NewPasswordIsRequired__NewPassword" xml:space="preserve">
+    <value>كلمة المرور الجديدة مطلوبة.</value>
+  </data>
+  <data name="Identity_ConfirmNewPasswordIsRequired__ConfirmNewPassword" xml:space="preserve">
+    <value>تأكيد كلمة المرور الجديدة مطلوب.</value>
+  </data>
+  <data name="Identity_ConfirmPasswordMismatch__ConfirmNewPassword" xml:space="preserve">
+    <value>كلمة المرور الجديدة وتأكيدها غير متطابقين.</value>
+  </data>
+  <data name="Identity_GoogleIdTokenIsRequired__IdToken" xml:space="preserve">
+    <value>رمز Google ID مطلوب.</value>
+  </data>
+  <data name="Identity_RefreshTokenIsRequired__RefreshToken" xml:space="preserve">
+    <value>رمز التحديث مطلوب.</value>
+  </data>
+  <data name="Identity_OtpIsRequired__Otp" xml:space="preserve">
+    <value>رمز التحقق (OTP) مطلوب.</value>
+  </data>
+  <data name="Identity_ResetPasswordTokenIsRequired__ResetPasswordToken" xml:space="preserve">
+    <value>رمز إعادة تعيين كلمة المرور مطلوب.</value>
+  </data>
+  <data name="Identity_EmailAlreadyExists" xml:space="preserve">
+    <value>هذا البريد الإلكتروني مسجل بالفعل. يرجى استخدام بريد مختلف أو تسجيل الدخول.</value>
+  </data>
+  <data name="Identity_UsernameAlreadyExists" xml:space="preserve">
+    <value>اسم المستخدم هذا غير متاح. يرجى اختيار اسم آخر.</value>
+  </data>
+  <data name="Identity_WeakPassword__Password" xml:space="preserve">
+    <value>كلمة المرور لا تستوفي الحد الأدنى من متطلبات الأمان (التعقيد/الطول).</value>
+  </data>
+  <data name="Identity_PasswordTooShort__Password" xml:space="preserve">
+    <value>كلمة المرور قصيرة جداً.</value>
+  </data>
+  <data name="Identity_PasswordRequiresDigit__Password" xml:space="preserve">
+    <value>يجب أن تحتوي كلمة المرور على رقم واحد على الأقل.</value>
+  </data>
+  <data name="Identity_PasswordRequiresLower__Password" xml:space="preserve">
+    <value>يجب أن تحتوي كلمة المرور على حرف صغير واحد على الأقل.</value>
+  </data>
+  <data name="Identity_PasswordRequiresUpper__Password" xml:space="preserve">
+    <value>يجب أن تحتوي كلمة المرور على حرف كبير واحد على الأقل.</value>
+  </data>
+  <data name="Identity_PasswordRequiresNonAlphanumeric__Password" xml:space="preserve">
+    <value>يجب أن تحتوي كلمة المرور على رمز أو حرف غير أبجدي عددي واحد على الأقل.</value>
+  </data>
+  <data name="Identity_PasswordReuseNotAllowed__Password" xml:space="preserve">
+    <value>لأسباب أمنية، لا يمكنك إعادة استخدام كلمة مرور استخدمتها سابقاً.</value>
+  </data>
+  <data name="Identity_Forbidden" xml:space="preserve">
+    <value>تم رفض الوصول. ليس لديك الأذونات اللازمة لهذا المورد.</value>
+  </data>
+  <data name="Identity_UserLockedOut" xml:space="preserve">
+    <value>تم قفل الحساب مؤقتًا بسبب محاولات دخول فاشلة متعددة.</value>
+  </data>
+  <data name="Identity_RoleNotFound" xml:space="preserve">
+    <value>دور الأمان المحدد غير موجود.</value>
+  </data>
+  <data name="Identity_UserAlreadyInRole" xml:space="preserve">
+    <value>المستخدم معين بالفعل في الدور المحدد.</value>
+  </data>
+  <data name="Identity_UserNotInRole" xml:space="preserve">
+    <value>المستخدم لا يمتلك تعيين الدور المحدد.</value>
+  </data>
+  <data name="Identity_MissingToken" xml:space="preserve">
+    <value>رمز المصادقة مفقود. يرجى تقديم ترويسة تفويض صالحة.</value>
+  </data>
+  <data name="Identity_InvalidToken" xml:space="preserve">
+    <value>رمز المصادقة المقدم غير صالح أو مشوه.</value>
+  </data>
+  <data name="Identity_ExpiredToken" xml:space="preserve">
+    <value>انتهت صلاحية الجلسة. يرجى تسجيل الدخول مرة أخرى للمتابعة.</value>
+  </data>
+  <data name="Identity_RecoveryCodeRedemptionFailed" xml:space="preserve">
+    <value>رمز الاسترداد المقدم غير صالح أو تم استخدامه بالفعل.</value>
+  </data>
+  <data name="Identity_ConcurrencyFailure" xml:space="preserve">
+    <value>حدث فشل في التزامن. تم تعديل المورد بواسطة عملية أخرى.</value>
+  </data>
+  <data name="Identity_DefaultError" xml:space="preserve">
+    <value>حدث خطأ غير محدد في نظام الهوية.</value>
+  </data>
+  <data name="Identity_DuplicateRoleName" xml:space="preserve">
+    <value>يوجد دور بهذا الاسم بالفعل.</value>
+  </data>
+  <data name="Identity_InvalidRoleName__Role" xml:space="preserve">
+    <value>اسم الدور المقدم غير صالح.</value>
+  </data>
+  <data name="Identity_LoginAlreadyAssociated" xml:space="preserve">
+    <value>هناك تسجيل دخول لمزود خارجي مرتبط بالفعل بهذا الحساب.</value>
+  </data>
+  <data name="Identity_PasswordRequiresUniqueChars__Password" xml:space="preserve">
+    <value>يجب أن تحتوي كلمة المرور على الحد الأدنى المطلوب من الأحرف الفريدة.</value>
+  </data>
+  <data name="Identity_UserAlreadyHasPassword" xml:space="preserve">
+    <value>المستخدم لديه كلمة مرور بالفعل.</value>
+  </data>
+  <data name="Identity_UserLockoutNotEnabled" xml:space="preserve">
+    <value>ميزة القفل غير مفعلة لهذا المستخدم.</value>
+  </data>
+  <data name="Identity_UserNotFound" xml:space="preserve">
+    <value>تعذر العثور على مستخدم بالمعرف المقدم.</value>
+  </data>
+  <data name="Identity_UserIdNotFound" xml:space="preserve">
+    <value>تعذر العثور على مستخدم بالمعرف المذكور.</value>
+  </data>
+  <data name="Identity_UserNameNotFound" xml:space="preserve">
+    <value>تعذر العثور على مستخدم باسم المستخدم المقدم.</value>
+  </data>
+  <data name="Identity_OtpCooldown__Otp" xml:space="preserve">
+    <value>يرجى الانتظار 30 ثانية قبل طلب رمز تحقق آخر.</value>
+  </data>
+  <data name="Identity_InvalidOtp__Otp" xml:space="preserve">
+    <value>رمز التحقق المدخل غير صالح أو انتهت صلاحيته.</value>
+  </data>
+  <data name="Identity_InvalidResetToken__ResetPasswordToken" xml:space="preserve">
+    <value>رمز إعادة تعيين كلمة المرور غير صالح أو انتهت صلاحيته.</value>
+  </data>
+  <data name="Identity_UpdateFailed" xml:space="preserve">
+    <value>حدث خطأ أثناء تحديث ملف تعريف المستخدم.</value>
+  </data>
+  <data name="Identity_RoleUpdateFailed" xml:space="preserve">
+    <value>فشل تعديل تعيينات أدوار المستخدم.</value>
+  </data>
+  <data name="Identity_DeactivationFailed" xml:space="preserve">
+    <value>فشلت عملية إلغاء تنشيط الحساب.</value>
+  </data>
+  <data name="Identity_ActivationFailed" xml:space="preserve">
+    <value>فشلت عملية تنشيط الحساب.</value>
+  </data>
+  <data name="Identity_Unknown" xml:space="preserve">
+    <value>حدث خطأ غير متوقع في نظام الهوية.</value>
+  </data>
+  <data name="System_DatabaseUpdateError" xml:space="preserve">
+    <value>A database integrity error occurred.</value>
+  </data>
+  <data name="System_MissingConfiguration" xml:space="preserve">
+    <value>A required system configuration is missing.</value>
+  </data>
+  <data name="System_UnexpectedError" xml:space="preserve">
+    <value>An internal server error occurred.</value>
+  </data>
+</root>

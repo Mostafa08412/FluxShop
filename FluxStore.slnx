@@ -1,14 +1,3 @@
 <Solution>
-  <Folder Name="/Solution Items/">
-    <File Path="Directory.Packages.props" />
-  </Folder>
-  <Folder Name="/src/">
-    <Project Path="src/FluxStore.API/FluxStore.API.csproj" DisplayName="FluxStore.Api" />
-    <Project Path="src/FluxStore.Application/FluxStore.Application.csproj" />
-    <Project Path="src/FluxStore.Domain/FluxStore.Domain.csproj" />
-    <Project Path="src/FluxStore.Infrastructure/FluxStore.Infrastructure.csproj" />
-  </Folder>
-  <Folder Name="/tests/">
-    <Project Path="tests/Domain.UnitTests/Domain.UnitTests.csproj" Id="cebe759b-fe02-46c9-a212-b257a565c884" />
-  </Folder>
+  <Project Path="src/FluxStore.Api/FluxStore.Api.csproj" />
 </Solution>

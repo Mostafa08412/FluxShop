@@ -89,3 +89,4 @@ Desktop.ini
 /src/GuardianStock.API/wwwroot/temp/
 /.github/copilot-instructions.md
 /docker-compose.yml
+/.agents/rules
