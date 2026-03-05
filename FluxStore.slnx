@@ -1,3 +1,9 @@
 <Solution>
-  <Project Path="src/FluxStore.Api/FluxStore.Api.csproj" />
+
+  <Folder Name="/src/">
+      <Project Path="src/FluxStore.Api/FluxStore.Api.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+  </Folder>
+
 </Solution>

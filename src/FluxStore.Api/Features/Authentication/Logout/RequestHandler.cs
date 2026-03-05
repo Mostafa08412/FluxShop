@@ -9,16 +9,16 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FluxStore.Api.Features.Authentication.Logout
 {
-    public class LogoutRequestHandler : IRequestHandler<LogoutRequest, Result<Unit>>
+    public class RequestHandler : IRequestHandler<LogoutRequest, Result<Unit>>
     {
 
-        private readonly ILogger<LogoutRequestHandler> _logger;
+        private readonly ILogger<RequestHandler> _logger;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly CurrentUser _currentUser;
         private readonly ApplicationDbContext _context;
         private readonly IDateTime _dateTime;
 
-        public LogoutRequestHandler(ILogger<LogoutRequestHandler> logger, UserManager<ApplicationUser> userManager, CurrentUser currentUser, ApplicationDbContext context, IDateTime dateTime)
+        public RequestHandler(ILogger<RequestHandler> logger, UserManager<ApplicationUser> userManager, CurrentUser currentUser, ApplicationDbContext context, IDateTime dateTime)
         {
             _logger = logger;
             _userManager = userManager;

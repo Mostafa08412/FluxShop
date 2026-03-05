@@ -10,7 +10,7 @@
   </PropertyGroup>
 
 	<ItemGroup>
-		<Content Update="Shared\EmailRazorTemplates\ForgetPasswordEmailTemplate.cshtml">
+		<Content Update="Shared\EmailRazorTemplates\*.cshtml">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</Content>
 	</ItemGroup>
