@@ -5,7 +5,7 @@ namespace FluxStore.Api.Domain.OrderAggregate.Events
     public record OrderCancelledEvent(
         Guid OrderId,
         string Reason,
-        bool isPaid,
+        bool IsPaid,
         DateTime CancelledAt) : IDomainEvent
     {
         public Guid EventId { get; } = Guid.NewGuid();

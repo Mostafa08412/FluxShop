@@ -14,9 +14,6 @@ namespace FluxStore.Api.Shared.Errors
         public static Error ShippingAddressIsRequired =>
             new("Order_ShippingAddressIsRequired__ShippingAddress", "Shipping address is required.", ErrorType.Validation);
 
-        public static Error OrderNumberObjectIsRequired =>
-            new("Order_OrderNumberIsRequired__OrderNumber", "Order number is required.", ErrorType.Validation);
-
         // --- Payment ---
 
         public static Error PaymentProviderIsRequired =>
@@ -43,13 +40,13 @@ namespace FluxStore.Api.Shared.Errors
             new("Order_CannotConfirmOrder__Status", "Order can only be confirmed from Placed status.", ErrorType.ConditionNotMet);
 
         public static Error CannotCancelOrder =>
-            new("Order_CannotCancelOrder__Status", "Order can only be cancelled from Placed status.", ErrorType.ConditionNotMet);
+            new("Order_CannotCancelOrder__Status", "Order can only be cancelled from Placed or Confirmed or Processing status.", ErrorType.ConditionNotMet);
 
         public static Error CannotDeliverOrder =>
-            new("Order_CannotDeliverOrder__Status", "Order can only be delivered from Confirmed status.", ErrorType.ConditionNotMet);
+            new("Order_CannotDeliverOrder__Status", "Order can only be delivered from Shipped status.", ErrorType.ConditionNotMet);
 
         public static Error CannotRefundOrder =>
-            new("Order_CannotRefundOrder__Status", "Order can only be refunded from Confirmed or Delivered status.", ErrorType.ConditionNotMet);
+            new("Order_CannotRefundOrder__Status", "Order can only be refunded from Cancelled or Delivered status.", ErrorType.ConditionNotMet);
 
         public static Error CannotRefundUnpaidOrder =>
             new("Order_CannotRefundUnpaidOrder__PaymentInfo", "Cannot issue a refund for an unpaid order.", ErrorType.ConditionNotMet);
@@ -58,16 +55,13 @@ namespace FluxStore.Api.Shared.Errors
             new("Order_CannotProcessOrder__Status", "Order can only be processed from Confirmed status.", ErrorType.ConditionNotMet);
 
         public static Error CannotShipOrder =>
-            new("Order_CannotShipOrder__Status", "Order can only be shipped from Confirmed status.", ErrorType.ConditionNotMet);
+            new("Order_CannotShipOrder__Status", "Order can only be shipped from Processing status.", ErrorType.ConditionNotMet);
 
         public static Error CannotMarkAsOutForDelivery =>
             new("Order_CannotMarkAsOutForDelivery__Status", "Order can only be marked as out for delivery from Shipped status.", ErrorType.ConditionNotMet);
 
         public static Error TrackingNumberIsRequired =>
             new("Order_TrackingNumberIsRequired__TrackingNumber", "Tracking number is required when shipping the order.", ErrorType.Validation);
-
-        public static Error PaymentDateIsRequiredForOnlineOrder =>
-            new("Order_PaymentDateIsRequired__PaidAt", "Payment date is required for online orders.", ErrorType.Validation);
 
         // --- Tracking ---
         public static Error TrackingStepIsRequired =>

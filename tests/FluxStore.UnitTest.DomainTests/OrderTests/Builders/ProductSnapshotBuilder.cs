@@ -37,7 +37,7 @@ namespace FluxStore.UnitTest.DomainTests.OrderTests.Builders
             return this;
         }
 
-        public ProductSnapshot Build()
+        public ProductSnapshot? Build()
         {
             var snapShot = ProductSnapshot.Create(ProductId, ProductVariantId, ProductName, ProductVariantColor, ProductVariantSize, UnitPrice);
 

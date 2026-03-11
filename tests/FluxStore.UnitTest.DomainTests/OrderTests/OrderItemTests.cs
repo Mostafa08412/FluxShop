@@ -16,7 +16,7 @@ namespace FluxStore.UnitTest.DomainTests.OrderTests
         {
             var productSnapshot = ProductSnapshotBuilder.Create().WithInValidData().Build();
 
-            var result = OrderItem.Create(productSnapshot, 1);
+            var result = OrderItem.Create(productSnapshot!, 1);
 
             result.IsSuccess.Should().BeFalse();
 
@@ -31,7 +31,7 @@ namespace FluxStore.UnitTest.DomainTests.OrderTests
         {
             var productSnapshot = ProductSnapshotBuilder.Create().WithValidData().Build();
 
-            var result = OrderItem.Create(productSnapshot, -90);
+            var result = OrderItem.Create(productSnapshot!, -90);
 
             result.IsSuccess.Should().BeFalse();
 
@@ -52,7 +52,7 @@ namespace FluxStore.UnitTest.DomainTests.OrderTests
         {
             var productSnapshot = ProductSnapshotBuilder.Create().WithValidData().Build();
 
-            var result = OrderItem.Create(productSnapshot, quantity);
+            var result = OrderItem.Create(productSnapshot!, quantity);
 
             result.IsSuccess.Should().BeTrue();
 
@@ -71,9 +71,9 @@ namespace FluxStore.UnitTest.DomainTests.OrderTests
         {
             var productSnapshot = ProductSnapshotBuilder.Create().WithValidData().Build();
 
-            var order_item_1_result = OrderItem.Create(productSnapshot, 5);
+            var order_item_1_result = OrderItem.Create(productSnapshot!, 5).Value;
 
-            var order_item_2_result = OrderItem.Create(productSnapshot, 5);
+            var order_item_2_result = OrderItem.Create(productSnapshot!, 5).Value;
 
             (order_item_1_result == order_item_2_result).Should().BeFalse();
 

@@ -6,7 +6,7 @@
         public string Description { get; set; } = string.Empty;
         public ErrorType ErrorType { get; }
 
-        public string Identifier => Code.Split("__")[1] ?? "";
+        public string Identifier => Code.Split("__").ElementAtOrDefault(1) ?? "";
 
         public Error(string code, string description, ErrorType errorType)
         {

@@ -143,7 +143,7 @@ namespace FluxStore.UnitTest.DomainTests.OrderTests
             var paymentInfo = PaymentInfo.Create(Guid.NewGuid(), DateTime.UtcNow).Value;
             order.Confirm(paymentInfo, DateTime.UtcNow);
 
-            order.StartProcessing(DateTime.UtcNow, "");
+            order.StartProcessing(DateTime.UtcNow);
 
             // Act
             var result = order.Ship("TRACK-123", DateTime.UtcNow);

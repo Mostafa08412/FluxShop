@@ -87,9 +87,9 @@ namespace FluxStore.Api.Domain.OrderAggregate
                 return Result<Order>.Invalid(OrderErrors.UserIdIsRequired.ToValidationError());
 
             if (orderNumber is null)
-                return Result<Order>.Invalid(OrderErrors.OrderNumberObjectIsRequired.ToValidationError());
+                return Result<Order>.Invalid(OrderErrors.OrderNumberIsRequired.ToValidationError());
 
-            if (paymentProvider is null)
+            if (string.IsNullOrWhiteSpace(paymentProvider))
                 return Result<Order>.Invalid(OrderErrors.PaymentProviderIsRequired.ToValidationError());
 
             if (shippingAddress is null)
@@ -155,31 +155,40 @@ namespace FluxStore.Api.Domain.OrderAggregate
             return Result.Success();
         }
 
-        public Result StartProcessing(DateTime occurredAt, string description = "Order is being preprocessed.")
+        public Result StartProcessing(DateTime occurredAt, string description = "Order is being processed.")
         {
             var validationResult = CanStartProcessing();
             if (!validationResult.IsSuccess)
                 return validationResult;
+            var result = AddTrackingStepInternal(TrackingStatus.Processing, description, occurredAt);
+
+            if (!result.IsSuccess)
+                return result;
 
             Status = OrderStatus.Processing;
 
             RaiseDomainEvent(new OrderProcessingEvent(Id));
 
-            return AddTrackingStepInternal(TrackingStatus.Processing, description, occurredAt);
+            return result;
         }
         public Result Ship(string trackingNumber, DateTime occurredAt, string description = "Order has been shipped.")
         {
             var validationResult = CanShip(trackingNumber);
+
             if (!validationResult.IsSuccess)
                 return validationResult;
+
+            var trackingResult = AddTrackingStepInternal(TrackingStatus.Shipped, description, occurredAt);
+
+            if (!trackingResult.IsSuccess)
+                return trackingResult;
 
             Status = OrderStatus.Shipped;
 
             TrackingNumber = trackingNumber;
 
             RaiseDomainEvent(new OrderShippedEvent(Id, trackingNumber));
-
-            return AddTrackingStepInternal(TrackingStatus.Shipped, description, occurredAt);
+            return Result.Success();
         }
         public Result MarkAsOutForDelivery(DateTime occurredAt, string description = "Order is out for delivery.")
         {
@@ -311,7 +320,7 @@ namespace FluxStore.Api.Domain.OrderAggregate
                 return Result.Error(new ErrorList(stepResult.Errors.ToArray()));
             }
 
-            if (_trackingSteps.Any(s => s.Status == status && s.OccurredAt == occurredAt))
+            if (_trackingSteps.Any(s => s.Status == status))
                 return Result.Error(new ErrorList([OrderErrors.DuplicateTrackingStep.Code, OrderErrors.DuplicateTrackingStep.Description]));
 
             _trackingSteps.Add(stepResult.Value);

@@ -20,7 +20,6 @@ namespace FluxStore.Api.Domain.OrderAggregate
 
         public static Result<OrderItem> Create(ProductSnapshot productSnapshot, int quantity)
         {
-            var errors = new List<Error>();
 
             if (productSnapshot is null)
                 return Result<OrderItem>.Invalid(OrderErrors.ProductSnapshotIsRequired.ToValidationError());

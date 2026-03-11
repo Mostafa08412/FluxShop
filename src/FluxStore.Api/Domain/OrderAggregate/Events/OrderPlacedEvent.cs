@@ -6,7 +6,7 @@ namespace FluxStore.Api.Domain.OrderAggregate.Events
         Guid OrderId,
         Guid UserId,
         decimal Total,
-        string PaymentMethod) : IDomainEvent
+        string PaymentProvider) : IDomainEvent
     {
         public Guid EventId { get; } = Guid.NewGuid();
         public DateTime OccurredOn { get; } = DateTime.UtcNow;

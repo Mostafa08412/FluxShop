@@ -12,7 +12,7 @@ namespace FluxStore.UnitTest.DomainTests.OrderTests.ValueObjects
         [InlineData(null)]
         [InlineData("")]
         [InlineData(" ")]
-        public void Create_WhenValueIsIsNullOrWhiteSpace_ShouldReturnFailure(string value)
+        public void Create_WhenValueIsNullOrWhiteSpace_ShouldReturnFailure(string value)
         {
             // Act
             var result = OrderNumber.Create(value);
