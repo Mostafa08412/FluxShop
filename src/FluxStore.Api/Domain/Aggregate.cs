@@ -13,7 +13,7 @@ namespace FluxStore.Api.Domain
         public IReadOnlyCollection<IDomainEvent> DomainEvents => _domainEvents;
 
 
-        public void AddDomainEvent(IDomainEvent domainEvent)
+        public void RaiseDomainEvent(IDomainEvent domainEvent)
         {
             _domainEvents.Add(domainEvent);
         }

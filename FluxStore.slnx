@@ -1,9 +1,10 @@
 <Solution>
 
   <Folder Name="/src/">
-      <Project Path="src/FluxStore.Api/FluxStore.Api.csproj" />
+    <Project Path="src/FluxStore.Api/FluxStore.Api.csproj" />
   </Folder>
   <Folder Name="/tests/">
+    <Project Path="tests/FluxStore.UnitTest.DomainTests/FluxStore.UnitTest.DomainTests.csproj" Id="d35c2c53-4b0c-4e14-b851-67611f033119" />
   </Folder>
 
 </Solution>
