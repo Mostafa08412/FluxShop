@@ -13,11 +13,11 @@ namespace FluxStore.Api.Features.Authentication.Logout
 
 
     [Authorize]
-    public class LogoutEndpoint : Endpoint<EmptyRequest, ApiResponse<Unit>>
+    public class Endpoint : Endpoint<EmptyRequest, ApiResponse<Unit>>
     {
         private readonly IMediator _mediator;
 
-        public LogoutEndpoint(IMediator mediator)
+        public Endpoint(IMediator mediator)
         {
             _mediator = mediator;
         }

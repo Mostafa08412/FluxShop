@@ -1,30 +1,18 @@
-﻿using System.Collections.Generic;
-using System.Text.Json.Serialization;
-
-namespace FluxStore.Api.Domain
+﻿namespace FluxStore.Api.Domain
 {
-    public class Error : ValueObject
+    public record Error
     {
         public string Code { get; } = string.Empty;
-
-        [JsonIgnore]
-        public ErrorType ErrorType { get; }
         public string Description { get; set; } = string.Empty;
+        public ErrorType ErrorType { get; }
+
+        public string Identifier => Code.Split("__").ElementAtOrDefault(1) ?? "";
 
         public Error(string code, string description, ErrorType errorType)
         {
             Code = code;
             Description = description;
             ErrorType = errorType;
-        }
-
-        public override string ToString() => $"{ErrorType.ToString()}-{Code}: {Description}";
-
-        public override IEnumerable<object> GetAtomicValues()
-        {
-            yield return Code;
-            yield return ErrorType;
-            yield return Description;
         }
     }
 }

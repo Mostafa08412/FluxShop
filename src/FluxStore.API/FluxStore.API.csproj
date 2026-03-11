@@ -10,7 +10,7 @@
   </PropertyGroup>
 
 	<ItemGroup>
-		<Content Update="Shared\EmailRazorTemplates\ForgetPasswordEmailTemplate.cshtml">
+		<Content Update="Shared\EmailRazorTemplates\*.cshtml">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</Content>
 	</ItemGroup>
@@ -27,7 +27,6 @@
 		<PackageReference Include="FastEndpoints.Security" Version="7.2.0" />
 		<PackageReference Include="FluentAssertions" Version="8.8.0" />
 		<PackageReference Include="FluentEmail.Core" Version="3.0.2" />
-		<PackageReference Include="FluentEmail.MailKit" Version="3.0.2" />
 		<PackageReference Include="FluentEmail.Razor" Version="3.0.2" />
 		<PackageReference Include="FluentEmail.Smtp" Version="3.0.2" />
 		<PackageReference Include="FluentValidation" Version="12.1.1" />
@@ -60,6 +59,9 @@
 
 		
 		</ItemGroup>
+
+
+
 
 
 
