@@ -67,13 +67,22 @@ namespace FluxStore.Api.Shared.Middlewares
 
                     var localizedDescription = _localizer.GetString(error.Code);
 
-                    var response = ApiResponse.Failure(context, localizedDescription, error.Code, context.Response.StatusCode);
+                    var errorMessage = string.IsNullOrEmpty(localizedDescription) ? error.Description : localizedDescription;
 
-                    response.TraceId = context.TraceIdentifier;
+                    ApiResponse response = ApiResponse.Failure(context, errorMessage, error.Code, context.Response.StatusCode);
 
                     response.Instance = context.Request.Path.Value!;
 
+                    response.TraceId = context.TraceIdentifier;
+
                     await context.Response.WriteAsJsonAsync(response);
+
+
+
+
+
+
+
 
                 }
             }

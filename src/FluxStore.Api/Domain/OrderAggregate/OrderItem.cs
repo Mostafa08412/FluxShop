@@ -7,10 +7,10 @@ namespace FluxStore.Api.Domain.OrderAggregate
 {
     public sealed class OrderItem : Entity
     {
-        public ProductSnapshot ProductSnapshot { get; private set; }
+        public OrderItemProductSnapshot ProductSnapshot { get; private set; }
         public int Quantity { get; private set; }
 
-        private OrderItem(Guid id, ProductSnapshot productSnapshot, int quantity) : base(id)
+        private OrderItem(Guid id, OrderItemProductSnapshot productSnapshot, int quantity) : base(id)
         {
             ProductSnapshot = productSnapshot;
             Quantity = quantity;
@@ -18,7 +18,7 @@ namespace FluxStore.Api.Domain.OrderAggregate
 
         private OrderItem() { }
 
-        public static Result<OrderItem> Create(ProductSnapshot productSnapshot, int quantity)
+        public static Result<OrderItem> Create(OrderItemProductSnapshot productSnapshot, int quantity)
         {
 
             if (productSnapshot is null)

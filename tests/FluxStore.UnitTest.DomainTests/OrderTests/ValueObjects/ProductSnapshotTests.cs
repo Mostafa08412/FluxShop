@@ -20,7 +20,7 @@ namespace FluxStore.UnitTest.DomainTests.OrderTests.ValueObjects
         public void Create_WhenDataIsValid_ShouldReturnSuccess()
         {
             // Act
-            var result = ProductSnapshot.Create(_productId, _variantId, _name, _color, _size, _price);
+            var result = OrderItemProductSnapshot.Create(_productId, _variantId, _name, _color, _size, _price);
 
             // Assert
             result.IsSuccess.Should().BeTrue();
@@ -32,7 +32,7 @@ namespace FluxStore.UnitTest.DomainTests.OrderTests.ValueObjects
         public void Create_WhenProductIdIsEmpty_ShouldReturnFailure()
         {
             // Act
-            var result = ProductSnapshot.Create(Guid.Empty, _variantId, _name, _color, _size, _price);
+            var result = OrderItemProductSnapshot.Create(Guid.Empty, _variantId, _name, _color, _size, _price);
 
             // Assert
             result.IsSuccess.Should().BeFalse();
@@ -45,7 +45,7 @@ namespace FluxStore.UnitTest.DomainTests.OrderTests.ValueObjects
         public void Create_WhenUnitPriceIsNotPositive_ShouldReturnFailure(decimal price)
         {
             // Act
-            var result = ProductSnapshot.Create(_productId, _variantId, _name, _color, _size, price);
+            var result = OrderItemProductSnapshot.Create(_productId, _variantId, _name, _color, _size, price);
 
             // Assert
             result.IsSuccess.Should().BeFalse();
@@ -56,8 +56,8 @@ namespace FluxStore.UnitTest.DomainTests.OrderTests.ValueObjects
         public void Equals_WhenValuesAreSame_ShouldReturnTrue()
         {
             // Arrange
-            var s1 = ProductSnapshot.Create(_productId, _variantId, _name, _color, _size, _price).Value;
-            var s2 = ProductSnapshot.Create(_productId, _variantId, _name, _color, _size, _price).Value;
+            var s1 = OrderItemProductSnapshot.Create(_productId, _variantId, _name, _color, _size, _price).Value;
+            var s2 = OrderItemProductSnapshot.Create(_productId, _variantId, _name, _color, _size, _price).Value;
 
             // Act & Assert
             s1.Equals(s2).Should().BeTrue();

@@ -1,4 +1,4 @@
-﻿using Asp.Versioning;
+using Asp.Versioning;
 using Bogus;
 using FastEndpoints;
 using FluentValidation;
@@ -36,6 +36,7 @@ namespace FluxStore.Api.Extensions
             services.AddFluxStoreDatabaseContext(configuration)
                     .AddIdentity()
                     .AddMediatRCore()
+                    .AddLoggingPipeline()
                     .AddValidationPipeline()
                     .AddTransactionPipeline()
                     .AddFastEndpoint()
@@ -418,6 +419,11 @@ namespace FluxStore.Api.Extensions
         {
             services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
+            return services;
+        }
+        private static IServiceCollection AddLoggingPipeline(this IServiceCollection services)
+        {
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
             return services;
         }
         private static IServiceCollection AddTransactionPipeline(this IServiceCollection services)

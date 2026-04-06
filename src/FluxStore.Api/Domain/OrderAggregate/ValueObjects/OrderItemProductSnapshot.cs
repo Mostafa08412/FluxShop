@@ -5,7 +5,7 @@ using FluxStore.Api.Shared.Extensions;
 
 namespace FluxStore.Api.Domain.OrderAggregate.ValueObjects
 {
-    public sealed class ProductSnapshot : ValueObject
+    public sealed class OrderItemProductSnapshot : ValueObject
     {
         public Guid ProductId { get; }
         public Guid ProductVariantId { get; }
@@ -14,7 +14,7 @@ namespace FluxStore.Api.Domain.OrderAggregate.ValueObjects
         public ProductVariantSize ProductVariantSize { get; }
         public decimal UnitPrice { get; }
 
-        private ProductSnapshot(
+        private OrderItemProductSnapshot(
             Guid productId, Guid productVariantId,
             string productName, string productVariantColor,
             ProductVariantSize productVariantSize, decimal unitPrice)
@@ -27,26 +27,26 @@ namespace FluxStore.Api.Domain.OrderAggregate.ValueObjects
             UnitPrice = unitPrice;
         }
 
-        public static Result<ProductSnapshot> Create(
+        public static Result<OrderItemProductSnapshot> Create(
             Guid productId, Guid productVariantId,
             string productName, string productVariantColor,
             ProductVariantSize productVariantSize, decimal unitPrice)
         {
             if (productId == Guid.Empty)
-                return Result<ProductSnapshot>.Invalid(OrderErrors.ProductIdIsRequired.ToValidationError());
+                return Result<OrderItemProductSnapshot>.Invalid(OrderErrors.ProductIdIsRequired.ToValidationError());
             if (productVariantId == Guid.Empty)
-                return Result<ProductSnapshot>.Invalid(OrderErrors.ProductVariantIdIsRequired.ToValidationError());
+                return Result<OrderItemProductSnapshot>.Invalid(OrderErrors.ProductVariantIdIsRequired.ToValidationError());
             if (string.IsNullOrWhiteSpace(productName))
-                return Result<ProductSnapshot>.Invalid(OrderErrors.ProductNameIsRequired.ToValidationError());
+                return Result<OrderItemProductSnapshot>.Invalid(OrderErrors.ProductNameIsRequired.ToValidationError());
             if (string.IsNullOrWhiteSpace(productVariantColor))
-                return Result<ProductSnapshot>.Invalid(OrderErrors.ProductVariantColorIsRequired.ToValidationError());
+                return Result<OrderItemProductSnapshot>.Invalid(OrderErrors.ProductVariantColorIsRequired.ToValidationError());
             if (!Enum.IsDefined(productVariantSize) || productVariantSize == ProductVariantSize.None)
-                return Result<ProductSnapshot>.Invalid(OrderErrors.InvalidProductVariantSize.ToValidationError());
+                return Result<OrderItemProductSnapshot>.Invalid(OrderErrors.InvalidProductVariantSize.ToValidationError());
             if (unitPrice <= 0)
-                return Result<ProductSnapshot>.Invalid(OrderErrors.UnitPriceMustBePositive.ToValidationError());
+                return Result<OrderItemProductSnapshot>.Invalid(OrderErrors.UnitPriceMustBePositive.ToValidationError());
 
-            return Result<ProductSnapshot>.Success(
-                new ProductSnapshot(productId, productVariantId,
+            return Result<OrderItemProductSnapshot>.Success(
+                new OrderItemProductSnapshot(productId, productVariantId,
                     productName, productVariantColor,
                     productVariantSize, unitPrice));
         }

@@ -49,7 +49,7 @@ namespace FluxStore.Api.Shared.Extensions
         }
 
         #region Private Helper Functions
-        private static IDictionary<string, string> ToValidationErrors(this Ardalis.Result.IResult result, IStringLocalizer<ErrorsResource>? stringLocalizer = null)
+        private static IDictionary<string, string> ToValidationErrorsDict(this Ardalis.Result.IResult result, IStringLocalizer<ErrorsResource>? stringLocalizer = null)
         {
             if (result.ValidationErrors == null || !result.ValidationErrors.Any())
             {
@@ -65,7 +65,7 @@ namespace FluxStore.Api.Shared.Extensions
         // --- Private Helper for Generic Failures ---
         private static ApiResponse<T> HandleFailure<T>(Result<T> result, HttpContext context, IStringLocalizer<ErrorsResource>? stringLocalizer = null)
         {
-            var validationErrors = result.ToValidationErrors(stringLocalizer);
+            var validationErrors = result.ToValidationErrorsDict(stringLocalizer);
             var statusCode = MapArdalisResultStatusToStatusCode(result.Status);
             var errorCode = result.Errors.ElementAtOrDefault(0) ?? "ERROR";
             var message = stringLocalizer?.GetString(errorCode) ?? result.Errors.ElementAtOrDefault(1) ?? "An error occurred";

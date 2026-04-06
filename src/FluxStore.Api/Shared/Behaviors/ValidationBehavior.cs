@@ -40,6 +40,7 @@ namespace FluxStore.Api.Shared.Behaviors
 
                     var valueType = typeof(TResponse).GenericTypeArguments[0];
 
+                    // We try to create object of Result<Value>. Value is either Unit or something else.
                     var resultType = typeof(Result<>).MakeGenericType(valueType);
 
                     var invalidMethod = resultType.GetMethod(
