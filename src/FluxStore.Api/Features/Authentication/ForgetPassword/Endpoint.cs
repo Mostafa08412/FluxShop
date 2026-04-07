@@ -22,8 +22,8 @@ namespace FluxStore.Api.Features.Authentication.ForgetPassword
 
         public override void Configure()
         {
-            Post(ApiRoutes.ForgetPassword);
-            Group<AuthenticationV1Group>();
+            Post(ApiRoutes.Authentication.ForgetPassword);
+            Group<AuthenticationGroup>();
             AllowAnonymous();
         }
         public override async Task HandleAsync(ForgetPasswordRequest req, CancellationToken ct)

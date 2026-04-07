@@ -1,8 +1,8 @@
 ﻿using Ardalis.Result;
 using FluxStore.Api.Extensions;
-using FluxStore.Api.Markers;
 using FluxStore.Api.Resources;
 using FluxStore.Api.Shared.Extensions;
+using FluxStore.Api.Shared.Markers;
 using FluxStore.Api.Shared.Models;
 using MediatR;
 using Microsoft.Extensions.Localization;
@@ -43,8 +43,8 @@ namespace FluxStore.Api.Features.Authentication.Register
 
         public override void Configure()
         {
-            Post(ApiRoutes.Register);
-            Group<ApiGroups.AuthenticationV1Group>();
+            Post(ApiRoutes.Authentication.Register);
+            Group<ApiGroups.AuthenticationGroup>();
             AllowAnonymous();
         }
 

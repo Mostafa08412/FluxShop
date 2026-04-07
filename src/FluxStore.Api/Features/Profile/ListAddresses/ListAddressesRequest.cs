@@ -1,8 +1,8 @@
 using Ardalis.Result;
-using FluxStore.Api.Markers;
+using FluxStore.Api.Shared.Markers;
 using MediatR;
 
 namespace FluxStore.Api.Features.Profile.ListAddresses
 {
-    public sealed record ListAddressesRequest : IRequest<Result<ListAddressesResponse>>, IQuery;
+    public sealed record ListAddressesRequest() : IRequest<Result<ListAddressesResponse>>, IQuery;
 }

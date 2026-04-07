@@ -23,8 +23,8 @@ namespace FluxStore.Api.Features.Authentication.ResetPassword
 
         public override void Configure()
         {
-            Post(ApiRoutes.ResetPassword);
-            Group<AuthenticationV1Group>();
+            Post(ApiRoutes.Authentication.ResetPassword);
+            Group<AuthenticationGroup>();
             AllowAnonymous();
         }
 

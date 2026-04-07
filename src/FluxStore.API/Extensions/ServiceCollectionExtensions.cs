@@ -3,6 +3,7 @@ using Bogus;
 using FastEndpoints;
 using FastEndpoints.Swagger;
 using FluentValidation;
+using FluxStore.Api.Domain;
 using FluxStore.Api.Domain.Enums;
 using FluxStore.Api.Domain.UserAggregate;
 using FluxStore.Api.Extensions;
@@ -281,6 +282,7 @@ namespace FluxStore.Api.Extensions
             services.AddHttpContextAccessor();
 
             services.AddScoped<CurrentUser>();
+            services.AddScoped<IPaymentGateway, MockPaymentGateway>();
             services.AddTransient<IDateTime, DateTimeProvider>();
 
             services.AddScoped<TokenService>();
@@ -438,23 +440,29 @@ namespace FluxStore.Api.Extensions
 
             services.SwaggerDocument(X =>
             {
+                X.EndpointFilter = e => e.EndpointTags?.Contains(nameof(ApiRoutes.Authentication)) == true;
                 X.EnableJWTBearerAuth = true;
+                X.AutoTagPathSegmentIndex = 0;
+                X.MaxEndpointVersion = 1;
                 X.DocumentSettings = s =>
                 {
-                    s.DocumentName = "v1";
-                    s.Title = "FluxShop E-Commerce Platform.";
+
+                    s.DocumentName = "Authentication";
+                    s.Title = "FluxShop E-Commerce Platform - Authentication.";
                     s.Version = "v1";
-                    s.Description = "This is documentation for FluxShop E-Commerce Platform Api Version 1.0";
                 };
             });
             services.SwaggerDocument(X =>
             {
+                X.EndpointFilter = e => e.EndpointTags?.Contains(nameof(ApiRoutes.Account)) == true;
+                X.EnableJWTBearerAuth = true;
+                X.AutoTagPathSegmentIndex = 0;
+                X.MaxEndpointVersion = 2;
                 X.DocumentSettings = s =>
                 {
-                    s.DocumentName = "v2";
-                    s.Title = "FluxShop E-Commerce Platform.";
-                    s.Version = "v1";
-                    s.Description = "This is documentation for FluxShop E-Commerce Platform Api Version 1.0";
+                    s.DocumentName = "Account Management";
+                    s.Version = "v2";
+                    s.Title = "FluxShop E-Commerce Platform - Account Management.";
                 };
             });
 

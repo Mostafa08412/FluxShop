@@ -9,7 +9,7 @@ using static FluxStore.Api.Extensions.ApiGroups;
 
 namespace FluxStore.Api.Features.Authentication.ChangePassword
 {
-    public record ChangePasswordRequest(string CurrentPassword, string NewPassword) : IRequest<Result<Unit>>, Markers.ICommand;
+    public record ChangePasswordRequest(string CurrentPassword, string NewPassword) : IRequest<Result<Unit>>, Shared.Markers.ICommand;
 
     [Authorize]
     public class Endpoint : Endpoint<ChangePasswordRequest, ApiResponse<Unit>>
@@ -23,9 +23,9 @@ namespace FluxStore.Api.Features.Authentication.ChangePassword
 
         public override void Configure()
         {
-            Post(ApiRoutes.ChangePassword);
+            Post(ApiRoutes.Authentication.ChangePassword);
 
-            Group<AuthenticationV1Group>();
+            Group<AuthenticationGroup>();
         }
 
         public override async Task HandleAsync(ChangePasswordRequest req, CancellationToken ct)

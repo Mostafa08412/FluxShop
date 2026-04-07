@@ -1,4 +1,4 @@
-﻿namespace FluxStore.Api.Markers
+﻿namespace FluxStore.Api.Shared.Markers
 {
     public interface ICommand
     {

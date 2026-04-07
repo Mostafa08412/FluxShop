@@ -22,6 +22,12 @@ namespace FluxStore.Api.Shared.Errors
         public static Error InvalidBrand =>
             new("Payment_InvalidBrand__Brand", "Card brand is invalid.", ErrorType.Validation);
 
+        public static Error InvalidExpiryMonth =>
+            new("Payment_InvalidExpiryMonth__ExpiryMonth", "Expiry month must be between 1 and 12.", ErrorType.Validation);
+
+        public static Error InvalidCvv =>
+            new("Payment_InvalidCvv__Cvv", "CVV must contain 3 or 4 digits.", ErrorType.Validation);
+
         public static Error ExpiryRequired =>
             new("Payment_ExpiryRequired__ExpiryYear", "Card expiry is required.", ErrorType.Validation);
 

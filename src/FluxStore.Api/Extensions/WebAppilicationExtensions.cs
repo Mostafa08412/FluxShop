@@ -1,4 +1,4 @@
-﻿using FastEndpoints;
+using FastEndpoints;
 using FastEndpoints.Swagger;
 using FluxStore.Api.Infrastructure.Persistence;
 using FluxStore.Api.Shared.Middlewares;
@@ -99,8 +99,12 @@ namespace FluxStore.Api.Extensions
 
             app.UseFastEndpoints(c =>
             {
-                c.Binding.UsePropertyNamingPolicy = true;
+                c.Endpoints.RoutePrefix = "api";
                 c.Versioning.Prefix = "v";
+                c.Versioning.PrependToRoute = true;
+                c.Versioning.DefaultVersion = 1;
+                c.Endpoints.ShortNames = false;
+
             }).UseSwaggerGen();
         }
     }

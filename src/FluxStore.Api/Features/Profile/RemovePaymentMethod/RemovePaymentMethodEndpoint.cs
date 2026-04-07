@@ -5,27 +5,27 @@ using FluxStore.Api.Shared.Models;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 
-namespace FluxStore.Api.Features.Profile.ListAddresses
+namespace FluxStore.Api.Features.Profile.RemovePaymentMethod
 {
     [Authorize]
-    public sealed class ListAddressesEndpoint : Endpoint<EmptyRequest, ApiResponse<ListAddressesResponse>>
+    public sealed class RemovePaymentMethodEndpoint : Endpoint<RemovePaymentMethodRequest, ApiResponse<Unit>>
     {
         private readonly IMediator _mediator;
 
-        public ListAddressesEndpoint(IMediator mediator)
+        public RemovePaymentMethodEndpoint(IMediator mediator)
         {
             _mediator = mediator;
         }
 
         public override void Configure()
         {
-            Get(ApiRoutes.Account.Addresses);
+            Delete(ApiRoutes.Account.PaymentMethodById);
             Group<ApiGroups.AccountGroup>();
         }
 
-        public override async Task HandleAsync(EmptyRequest req, CancellationToken ct)
+        public override async Task HandleAsync(RemovePaymentMethodRequest req, CancellationToken ct)
         {
-            var finalResult = (await _mediator.Send(new ListAddressesRequest(), ct)).ToApiResponse(HttpContext);
+            var finalResult = (await _mediator.Send(req, ct)).ToApiResponse(HttpContext);
             await Send.ResponseAsync(finalResult, finalResult.StatusCode, ct);
         }
     }

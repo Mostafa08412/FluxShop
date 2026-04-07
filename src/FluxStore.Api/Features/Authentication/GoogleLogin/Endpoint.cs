@@ -11,7 +11,7 @@ using static FluxStore.Api.Extensions.ApiGroups;
 namespace FluxStore.Api.Features.Authentication.GoogleLogin
 {
 
-    public record GoogleLoginRequest(string IdToken) : IRequest<Result<GoogleLoginResponse>>, Markers.ICommand;
+    public record GoogleLoginRequest(string IdToken) : IRequest<Result<GoogleLoginResponse>>, Shared.Markers.ICommand;
 
     public class GoogleLoginResponse
     {
@@ -37,8 +37,8 @@ namespace FluxStore.Api.Features.Authentication.GoogleLogin
         }
         public override void Configure()
         {
-            Post(ApiRoutes.LoginWithGoogle);
-            Group<AuthenticationV1Group>();
+            Post(ApiRoutes.Authentication.LoginWithGoogle);
+            Group<AuthenticationGroup>();
             AllowAnonymous();
         }
         public override async Task HandleAsync(GoogleLoginRequest req, CancellationToken ct)

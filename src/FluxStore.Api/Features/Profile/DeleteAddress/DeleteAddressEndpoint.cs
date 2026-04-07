@@ -19,8 +19,8 @@ namespace FluxStore.Api.Features.Profile.DeleteAddress
 
         public override void Configure()
         {
-            Delete(ApiRoutes.AddressById);
-            Group<ApiGroups.AccountV1Group>();
+            Delete(ApiRoutes.Account.AddressById);
+            Group<ApiGroups.AccountGroup>();
         }
 
         public override async Task HandleAsync(DeleteAddressRequest req, CancellationToken ct)

@@ -1,8 +1,8 @@
 ﻿using Ardalis.Result;
 using FluxStore.Api.Extensions;
-using FluxStore.Api.Markers;
 using FluxStore.Api.Resources;
 using FluxStore.Api.Shared.Extensions;
+using FluxStore.Api.Shared.Markers;
 using FluxStore.Api.Shared.Models;
 using MediatR;
 using Microsoft.Extensions.Localization;
@@ -34,8 +34,8 @@ namespace FluxStore.Api.Features.Authentication.Refresh
 
         public override void Configure()
         {
-            Post(ApiRoutes.RefreshToken);
-            Group<ApiGroups.AuthenticationV1Group>();
+            Post(ApiRoutes.Authentication.RefreshToken);
+            Group<ApiGroups.AuthenticationGroup>();
             AllowAnonymous();
 
         }

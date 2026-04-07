@@ -1,4 +1,3 @@
-using Ardalis.Result;
 using FastEndpoints;
 using FluxStore.Api.Extensions;
 using FluxStore.Api.Shared.Extensions;
@@ -20,8 +19,8 @@ namespace FluxStore.Api.Features.Profile.UpdateProfile
 
         public override void Configure()
         {
-            Put(ApiRoutes.Profile);
-            Group<ApiGroups.AccountV1Group>();
+            Put(ApiRoutes.Account.Profile);
+            Group<ApiGroups.AccountGroup>();
         }
 
         public override async Task HandleAsync(UpdateProfileRequest req, CancellationToken ct)

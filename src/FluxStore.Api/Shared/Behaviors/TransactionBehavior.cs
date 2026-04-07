@@ -1,5 +1,5 @@
 ﻿using FluxStore.Api.Infrastructure.Persistence;
-using FluxStore.Api.Markers;
+using FluxStore.Api.Shared.Markers;
 using MediatR;
 namespace FluxStore.Api.Shared.Behaviors
 

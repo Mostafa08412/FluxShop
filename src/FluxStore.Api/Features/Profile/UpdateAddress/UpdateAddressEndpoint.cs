@@ -20,9 +20,9 @@ namespace FluxStore.Api.Features.Profile.UpdateAddress
 
         public override void Configure()
         {
-            Put(ApiRoutes.AddressById);
+            Put(ApiRoutes.Account.AddressById);
 
-            Group<ApiGroups.AccountV1Group>();
+            Group<ApiGroups.AccountGroup>();
         }
 
         public override async Task HandleAsync(UpdateAddressRequest req, CancellationToken ct)

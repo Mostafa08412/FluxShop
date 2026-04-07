@@ -2,13 +2,14 @@ using Ardalis.Result;
 using FluxStore.Api.Extensions;
 using FluxStore.Api.Resources;
 using FluxStore.Api.Shared.Extensions;
+using FluxStore.Api.Shared.Markers;
 using FluxStore.Api.Shared.Models;
 using MediatR;
 using Microsoft.Extensions.Localization;
 
 namespace FluxStore.Api.Features.Authentication.Login
 {
-    public class LoginRequest : IRequest<Result<LoginResponse>>, Markers.ICommand
+    public class LoginRequest : IRequest<Result<LoginResponse>>, ICommand
     {
         public string EmailAddress { get; set; } = null!;
 
@@ -38,8 +39,8 @@ namespace FluxStore.Api.Features.Authentication.Login
 
         public override void Configure()
         {
-            Post(ApiRoutes.Login);
-            Group<ApiGroups.AuthenticationV1Group>();
+            Post(ApiRoutes.Authentication.Login);
+            Group<ApiGroups.AuthenticationGroup>();
             AllowAnonymous();
         }
 

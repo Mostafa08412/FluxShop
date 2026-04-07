@@ -1,4 +1,3 @@
-﻿using Asp.Versioning.Builder;
 using FastEndpoints;
 
 namespace FluxStore.Api.Extensions
@@ -7,34 +6,34 @@ namespace FluxStore.Api.Extensions
     {
 
 
-        public class AuthenticationV1Group : Group
+        public class AuthenticationGroup : Group
         {
-            public const string GroupName = nameof(ApiRoutes.Authentication);
-            public const string GroupPrefix = ApiRoutes.Authentication;
+            private const string GroupName = nameof(ApiRoutes.Authentication);
+            private const string GroupPrefix = ApiRoutes.Authentication.Prefix;
 
-            public AuthenticationV1Group()
+            public AuthenticationGroup()
             {
                 Configure(GroupPrefix, ep =>
                 {
-                    ep.Description(x => x
-                        .WithApiVersionSet(new ApiVersionSetBuilder(GroupName).Build())
-                        .MapToApiVersion(1.0));
+                    ep.Tags(GroupName);
+                    ep.Description(x => x.WithTags(GroupName)
+              );
                 });
             }
         }
 
-        public class AccountV1Group : Group
+        public class AccountGroup : Group
         {
-            public const string GroupName = nameof(ApiRoutes.Profile);
-            public const string GroupPrefix = ApiRoutes.Versioned;
+            private const string GroupName = nameof(ApiRoutes.Account);
+            private const string GroupPrefix = ApiRoutes.Account.Prefix;
 
-            public AccountV1Group()
+            public AccountGroup()
             {
                 Configure(GroupPrefix, ep =>
                 {
-                    ep.Description(x => x
-                        .WithApiVersionSet(new ApiVersionSetBuilder(GroupName).Build())
-                        .MapToApiVersion(1.0));
+                    ep.Tags(GroupName);
+                    ep.Description(x => x.WithTags(GroupName)
+              );
                 });
             }
         }

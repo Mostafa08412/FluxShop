@@ -10,7 +10,7 @@ using static FluxStore.Api.Extensions.ApiGroups;
 
 namespace FluxStore.Api.Features.Authentication.VerifyOTP
 {
-    public record VerifyOTPRequest(string EmailAddress, string Otp) : IRequest<Result<VerifyOtpResponse>>, Markers.ICommand;
+    public record VerifyOTPRequest(string EmailAddress, string Otp) : IRequest<Result<VerifyOtpResponse>>, Shared.Markers.ICommand;
     public record VerifyOtpResponse(string ResetToken);
 
     public class Endpoint : Endpoint<VerifyOTPRequest, ApiResponse<VerifyOtpResponse>>
@@ -26,8 +26,9 @@ namespace FluxStore.Api.Features.Authentication.VerifyOTP
 
         public override void Configure()
         {
-            Post(ApiRoutes.VerifyOtp);
-            Group<AuthenticationV1Group>();
+            Post(ApiRoutes.Authentication.VerifyOtp);
+            Group<AuthenticationGroup>();
+            Version(2);
             AllowAnonymous();
         }
 

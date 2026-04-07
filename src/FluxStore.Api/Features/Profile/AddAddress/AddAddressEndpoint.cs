@@ -1,4 +1,3 @@
-using Ardalis.Result;
 using FastEndpoints;
 using FluxStore.Api.Extensions;
 using FluxStore.Api.Shared.Extensions;
@@ -20,8 +19,8 @@ namespace FluxStore.Api.Features.Profile.AddAddress
 
         public override void Configure()
         {
-            Post(ApiRoutes.Addresses);
-            Group<ApiGroups.AccountV1Group>();
+            Post(ApiRoutes.Account.Addresses);
+            Group<ApiGroups.AccountGroup>();
         }
 
         public override async Task HandleAsync(AddAddressRequest req, CancellationToken ct)

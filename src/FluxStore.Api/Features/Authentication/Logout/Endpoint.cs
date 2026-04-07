@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Authorization;
 namespace FluxStore.Api.Features.Authentication.Logout
 {
 
-    public class LogoutRequest() : IRequest<Result<Unit>>, Markers.ICommand;
+    public class LogoutRequest() : IRequest<Result<Unit>>, Shared.Markers.ICommand;
 
 
     [Authorize]
@@ -24,8 +24,8 @@ namespace FluxStore.Api.Features.Authentication.Logout
 
         public override void Configure()
         {
-            Post(ApiRoutes.Logout);
-            Group<ApiGroups.AuthenticationV1Group>();
+            Post(ApiRoutes.Authentication.Logout);
+            Group<ApiGroups.AuthenticationGroup>();
 
         }
 
