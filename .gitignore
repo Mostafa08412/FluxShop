@@ -20,6 +20,9 @@ x86/
 [Bb]in/
 [Oo]bj/
 [Oo]ut/
+*.tmp
+*.log
+*.swp
 
 # Publishing & Artifacts
 publish/
@@ -31,6 +34,8 @@ artifacts/
 
 # Testing & Coverage
 [Tt]est[Rr]esult*/
+TestResults/
+coverage/
 coverage*.json
 coverage*.xml
 coverage*.info
@@ -56,6 +61,7 @@ pnpm-debug.log*
 
 # --- [ Environment & Secrets ] ---
 # NEVER commit secrets
+.env*
 .env.local
 .env.development.local
 .env.test.local
@@ -96,3 +102,4 @@ Desktop.ini
 /.agents2/rules
 /.specify
 /.github
+/specs/001-user-profile-account-mgmt

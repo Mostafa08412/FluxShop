@@ -22,5 +22,21 @@ namespace FluxStore.Api.Extensions
                 });
             }
         }
+
+        public class AccountV1Group : Group
+        {
+            public const string GroupName = nameof(ApiRoutes.Profile);
+            public const string GroupPrefix = ApiRoutes.Versioned;
+
+            public AccountV1Group()
+            {
+                Configure(GroupPrefix, ep =>
+                {
+                    ep.Description(x => x
+                        .WithApiVersionSet(new ApiVersionSetBuilder(GroupName).Build())
+                        .MapToApiVersion(1.0));
+                });
+            }
+        }
     }
 }

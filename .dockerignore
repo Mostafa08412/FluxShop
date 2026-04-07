@@ -1,3 +1,10 @@
 **/.git
 **/bin/
 **/obj/
+**/.vs/
+**/TestResults/
+**/node_modules/
+**/coverage/
+**/*.log*
+**/.env*
+Dockerfile*

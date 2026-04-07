@@ -1,4 +1,6 @@
-﻿using Ardalis.Result;
+using Ardalis.Result;
+using FluxStore.Api.Domain.UserAggregate.Events;
+using FluxStore.Api.Domain.UserAggregate.ValueObjects;
 using FluxStore.Api.Shared.Errors;
 using FluxStore.Api.Shared.Extensions;
 
@@ -10,13 +12,30 @@ namespace FluxStore.Api.Domain.UserAggregate
         public string LastName { get; private set; }
         public string Username { get; private set; }
         public string Email { get; private set; }
+        public string DisplayName { get; private set; }
+        public PhoneNumber? Phone { get; private set; }
+        public string? AvatarUrl { get; private set; }
+        public NotificationSettings NotificationSettings { get; private set; }
 
-        private User(Guid id, string firstName, string lastName, string username, string email) : base(id)
+        private User(
+            Guid id,
+            string firstName,
+            string lastName,
+            string username,
+            string email,
+            string? displayName = null,
+            PhoneNumber? phone = null,
+            string? avatarUrl = null,
+            NotificationSettings? notificationSettings = null) : base(id)
         {
             FirstName = firstName;
             LastName = lastName;
             Username = username;
             Email = email;
+            DisplayName = displayName ?? $"{firstName} {lastName}".Trim();
+            Phone = phone;
+            AvatarUrl = avatarUrl;
+            NotificationSettings = notificationSettings ?? NotificationSettings.Default;
         }
 
         // for EF Core
@@ -90,7 +109,53 @@ namespace FluxStore.Api.Domain.UserAggregate
 
             FirstName = firstName;
             LastName = lastName;
+            DisplayName = $"{firstName} {lastName}".Trim();
 
+            return Result.Success();
+        }
+
+        public Result UpdateProfile(string displayName, PhoneNumber? phone, string? avatarUrl)
+        {
+            var errors = new List<Error>();
+
+            if (string.IsNullOrWhiteSpace(displayName))
+            {
+                errors.Add(ProfileErrors.DisplayNameRequired);
+            }
+            else if (displayName.Length > 100)
+            {
+                errors.Add(ProfileErrors.DisplayNameTooLong);
+            }
+
+            if (errors.Any())
+            {
+                return Result.Invalid(errors.Select(X => X.ToValidationError()));
+            }
+
+            DisplayName = displayName;
+            Phone = phone;
+            AvatarUrl = avatarUrl;
+
+            RaiseDomainEvent(new ProfileUpdated(Id, DisplayName, Phone?.Value, AvatarUrl));
+
+            return Result.Success();
+        }
+
+        public Result UpdateNotificationSettings(NotificationSettings settings)
+        {
+            if (settings is null)
+            {
+                return Result.Invalid(ProfileErrors.NotificationSettingsRequired.ToValidationError());
+            }
+
+            NotificationSettings = settings;
+            RaiseDomainEvent(new NotificationSettingsChanged(Id, settings));
+            return Result.Success();
+        }
+
+        public Result Logout(string? deviceId)
+        {
+            RaiseDomainEvent(new UserLoggedOut(Id, deviceId));
             return Result.Success();
         }
 

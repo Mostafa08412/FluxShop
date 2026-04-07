@@ -1,6 +1,7 @@
 using Asp.Versioning;
 using Bogus;
 using FastEndpoints;
+using FastEndpoints.Swagger;
 using FluentValidation;
 using FluxStore.Api.Domain.Enums;
 using FluxStore.Api.Domain.UserAggregate;
@@ -20,7 +21,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Caching.Hybrid;
 using Microsoft.IdentityModel.Tokens;
-using Microsoft.OpenApi.Models;
 using Serilog;
 using System.Net;
 using System.Net.Mail;
@@ -107,6 +107,7 @@ namespace FluxStore.Api.Extensions
         {
             services
            .AddFastEndpoints()
+
            .AddApiVersioning(
            c =>
            {
@@ -435,56 +436,29 @@ namespace FluxStore.Api.Extensions
         {
 
 
-            services.AddSwaggerGen(c =>
+            services.SwaggerDocument(X =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo
+                X.EnableJWTBearerAuth = true;
+                X.DocumentSettings = s =>
                 {
-                    Title = "FluxShop E-Commerce Platform.",
-                    Version = "v1",
-                    Description = "This is documentation for FluxShop E-Commerce Platform Api Version 1.0"
-
-                });
-
-                c.SwaggerDoc("v2", new OpenApiInfo
-                {
-                    Title = "FluxShop E-Commerce Platform.",
-                    Version = "v2",
-                    Description = "This is documentation for FluxShop E-Commerce Platform Api Version 2.0"
-                });
-
-                // Include endpoints in a swagger doc based on the URL segment version in the route
-                c.DocInclusionPredicate((docName, apiDesc) =>
-                {
-                    if (string.IsNullOrEmpty(apiDesc.RelativePath)) return false;
-                    var relativePath = apiDesc.RelativePath!.ToLowerInvariant();
-                    // docName is like "v1" or "v2". Match "/v1/" or "/v2/" in the path
-                    return relativePath.Contains($"/v{docName.Substring(1)}/");
-                });
-
-                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
-                {
-                    Type = SecuritySchemeType.Http,
-                    Scheme = JwtBearerDefaults.AuthenticationScheme,
-                    BearerFormat = "Json Web Token",
-                    In = ParameterLocation.Header,
-                    Description = "Enter your JWT token."
-                });
-
-                c.AddSecurityRequirement(new OpenApiSecurityRequirement
+                    s.DocumentName = "v1";
+                    s.Title = "FluxShop E-Commerce Platform.";
+                    s.Version = "v1";
+                    s.Description = "This is documentation for FluxShop E-Commerce Platform Api Version 1.0";
+                };
+            });
+            services.SwaggerDocument(X =>
             {
+                X.DocumentSettings = s =>
                 {
-                    new OpenApiSecurityScheme
-                    {
-                        Reference = new OpenApiReference
-                        {
-                            Type = ReferenceType.SecurityScheme,
-                            Id = JwtBearerDefaults.AuthenticationScheme
-                        }
-                    },
-                    Array.Empty<string>()
-                }
+                    s.DocumentName = "v2";
+                    s.Title = "FluxShop E-Commerce Platform.";
+                    s.Version = "v1";
+                    s.Description = "This is documentation for FluxShop E-Commerce Platform Api Version 1.0";
+                };
             });
-            });
+
+
 
             return services;
         }

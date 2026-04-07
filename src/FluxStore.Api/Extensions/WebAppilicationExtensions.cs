@@ -1,4 +1,5 @@
 ﻿using FastEndpoints;
+using FastEndpoints.Swagger;
 using FluxStore.Api.Infrastructure.Persistence;
 using FluxStore.Api.Shared.Middlewares;
 using FluxStore.Api.Shared.Settings;
@@ -96,22 +97,11 @@ namespace FluxStore.Api.Extensions
 
             app.UseHangfire();
 
-            if (app.Environment.IsDevelopment())
-            {
-                app.UseSwagger();
-                app.UseSwaggerUI(c =>
-                {
-                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Web Api v1");
-                    c.SwaggerEndpoint("/swagger/v2/swagger.json", "Web Api v2");
-                    c.RoutePrefix = "swagger";
-                });
-            }
-
             app.UseFastEndpoints(c =>
             {
+                c.Binding.UsePropertyNamingPolicy = true;
                 c.Versioning.Prefix = "v";
-            });
-
+            }).UseSwaggerGen();
         }
     }
 }
