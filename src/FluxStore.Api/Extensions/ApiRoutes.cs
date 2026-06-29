@@ -32,7 +32,7 @@ namespace FluxStore.Api.Extensions
 
 
             public const string AddressById = Addresses + "/{id}";
-            public const string AddressDefault = Addresses + "/default";
+            public const string AddressDefault = AddressById + "/default";
 
             public const string PaymentMethodById = PaymentMethods + "/{id}";
             public const string PaymentMethodDefault = PaymentMethodById + "/default";

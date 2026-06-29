@@ -39,7 +39,7 @@ namespace FluxStore.Api.Features.Authentication.Login
                 .FirstOrDefaultAsync(u => u.Email == request.EmailAddress, cancellationToken);
 
             if (applicationUser == null)
-                return Result<LoginResponse>.NotFound(IdentityErrors.UserNotFoundByEmail.Code, IdentityErrors.UserNotFoundByEmail.Description);
+                return Result<LoginResponse>.Unauthorized(IdentityErrors.InvalidCredentials.Code, IdentityErrors.InvalidCredentials.Description);
 
             var signInResult = await _signInManager.CheckPasswordSignInAsync(applicationUser, request.Password, lockoutOnFailure: false);
 

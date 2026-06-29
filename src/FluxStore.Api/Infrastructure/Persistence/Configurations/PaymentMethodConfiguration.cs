@@ -38,6 +38,8 @@ namespace FluxStore.Api.Infrastructure.Persistence.Configurations
             builder.Navigation(x => x.Last4).IsRequired();
             builder.Navigation(x => x.GatewayToken).IsRequired();
 
+            builder.HasQueryFilter(X => !X.IsDeleted);
+
             builder.HasIndex(x => new { x.UserId, x.IsDeleted });
         }
     }
