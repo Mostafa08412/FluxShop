@@ -13,8 +13,11 @@ namespace FluxStore.Api.Extensions
         public static async Task UseDatebaseSetupAsync(this WebApplication app)
         {
             var databaseSetupSettings = app.Configuration.GetSection(DatabaseSetupSettings.SectionName).Get<DatabaseSetupSettings>();
+
             var context = app.Services.CreateScope().ServiceProvider.GetRequiredService<ApplicationDbContext>();
+
             using (var scoped = app.Services.CreateScope())
+
             using (var dbcontext = scoped.ServiceProvider.GetRequiredService<ApplicationDbContext>())
             {
 

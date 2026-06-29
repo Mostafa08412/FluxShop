@@ -7,7 +7,10 @@ namespace FluxStore.Api.Shared.Extensions
     public static class ErrorExtensions
     {
 
-
+        public static string[] ToErrorList(this Error error)
+        {
+            return [error.Code, error.Description];
+        }
         public static ValidationError ToValidationError(this Error error)
         {
 

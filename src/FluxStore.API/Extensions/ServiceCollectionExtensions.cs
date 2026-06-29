@@ -32,6 +32,7 @@ namespace FluxStore.Api.Extensions
 {
     public static class ServiceCollectionExtensions
     {
+        public static readonly string ResetPasswordOtpProvider = "ResetPasswordOTPProvider";
         public static IServiceCollection RegisterServices(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddFluxStoreDatabaseContext(configuration)
@@ -52,58 +53,9 @@ namespace FluxStore.Api.Extensions
 
             return services;
         }
-        private static IServiceCollection AddCorsSettings(this IServiceCollection services, IConfiguration configuration)
-        {
-            var corsSettings = configuration.GetSection(CorsSettings.SectionName).Get<CorsSettings>();
 
-            if (corsSettings is not null)
-            {
-                services.AddCors(options =>
-                {
-                    options.AddPolicy(corsSettings.PolicyName, builder =>
-                    {
-                        builder.WithOrigins(corsSettings.AllowedOrigins)
-                               .AllowAnyHeader()
-                               .AllowAnyMethod();
-                        if (corsSettings.AllowCredentials)
-                        {
-                            builder.AllowCredentials();
-                        }
-                    });
-                });
-            }
-            return services;
-        }
-        private static IServiceCollection AddCaching(this IServiceCollection services)
-        {
+        #region Fastendpoint and Swagger Configuration
 
-            services.AddHybridCache(options =>
-            {
-                options.MaximumPayloadBytes = 1024 * 1024;
-                options.MaximumKeyLength = 1024;
-                options.DefaultEntryOptions = new HybridCacheEntryOptions
-                {
-                    Expiration = TimeSpan.FromMinutes(5),
-                    LocalCacheExpiration = TimeSpan.FromMinutes(5)
-                };
-            });
-            return services;
-        }
-        private static IServiceCollection AddHangFireBackgroundJobWorker(this IServiceCollection services, IConfiguration configuration)
-        {
-            var connectionString = configuration.GetConnectionString("DefaultConnection");
-
-            services.AddHangfire(X => X.UseSqlServerStorage(connectionString, new SqlServerStorageOptions
-            {
-                PrepareSchemaIfNecessary = true
-
-            }));
-
-
-            services.AddHangfireServer();
-
-            return services;
-        }
         private static IServiceCollection AddFastEndpoint(this IServiceCollection services)
         {
             services
@@ -120,28 +72,137 @@ namespace FluxStore.Api.Extensions
            );
             return services;
         }
-        private static IServiceCollection AddFluentEmail(this IServiceCollection services, IConfiguration configuration)
+
+        private static IServiceCollection AddSwaggerDocumentation(this IServiceCollection services)
         {
-            services.AddOptions<SmtpSettings>().Bind(configuration.GetSection(SmtpSettings.SectionName));
 
-            services.AddScoped<IEmailService, EmailService>();
 
-            var smtpSettings = configuration.GetSection(SmtpSettings.SectionName).Get<SmtpSettings>();
+            services.SwaggerDocument(X =>
+            {
+                X.EndpointFilter = e => e.EndpointTags?.Contains(nameof(ApiRoutes.Authentication)) == true;
+                X.EnableJWTBearerAuth = true;
+                X.AutoTagPathSegmentIndex = 0;
+                X.MaxEndpointVersion = 1;
+                X.DocumentSettings = s =>
+                {
 
-            services
-              .AddFluentEmail(smtpSettings!.User, smtpSettings!.Name)
-              .AddRazorRenderer()
+                    s.DocumentName = "Authentication";
+                    s.Title = "FluxShop E-Commerce Platform - Authentication.";
+                    s.Version = "v1";
+                };
+            });
+            services.SwaggerDocument(X =>
+            {
+                X.EndpointFilter = e => e.EndpointTags?.Contains(nameof(ApiRoutes.Account)) == true;
+                X.EnableJWTBearerAuth = true;
+                X.AutoTagPathSegmentIndex = 0;
+                X.MaxEndpointVersion = 2;
+                X.DocumentSettings = s =>
+                {
+                    s.DocumentName = "Account Management";
+                    s.Version = "v2";
+                    s.Title = "FluxShop E-Commerce Platform - Account Management.";
+                };
+            });
 
-              .AddSmtpSender(() => new SmtpClient(smtpSettings.Server, smtpSettings.Port)
-              {
-                  EnableSsl = smtpSettings.UseSsl,
-                  UseDefaultCredentials = false,
-                  DeliveryMethod = SmtpDeliveryMethod.Network,
-                  Credentials = smtpSettings.RequiresAuthentication ? new NetworkCredential(smtpSettings.User, smtpSettings.Password) : null
-              });
+
 
             return services;
         }
+        #endregion
+
+
+        #region MediatR Configuration & Pipelines
+        private static IServiceCollection AddMediatRCore(this IServiceCollection services)
+        {
+            services.AddMediatR(cfg =>
+            {
+                cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
+            });
+            return services;
+        }
+        public static IServiceCollection AddValidationPipeline(this IServiceCollection services)
+        {
+            services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
+            return services;
+        }
+        private static IServiceCollection AddLoggingPipeline(this IServiceCollection services)
+        {
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
+            return services;
+        }
+        private static IServiceCollection AddTransactionPipeline(this IServiceCollection services)
+        {
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(TransactionBehavior<,>));
+            return services;
+        }
+        #endregion
+
+
+        #region Jwt Events Handlers
+        private static Task HandleRecievedOnMessageJwtEvent(MessageReceivedContext context)
+        {
+
+            if (context.HttpContext.Request.Path.Value?.Contains("hubs") == true)
+            {
+                var accessToken = context.HttpContext.Request.Query["access_Token"];
+                if (!string.IsNullOrWhiteSpace(accessToken))
+                {
+                    context.HttpContext.Request.Headers.TryAdd("Authorization", $"Bearer {accessToken}");
+
+                }
+            }
+
+            return Task.CompletedTask;
+
+        }
+        private static Task HandleRecievedOnChallengeJwtEvent(JwtBearerChallengeContext context)
+        {
+            if (context.Response.HasStarted)
+                return Task.CompletedTask;
+
+            else if (context.AuthenticateFailure is SecurityTokenInvalidSignatureException)
+            {
+                context.Response.Headers.TryAdd("Auth-Fail-Type", IdentityErrors.InvalidToken.Code);
+                context.HandleResponse();
+                return Task.CompletedTask;
+            }
+
+
+            else if (context.AuthenticateFailure is SecurityTokenExpiredException)
+            {
+                context.Response.Headers.TryAdd("Auth-Fail-Type", IdentityErrors.ExpiredToken.Code);
+                context.HandleResponse();
+                return Task.CompletedTask;
+            }
+
+            else if (!context.Request.Headers.ContainsKey("Authorization"))
+            {
+                context.Response.Headers.TryAdd("Auth-Fail-Type", IdentityErrors.MissingToken.Code);
+                context.HandleResponse();
+                return Task.CompletedTask;
+            }
+            else
+            {
+                return Task.CompletedTask;
+            }
+
+        }
+        private static Task HandleRecievedForbiddenJwtEvent(ForbiddenContext context)
+        {
+
+            context.Response.Headers.TryAdd("Auth-Fail-Type", IdentityErrors.ForbiddenAccess.Code);
+
+            return Task.CompletedTask;
+
+
+        }
+
+        #endregion
+
+
+        #region Database and Identity Configuration
         private static IServiceCollection AddFluxStoreDatabaseContext(this IServiceCollection services, IConfiguration configuration)
         {
             string connectionString = configuration.GetConnectionString("DefaultConnection")!;
@@ -249,7 +310,7 @@ namespace FluxStore.Api.Extensions
             })
             .AddEntityFrameworkStores<ApplicationDbContext>()
             .AddDefaultTokenProviders()
-            .AddTokenProvider<ResetPasswordOTPTokenProvider<ApplicationUser>>("ResetPasswordOTPProvider");
+            .AddTokenProvider<ResetPasswordOTPTokenProvider<ApplicationUser>>(ResetPasswordOtpProvider);
 
             return services;
 
@@ -276,6 +337,60 @@ namespace FluxStore.Api.Extensions
                 return base.ValidateAsync("ResetPasswordOTP:" + purpose, token, manager, user);
             }
         }
+        #endregion
+
+        private static IServiceCollection AddCaching(this IServiceCollection services)
+        {
+
+            services.AddHybridCache(options =>
+            {
+                options.MaximumPayloadBytes = 1024 * 1024;
+                options.MaximumKeyLength = 1024;
+                options.DefaultEntryOptions = new HybridCacheEntryOptions
+                {
+                    Expiration = TimeSpan.FromMinutes(5),
+                    LocalCacheExpiration = TimeSpan.FromMinutes(5)
+                };
+            });
+            return services;
+        }
+        private static IServiceCollection AddHangFireBackgroundJobWorker(this IServiceCollection services, IConfiguration configuration)
+        {
+            var connectionString = configuration.GetConnectionString("DefaultConnection");
+
+            services.AddHangfire(X => X.UseSqlServerStorage(connectionString, new SqlServerStorageOptions
+            {
+                PrepareSchemaIfNecessary = true
+
+            }));
+
+
+            services.AddHangfireServer();
+
+            return services;
+        }
+        private static IServiceCollection AddFluentEmail(this IServiceCollection services, IConfiguration configuration)
+        {
+            services.AddOptions<SmtpSettings>().Bind(configuration.GetSection(SmtpSettings.SectionName));
+
+            services.AddScoped<IEmailService, EmailService>();
+
+            var smtpSettings = configuration.GetSection(SmtpSettings.SectionName).Get<SmtpSettings>();
+
+            services
+              .AddFluentEmail(smtpSettings!.User, smtpSettings!.Name)
+              .AddRazorRenderer()
+
+              .AddSmtpSender(() => new SmtpClient(smtpSettings.Server, smtpSettings.Port)
+              {
+                  EnableSsl = smtpSettings.UseSsl,
+                  UseDefaultCredentials = false,
+                  DeliveryMethod = SmtpDeliveryMethod.Network,
+                  Credentials = smtpSettings.RequiresAuthentication ? new NetworkCredential(smtpSettings.User, smtpSettings.Password) : null
+              });
+
+            return services;
+        }
         private static IServiceCollection AddServices(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddLocalization();
@@ -295,6 +410,28 @@ namespace FluxStore.Api.Extensions
             services.AddOptions<ExternalAuthenticationSettings>().Bind(configuration.GetSection(ExternalAuthenticationSettings.SectionName));
             return services;
 
+        }
+        private static IServiceCollection AddCorsSettings(this IServiceCollection services, IConfiguration configuration)
+        {
+            var corsSettings = configuration.GetSection(CorsSettings.SectionName).Get<CorsSettings>();
+
+            if (corsSettings is not null)
+            {
+                services.AddCors(options =>
+                {
+                    options.AddPolicy(corsSettings.PolicyName, builder =>
+                    {
+                        builder.WithOrigins(corsSettings.AllowedOrigins)
+                               .AllowAnyHeader()
+                               .AllowAnyMethod();
+                        if (corsSettings.AllowCredentials)
+                        {
+                            builder.AllowCredentials();
+                        }
+                    });
+                });
+            }
+            return services;
         }
         private static IServiceCollection AddJwtAuthentication(this IServiceCollection services, IConfiguration configuration)
         {
@@ -344,129 +481,15 @@ namespace FluxStore.Api.Extensions
 
                     options.Events = new JwtBearerEvents
                     {
-                        OnMessageReceived = context =>
-                        {
-                            if (context.HttpContext.Request.Path.Value?.Contains("hubs") == true)
-                            {
-                                var accessToken = context.HttpContext.Request.Query["access_Token"];
-                                if (!string.IsNullOrWhiteSpace(accessToken))
-                                {
-                                    context.HttpContext.Request.Headers.TryAdd("Authorization", $"Bearer {accessToken}");
+                        OnMessageReceived = HandleRecievedOnMessageJwtEvent,
 
-                                }
-                            }
+                        OnChallenge = HandleRecievedOnChallengeJwtEvent,
 
-                            return Task.CompletedTask;
-                        }
-                        ,
-
-                        OnChallenge = context =>
-                        {
-                            if (context.Response.HasStarted)
-                                return Task.CompletedTask;
-
-                            else if (context.AuthenticateFailure is SecurityTokenInvalidSignatureException)
-                            {
-                                context.Response.Headers.TryAdd("Auth-Fail-Type", IdentityErrors.InvalidToken.Code);
-                                context.HandleResponse();
-                                return Task.CompletedTask;
-                            }
-
-
-                            else if (context.AuthenticateFailure is SecurityTokenExpiredException)
-                            {
-                                context.Response.Headers.TryAdd("Auth-Fail-Type", IdentityErrors.ExpiredToken.Code);
-                                context.HandleResponse();
-                                return Task.CompletedTask;
-                            }
-
-                            else if (!context.Request.Headers.ContainsKey("Authorization"))
-                            {
-                                context.Response.Headers.TryAdd("Auth-Fail-Type", IdentityErrors.MissingToken.Code);
-                                context.HandleResponse();
-                                return Task.CompletedTask;
-                            }
-                            else
-                            {
-                                return Task.CompletedTask;
-                            }
-
-                        }
-                        ,
-                        OnForbidden = context =>
-                        {
-
-                            context.Response.Headers.TryAdd("Auth-Fail-Type", IdentityErrors.ForbiddenAccess.Code);
-
-
-
-                            return Task.CompletedTask;
-
-                        }
+                        OnForbidden = HandleRecievedForbiddenJwtEvent
                     };
                 });
 
             services.AddAuthorization();
-
-            return services;
-        }
-        private static IServiceCollection AddMediatRCore(this IServiceCollection services)
-        {
-            services.AddMediatR(cfg =>
-            {
-                cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
-            });
-            return services;
-        }
-        public static IServiceCollection AddValidationPipeline(this IServiceCollection services)
-        {
-            services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
-            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
-            return services;
-        }
-        private static IServiceCollection AddLoggingPipeline(this IServiceCollection services)
-        {
-            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
-            return services;
-        }
-        private static IServiceCollection AddTransactionPipeline(this IServiceCollection services)
-        {
-            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(TransactionBehavior<,>));
-            return services;
-        }
-        private static IServiceCollection AddSwaggerDocumentation(this IServiceCollection services)
-        {
-
-
-            services.SwaggerDocument(X =>
-            {
-                X.EndpointFilter = e => e.EndpointTags?.Contains(nameof(ApiRoutes.Authentication)) == true;
-                X.EnableJWTBearerAuth = true;
-                X.AutoTagPathSegmentIndex = 0;
-                X.MaxEndpointVersion = 1;
-                X.DocumentSettings = s =>
-                {
-
-                    s.DocumentName = "Authentication";
-                    s.Title = "FluxShop E-Commerce Platform - Authentication.";
-                    s.Version = "v1";
-                };
-            });
-            services.SwaggerDocument(X =>
-            {
-                X.EndpointFilter = e => e.EndpointTags?.Contains(nameof(ApiRoutes.Account)) == true;
-                X.EnableJWTBearerAuth = true;
-                X.AutoTagPathSegmentIndex = 0;
-                X.MaxEndpointVersion = 2;
-                X.DocumentSettings = s =>
-                {
-                    s.DocumentName = "Account Management";
-                    s.Version = "v2";
-                    s.Title = "FluxShop E-Commerce Platform - Account Management.";
-                };
-            });
-
-
 
             return services;
         }

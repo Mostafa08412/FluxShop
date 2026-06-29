@@ -8,30 +8,6 @@ namespace FluxStore.Api.Shared.Extensions
     public static class ResultExtensions
     {
 
-
-        public static ApiResponse<T> ToApiResponse<T>(this PagedResult<T> result, HttpContext context, IStringLocalizer<ErrorsResource>? stringLocalizer = null, int? statusCodeOnSuccess = null)
-        {
-            if (result.IsSuccess)
-            {
-                Dictionary<string, string> meta = new Dictionary<string, string>
-                {
-                    { "TotalCount", result.PagedInfo.TotalRecords.ToString() },
-                    { "PageSize", result.PagedInfo.PageSize.ToString() },
-                    { "Page", result.PagedInfo.PageNumber.ToString() },
-                    { "TotalPages", result.PagedInfo.TotalPages.ToString() }
-                };
-
-                return ApiResponse<T>.Success(
-                    data: result.Value,
-                    context: context,
-                    message: result.SuccessMessage,
-                    statusCode: statusCodeOnSuccess ?? MapArdalisResultStatusToStatusCode(result.Status),
-                    meta: meta);
-            }
-
-            return HandleFailure(result, context);
-        }
-
         public static ApiResponse<T> ToApiResponse<T>(this Result<T> result, HttpContext context, IStringLocalizer<ErrorsResource>? stringLocalizer = null, int? statusCodeOnSuccess = null)
         {
             if (result.IsSuccess)
